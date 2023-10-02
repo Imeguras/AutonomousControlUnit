@@ -4,7 +4,9 @@
 extern bsp_leds_t g_bsp_leds;
 /* New Thread entry function */
 void new_thread0_entry(void) {
-	EthDuo eth();
+	nx_system_initialize();
+	EthDuo eth = EthDuo() ;
+	eth.forceInitialization();
 
     /* LED type structure */
     bsp_leds_t leds = g_bsp_leds;
