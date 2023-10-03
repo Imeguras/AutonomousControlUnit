@@ -83,8 +83,8 @@
       <property id="config.bsp.common.id_fixed" value=""/>
     </config>
     <config id="config.bsp.ra">
-      <property id="config.bsp.common.main" value="0x400"/>
-      <property id="config.bsp.common.heap" value="0x40000"/>
+      <property id="config.bsp.common.main" value="0x1000"/>
+      <property id="config.bsp.common.heap" value="0x8000"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
@@ -173,6 +173,10 @@
       <description>Board support package for RA6M3 - FSP Data</description>
       <originalPack>Renesas.RA_mcu_ra6m3.4.2.0.pack</originalPack>
     </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="4.2.0">
+      <description>SCI UART</description>
+      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
+    </component>
     <component apiversion="" class="Azure" condition="" group="NetX Duo" subgroup="nxd" variant="" vendor="Microsoft" version="6.1.12+fsp.4.2.0">
       <description>Azure RTOS NetX Duo</description>
       <originalPack>Microsoft.NetXDuo.6.1.12+fsp.4.2.0.pack</originalPack>
@@ -189,10 +193,6 @@
       <description>NetX Duo Ethernet Driver</description>
       <originalPack>Renesas.RA.4.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_sci_uart" variant="" vendor="Renesas" version="4.2.0">
-      <description>SCI UART</description>
-      <originalPack>Renesas.RA.4.2.0.pack</originalPack>
-    </component>
   </raComponentSelection>
   <raElcConfiguration/>
   <raIcuConfiguration/>
@@ -206,61 +206,6 @@
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
     <module id="module.middleware.rm_threadx_port.0"/>
-    <module id="module.azure.nxd_mqtt_client.1601980762">
-      <property id="module.azure.nxd_mqtt_client.name" value="g_mqtt_client0"/>
-      <property id="module.azure.nxd_mqtt_client.mqtt_stack_size" value="4096"/>
-      <property id="module.azure.nxd_mqtt_client.mqtt_client_priority" value="2"/>
-    </module>
-    <module id="module.azure.nxd.ip.548952621">
-      <property id="module.azure.nxd.ip.name" value="g_ip0"/>
-      <property id="module.azure.nxd.ip.address" value="192.168.0.202"/>
-      <property id="module.azure.nxd.ip.subnet_mask" value="255.255.255.0"/>
-      <property id="module.azure.nxd.ip.gateway_address" value="192.168.0.1"/>
-      <property id="module.azure.nxd.ipv6.address_global" value="2001:0:0:0:0:0:0:1"/>
-      <property id="module.azure.nxd.ipv6.address_local" value="0:0:0:0:0:0:0:0"/>
-      <property id="module.azure.nxd.ip.stack_size" value="2048"/>
-      <property id="module.azure.nxd.ip.priority" value="3"/>
-      <property id="module.azure.nxd.ip.arp_cache_size_units" value="module.azure.nxd.ip.arp_cache_size_units.bytes"/>
-      <property id="module.azure.nxd.ip.arp_cache_size" value="520"/>
-    </module>
-    <module id="module.azure.nxd.packet_pool.418602833">
-      <property id="module.azure.nxd.packet_pool.name" value="g_packet_pool0"/>
-      <property id="module.azure.nxd.packet_pool.packet_size" value="1568"/>
-      <property id="module.azure.nxd.packet_pool.number_of_packets" value="16"/>
-    </module>
-    <module id="module.middleware.rm_netxduo_ether.1679035592">
-      <property id="module.middleware.rm_netxduo_ether.name" value="g_netxduo_ether_0"/>
-      <property id="module.middleware.rm_netxduo_ether.ip_mtu" value="1500"/>
-    </module>
-    <module id="module.driver.ether_on_ether.1184026764">
-      <property id="module.driver.ether.name" value="g_ether0"/>
-      <property id="module.driver.ether.channel" value="module.driver.ether.channel.0"/>
-      <property id="module.driver.ether.mac_address" value="00:11:22:33:44:55"/>
-      <property id="module.driver.ether.zerocopy" value="module.driver.ether.zerocopy.0"/>
-      <property id="module.driver.ether.flow_control" value="module.driver.ether.flow_control.0"/>
-      <property id="module.driver.ether.multicast" value="module.driver.ether.multicast.1"/>
-      <property id="module.driver.ether.promiscuous" value="module.driver.ether.promiscuous.0"/>
-      <property id="module.driver.ether.broadcast_filter" value="0"/>
-      <property id="module.driver.ether.num_tx_descriptors" value="1"/>
-      <property id="module.driver.ether.num_rx_descriptors" value="1"/>
-      <property id="module.driver.ether.allocate_rx_buffer" value="module.driver.ether.allocate_rx_buffer.1"/>
-      <property id="module.driver.ether.ether_buffer_size" value="1514"/>
-      <property id="module.driver.ether.padding" value="module.driver.ether.padding.0"/>
-      <property id="module.driver.ether.padding_offset" value="0"/>
-      <property id="module.driver.ether.interrupt_priority" value="board.icu.common.irq.priority12"/>
-      <property id="module.driver.ether.p_callback" value="NULL"/>
-    </module>
-    <module id="module.driver.ether_phy_on_ether_phy.719448145">
-      <property id="module.driver.ether_phy.name" value="g_ether_phy0"/>
-      <property id="module.driver.ether_phy.channel" value="module.driver.ether_phy.channel.0"/>
-      <property id="module.driver.ether_phy.phy_lsi_address" value="0"/>
-      <property id="module.driver.ether_phy.phy_reset_wait_time" value="0x00020000"/>
-      <property id="module.driver.ether_phy.mii_type" value="module.driver.mii_type.rmii"/>
-      <property id="module.driver.ether_phy.phy_lsi_type" value="module.driver.ether_phy.phy_lsi_type.kit_component"/>
-      <property id="module.driver.ether_phy.mii_bit_access_wait_time" value="8"/>
-      <property id="module.driver.ether_phy.flow_control" value="module.driver.ether_phy.flow_control.0"/>
-    </module>
-    <module id="module.azure.nxd.common.641096590"/>
     <module id="module.driver.uart_on_sci_uart.1864591614">
       <property id="module.driver.uart.name" value="g_uart0"/>
       <property id="module.driver.uart.channel" value="2"/>
@@ -287,6 +232,59 @@
       <property id="module.driver.uart.tei_ipl" value="board.icu.common.irq.priority12"/>
       <property id="module.driver.uart.eri_ipl" value="board.icu.common.irq.priority12"/>
     </module>
+    <module id="module.azure.nxd_dhcp_client.141936954">
+      <property id="module.azure.nxd_dhcp_client.name" value="g_dhcp_client0"/>
+    </module>
+    <module id="module.azure.nxd.packet_pool.1884806526">
+      <property id="module.azure.nxd.packet_pool.name" value="g_packet_pool0"/>
+      <property id="module.azure.nxd.packet_pool.packet_size" value="1568"/>
+      <property id="module.azure.nxd.packet_pool.number_of_packets" value="16"/>
+    </module>
+    <module id="module.azure.nxd.ip.583741598">
+      <property id="module.azure.nxd.ip.name" value="g_ip0"/>
+      <property id="module.azure.nxd.ip.address" value="192.168.0.2"/>
+      <property id="module.azure.nxd.ip.subnet_mask" value="255.255.255.0"/>
+      <property id="module.azure.nxd.ip.gateway_address" value="0.0.0.0"/>
+      <property id="module.azure.nxd.ipv6.address_global" value="2001:0:0:0:0:0:0:1"/>
+      <property id="module.azure.nxd.ipv6.address_local" value="0:0:0:0:0:0:0:0"/>
+      <property id="module.azure.nxd.ip.stack_size" value="2048"/>
+      <property id="module.azure.nxd.ip.priority" value="3"/>
+      <property id="module.azure.nxd.ip.arp_cache_size_units" value="module.azure.nxd.ip.arp_cache_size_units.bytes"/>
+      <property id="module.azure.nxd.ip.arp_cache_size" value="520"/>
+    </module>
+    <module id="module.middleware.rm_netxduo_ether.1329600464">
+      <property id="module.middleware.rm_netxduo_ether.name" value="g_netxduo_ether_0"/>
+      <property id="module.middleware.rm_netxduo_ether.ip_mtu" value="1500"/>
+    </module>
+    <module id="module.driver.ether_on_ether.29760179">
+      <property id="module.driver.ether.name" value="g_ether0"/>
+      <property id="module.driver.ether.channel" value="module.driver.ether.channel.0"/>
+      <property id="module.driver.ether.mac_address" value="00:11:22:33:44:55"/>
+      <property id="module.driver.ether.zerocopy" value="module.driver.ether.zerocopy.0"/>
+      <property id="module.driver.ether.flow_control" value="module.driver.ether.flow_control.0"/>
+      <property id="module.driver.ether.multicast" value="module.driver.ether.multicast.1"/>
+      <property id="module.driver.ether.promiscuous" value="module.driver.ether.promiscuous.0"/>
+      <property id="module.driver.ether.broadcast_filter" value="0"/>
+      <property id="module.driver.ether.num_tx_descriptors" value="1"/>
+      <property id="module.driver.ether.num_rx_descriptors" value="1"/>
+      <property id="module.driver.ether.allocate_rx_buffer" value="module.driver.ether.allocate_rx_buffer.1"/>
+      <property id="module.driver.ether.ether_buffer_size" value="1514"/>
+      <property id="module.driver.ether.padding" value="module.driver.ether.padding.0"/>
+      <property id="module.driver.ether.padding_offset" value="0"/>
+      <property id="module.driver.ether.interrupt_priority" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.ether.p_callback" value="NULL"/>
+    </module>
+    <module id="module.driver.ether_phy_on_ether_phy.42289646">
+      <property id="module.driver.ether_phy.name" value="g_ether_phy0"/>
+      <property id="module.driver.ether_phy.channel" value="module.driver.ether_phy.channel.0"/>
+      <property id="module.driver.ether_phy.phy_lsi_address" value="0"/>
+      <property id="module.driver.ether_phy.phy_reset_wait_time" value="0x00020000"/>
+      <property id="module.driver.ether_phy.mii_type" value="module.driver.mii_type.rmii"/>
+      <property id="module.driver.ether_phy.phy_lsi_type" value="module.driver.ether_phy.phy_lsi_type.kit_component"/>
+      <property id="module.driver.ether_phy.mii_bit_access_wait_time" value="8"/>
+      <property id="module.driver.ether_phy.flow_control" value="module.driver.ether_phy.flow_control.0"/>
+    </module>
+    <module id="module.azure.nxd.common.861826475"/>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.middleware.rm_threadx_port.0"/>
@@ -294,23 +292,23 @@
     <context id="rtos.threadx.thread.1749503709">
       <property id="_symbol" value="new_thread0"/>
       <property id="rtos.threadx.thread.name" value="New Thread"/>
-      <property id="rtos.threadx.thread.stack" value="1024"/>
+      <property id="rtos.threadx.thread.stack" value="0x4000"/>
       <property id="rtos.threadx.thread.priority" value="1"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
-      <stack module="module.azure.nxd_mqtt_client.1601980762">
-        <stack module="module.azure.nxd.ip.548952621" requires="module.azure.nxd_mqtt_client.requires.nxd.ip">
-          <stack module="module.azure.nxd.packet_pool.418602833" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
-          <stack module="module.middleware.rm_netxduo_ether.1679035592" requires="module.azure.nxd.ip.requires.nxd.driver">
-            <stack module="module.driver.ether_on_ether.1184026764" requires="module.middleware.rm_netxduo_ether.requires.ether">
-              <stack module="module.driver.ether_phy_on_ether_phy.719448145" requires="module.driver.ether.requires.ether_phy"/>
+      <stack module="module.driver.uart_on_sci_uart.1864591614"/>
+      <stack module="module.azure.nxd_dhcp_client.141936954">
+        <stack module="module.azure.nxd.ip.583741598" requires="module.azure.nxd_dhcp_client.requires.nxd.ip">
+          <stack module="module.azure.nxd.packet_pool.1884806526" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
+          <stack module="module.middleware.rm_netxduo_ether.1329600464" requires="module.azure.nxd.ip.requires.nxd.driver">
+            <stack module="module.driver.ether_on_ether.29760179" requires="module.middleware.rm_netxduo_ether.requires.ether">
+              <stack module="module.driver.ether_phy_on_ether_phy.42289646" requires="module.driver.ether.requires.ether_phy"/>
             </stack>
-            <stack module="module.azure.nxd.common.641096590" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
+            <stack module="module.azure.nxd.common.861826475" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
           </stack>
         </stack>
-        <stack module="module.azure.nxd.packet_pool.418602833" requires="module.azure.nxd_mqtt_client.requires.nxd.packet_pool"/>
+        <stack module="module.azure.nxd.packet_pool.1884806526" requires="module.azure.nxd_dhcp_client.requires.nxd.packet_pool"/>
       </stack>
-      <stack module="module.driver.uart_on_sci_uart.1864591614"/>
     </context>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>

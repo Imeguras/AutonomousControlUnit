@@ -8,7 +8,7 @@
 #include "bsp_api.h"
 #include "common_data.h"
 #include "r_sci_uart.h"
-//#include "nxd_dhcp_client.h"
+#include "nxd_dhcp_client.h"
 #include <stdint.h>
 #ifndef ETHDUO_H_
 #define ETHDUO_H_
@@ -16,11 +16,12 @@
 class EthDuo {
 public:
   EthDuo();
+  UINT  error_counter=0;
   virtual ~EthDuo();
   void forceInitialization();
 private:
   /* DHCP instance. */
-  //NX_DHCP g_dhcp_client0;
+  NX_DHCP g_dhcp_client0;
   /* IP instance */
   NX_IP g_ip0;
   /* Stack memory for g_ip0. */

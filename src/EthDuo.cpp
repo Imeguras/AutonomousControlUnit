@@ -16,6 +16,7 @@ EthDuo::~EthDuo() {
 }
 
 void EthDuo::forceInitialization(){
+	nx_system_initialize();
 	this->g_packet_pool0_quick_setup();
   this->g_ip0_quick_setup();
 }
@@ -44,24 +45,37 @@ void EthDuo::forceInitialization(){
  */
 void EthDuo::g_ip0_quick_setup() {
 	  UINT status;
-
-
-
+	  ULONG current_state;
   /* Create the ip instance. */
   status = nx_ip_create(&g_ip0, (char *)"g_ip0 IP Instance", G_IP0_ADDRESS,
                         G_IP0_SUBNET_MASK, &g_packet_pool0,
                         G_IP0_NETWORK_DRIVER, &g_ip0_stack_memory[0],
                         G_IP0_TASK_STACK_SIZE, G_IP0_TASK_PRIORITY);
-						
+
   assert(NX_SUCCESS == status);
 
-  /* If using Embedded Wireless Framework then uncomment this out to set the
+
+
+
+	/* Create the DHCP instance. */
+	status = nx_dhcp_create(&g_dhcp_client0,
+						&g_ip0,
+						"g_dhcp_client0");
+	assert(NX_SUCCESS == status);
+
+	status = nx_dhcp_packet_pool_set(&g_dhcp_client0, &g_packet_pool0);
+	assert(NX_SUCCESS == status);
+
+
+
+
+	/* If using Embedded Wireless Framework then uncomment this out to set the
    * adapter_ptr. See the FSP user manual for more details. */
   // g_ip0.nx_ip_reserved_ptr = adapter_ptr;
 
   /* Set the gateway address if it is configured. Make sure this is set if using
    * the Embedded Wireless Framework! */
-  if (IP_ADDRESS(0, 0, 0, 0) != G_IP0_GATEWAY_ADDRESS) {
+ if (IP_ADDRESS(0, 0, 0, 0) != G_IP0_GATEWAY_ADDRESS) {
     status = nx_ip_gateway_address_set(&g_ip0, G_IP0_GATEWAY_ADDRESS);
     assert(NX_SUCCESS == status);
   }
@@ -87,28 +101,25 @@ void EthDuo::g_ip0_quick_setup() {
   // status = nx_igmp_enable(&g_ip0);
   // assert(NX_SUCCESS == status);
   /* Create the DHCP instance. */
-   /*status = nx_dhcp_create(&g_dhcp_client0,
-  						&g_ip0,
-  						"g_dhcp_client0");
-  	assert(NX_SUCCESS == status);
 
-  	status = nx_dhcp_packet_pool_set(&g_dhcp_client0, &g_packet_pool0);
-  	assert(NX_SUCCESS == status);
-
-
-  	status = nx_dhcp_start(&g_dhcp_client0);
-  	assert(NX_SUCCESS == status);*/
   /* Wait for the link to be enabled. */
-  ULONG current_state;
+
   status =
       nx_ip_status_check(&g_ip0, NX_IP_LINK_ENABLED, &current_state, 1000U);
   assert(NX_SUCCESS == status);
   assert(NX_IP_LINK_ENABLED == current_state);
 
 
-  /*nx_ip_interface_attach(&g_ip0, , ULONG ip_address, ULONG network_mask,
-                              VOID (*ip_link_driver)(struct NX_IP_DRIVER_STRUCT
-     *));*/
+
+  	/* Start DHCP service. */
+  	status = nx_dhcp_start(&g_dhcp_client0);
+  	assert(NX_SUCCESS == status);
+
+  	/* Wait until an IP address is acquired via DHCP. */
+  	ULONG requested_status;
+  	status = nx_ip_status_check(&g_ip0, NX_IP_ADDRESS_RESOLVED, &requested_status, 1000);
+  	assert(NX_SUCCESS == status);
+  	assert(NX_IP_ADDRESS_RESOLVED == requested_status);
 }
 /* Quick Setup for g_packet_pool0.
  * - nx_system_initialize() must be called before calling this function.
