@@ -13,7 +13,7 @@
 /* IP instance */
   NX_IP g_ip0;
   /* ARP cache memory for g_ip0. */
-  uint8_t g_ip0_arp_cache_memory [G_IP0_ARP_CACHE_SIZE] BSP_ALIGN_VARIABLE(4);
+  uint8_t g_ip0_arp_cache_memory [G_IP0_ARP_CACHE_SIZE] __attribute__((aligned(4)));
   uint8_t g_ip0_stack_memory  [G_IP0_TASK_STACK_SIZE]  __attribute__ ((aligned(8), section(".stack.g_ip0")));
 #ifdef ETHER_BUFFER_PLACE_IN_SECTION
   uint8_t g_packet_pool0_pool_memory[G_PACKET_POOL0_PACKET_NUM *
@@ -35,13 +35,6 @@ EthDuo::EthDuo() {
 EthDuo::~EthDuo() {
   // TODO Auto-generated destructor stub
 }
-
-void EthDuo::forceInitialization(){
-	nx_system_initialize();
-	this->g_packet_pool0_quick_setup();
-  this->g_ip0_quick_setup();
-}
-
 
 
 
@@ -127,4 +120,9 @@ void EthDuo::g_packet_pool0_quick_setup() {
           (G_PACKET_POOL0_PACKET_SIZE + sizeof(NX_PACKET)));
   assert(NX_SUCCESS == status);
 }
-
+int  EthDuo::initialization(){
+	nx_system_initialize();
+	this->g_packet_pool0_quick_setup();
+  	this->g_ip0_quick_setup();
+  	return (int)this->error_counter;
+}
