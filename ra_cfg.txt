@@ -82,7 +82,7 @@ FSP Configuration
     PCLKC Div /4
     PCLKD Div /2
     SDCLK Enabled
-    BCLK Div /2
+    BCLK Div /4
     EBCLK Div /2
     UCLK Div /5
     FCLK Div /4
@@ -110,8 +110,8 @@ FSP Configuration
       P015 151 - - - - Disabled - - "ADC0: AN06; ADC1: AN06; CMP0: IVCMP1; DAC121: DA; IRQ0: IRQ13" - None - - 
       P100 132 GPIO - Low None "Output mode (Initial Low)" CMOS None "AGT0: AGTIO; BUS0: D0_DQ0; GLCDC0: LCD_EXTCLK; GPT5: GTIOCB; IIC1: SCL; IRQ0: IRQ02; KINT0: KRM0; POEG0: GTETRG; SCI0: RXD_MISO; SCI0: SCL; SCI1: SCK; SPI0: MISO" - IO - - 
       P101 131 - - - - Disabled - - "AGT0: AGTEE; BUS0: D1_DQ1; GLCDC0: LCD_CLK; GPT5: GTIOCA; IIC1: SDA; IRQ0: IRQ01; KINT0: KRM1; POEG1: GTETRG; SCI0: SDA; SCI0: TXD_MOSI; SCI1: CTS_RTS_SS; SPI0: MOSI" - None - - 
-      P102 130 - - - - Disabled - - "ADC0: ADTRG; AGT0: AGTO; BUS0: D2_DQ2; CAN0: CRX; GLCDC0: LCD_TCON0; GPT2: GTIOCB; KINT0: KRM2; OPS0: GTOWLO; SCI0: SCK; SPI0: RSPCK" - None - - 
-      P103 129 - - - - Disabled - - "BUS0: D3_DQ3; CAN0: CTX; GLCDC0: LCD_TCON1; GPT2: GTIOCA; KINT0: KRM3; OPS0: GTOWUP; SCI0: CTS_RTS_SS; SPI0: SSL0" - None - - 
+      P102 130 CAN0_CRX - Low - "Peripheral mode" CMOS None "ADC0: ADTRG; AGT0: AGTO; BUS0: D2_DQ2; CAN0: CRX; GLCDC0: LCD_TCON0; GPT2: GTIOCB; KINT0: KRM2; OPS0: GTOWLO; SCI0: SCK; SPI0: RSPCK" - IO - - 
+      P103 129 CAN0_CTX - Low - "Peripheral mode" CMOS None "BUS0: D3_DQ3; CAN0: CTX; GLCDC0: LCD_TCON1; GPT2: GTIOCA; KINT0: KRM3; OPS0: GTOWUP; SCI0: CTS_RTS_SS; SPI0: SSL0" - IO - - 
       P104 128 - - - - Disabled - - "BUS0: D4_DQ4; GLCDC0: LCD_TCON2; GPT1: GTIOCB; IRQ0: IRQ01; KINT0: KRM4; POEG1: GTETRG; SCI8: RXD_MISO; SCI8: SCL; SPI0: SSL1" - None - - 
       P105 127 - - - - Disabled - - "BUS0: D5_DQ5; GLCDC0: LCD_TCON3; GPT1: GTIOCA; IRQ0: IRQ00; KINT0: KRM5; POEG0: GTETRG; SCI8: SDA; SCI8: TXD_MOSI; SPI0: SSL2" - None - - 
       P106 126 - - - - Disabled - - "AGT0: AGTOB; BUS0: D6_DQ6; GLCDC0: LCD_DATA00; GPT8: GTIOCB; KINT0: KRM6; SCI8: SCK; SPI0: SSL3" - None - - 
@@ -287,8 +287,8 @@ FSP Configuration
       P015 151 - - - - Disabled - - "ADC0: AN06; ADC1: AN06; CMP0: IVCMP1; DAC121: DA; IRQ0: IRQ13" - None - - 
       P100 132 - - Low None Disabled CMOS None "AGT0: AGTIO; BUS0: D0_DQ0; GLCDC0: LCD_EXTCLK; GPT5: GTIOCB; IIC1: SCL; IRQ0: IRQ02; KINT0: KRM0; POEG0: GTETRG; SCI0: RXD_MISO; SCI0: SCL; SCI1: SCK; SPI0: MISO" - IO - - 
       P101 131 - - - - Disabled - - "AGT0: AGTEE; BUS0: D1_DQ1; GLCDC0: LCD_CLK; GPT5: GTIOCA; IIC1: SDA; IRQ0: IRQ01; KINT0: KRM1; POEG1: GTETRG; SCI0: SDA; SCI0: TXD_MOSI; SCI1: CTS_RTS_SS; SPI0: MOSI" - None - - 
-      P102 130 - - - - Disabled - - "ADC0: ADTRG; AGT0: AGTO; BUS0: D2_DQ2; CAN0: CRX; GLCDC0: LCD_TCON0; GPT2: GTIOCB; KINT0: KRM2; OPS0: GTOWLO; SCI0: SCK; SPI0: RSPCK" - None - - 
-      P103 129 - - - - Disabled - - "BUS0: D3_DQ3; CAN0: CTX; GLCDC0: LCD_TCON1; GPT2: GTIOCA; KINT0: KRM3; OPS0: GTOWUP; SCI0: CTS_RTS_SS; SPI0: SSL0" - None - - 
+      P102 130 - - Low - Disabled CMOS None "ADC0: ADTRG; AGT0: AGTO; BUS0: D2_DQ2; CAN0: CRX; GLCDC0: LCD_TCON0; GPT2: GTIOCB; KINT0: KRM2; OPS0: GTOWLO; SCI0: SCK; SPI0: RSPCK" - IO - - 
+      P103 129 - - Low - Disabled CMOS None "BUS0: D3_DQ3; CAN0: CTX; GLCDC0: LCD_TCON1; GPT2: GTIOCA; KINT0: KRM3; OPS0: GTOWUP; SCI0: CTS_RTS_SS; SPI0: SSL0" - IO - - 
       P104 128 - - - - Disabled - - "BUS0: D4_DQ4; GLCDC0: LCD_TCON2; GPT1: GTIOCB; IRQ0: IRQ01; KINT0: KRM4; POEG1: GTETRG; SCI8: RXD_MISO; SCI8: SCL; SPI0: SSL1" - None - - 
       P105 127 - - - - Disabled - - "BUS0: D5_DQ5; GLCDC0: LCD_TCON3; GPT1: GTIOCA; IRQ0: IRQ00; KINT0: KRM5; POEG0: GTETRG; SCI8: SDA; SCI8: TXD_MOSI; SPI0: SSL2" - None - - 
       P106 126 - - - - Disabled - - "AGT0: AGTOB; BUS0: D6_DQ6; GLCDC0: LCD_DATA00; GPT8: GTIOCB; KINT0: KRM6; SCI8: SCK; SPI0: SSL3" - None - - 
@@ -1952,6 +1952,10 @@ FSP Configuration
     Common: Interface Capability: Disable
     Azure IoT: Defender Security Module: Disable
     
+  Module "CAN (r_can)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disabled
+    
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
     General: Error Checking: Enabled
@@ -1998,6 +2002,168 @@ FSP Configuration
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "Azure RTOS ThreadX Port (rm_threadx_port)"
+    Instance "g_can0 CAN (r_can)"
+      General: Name: g_can0
+      General: Channel: 0
+      General: Clock Source: Main oscillator (CANMCLK)
+      Baud Rate Settings: Auto-generated Settings: Sample-Point (%): 75
+      Baud Rate Settings: Auto-generated Settings: CAN Baud Rate (Hz): 500000
+      Baud Rate Settings: Override Auto-generated Settings: Override Baud Settings: Disabled
+      Baud Rate Settings: Override Auto-generated Settings: Baud Rate Prescaler: 1
+      Baud Rate Settings: Override Auto-generated Settings: Time Segment 1: 4 Time Quanta
+      Baud Rate Settings: Override Auto-generated Settings: Time Segment 2: 2 Time Quanta
+      Baud Rate Settings: Override Auto-generated Settings: Synchronization Jump Width: 1 Time Quanta
+      Interrupts: Callback: can_callback
+      General: Overwrite/Overrrun Mode: Overwrite Mode
+      General: Global ID Mode: Standard ID Mode
+      General: Number of Mailboxes: 32 Mailboxes
+      Input: Receive FIFO: Receive ID 1: ID: 0
+      Input: Receive FIFO: Receive ID 2: ID: 0
+      Input: Mailbox 0-3 Group: Mailbox ID: Mailbox 0 ID: 0
+      Input: Mailbox 0-3 Group: Mailbox ID: Mailbox 1 ID: 1
+      Input: Mailbox 0-3 Group: Mailbox ID: Mailbox 2 ID: 2
+      Input: Mailbox 0-3 Group: Mailbox ID: Mailbox 3 ID: 3
+      Input: Mailbox 4-7 Group: Mailbox ID: Mailbox 4 ID: 4
+      Input: Mailbox 4-7 Group: Mailbox ID: Mailbox 5 ID: 5
+      Input: Mailbox 4-7 Group: Mailbox ID: Mailbox 6 ID: 6
+      Input: Mailbox 4-7 Group: Mailbox ID: Mailbox 7 ID: 7
+      Input: Mailbox 8-11 Group: Mailbox ID: Mailbox 8 ID: 8
+      Input: Mailbox 8-11 Group: Mailbox ID: Mailbox 9 ID: 9
+      Input: Mailbox 8-11 Group: Mailbox ID: Mailbox 10 ID: 10
+      Input: Mailbox 8-11 Group: Mailbox ID: Mailbox 11 ID: 11
+      Input: Mailbox 12-15 Group: Mailbox ID: Mailbox 12 ID: 12
+      Input: Mailbox 12-15 Group: Mailbox ID: Mailbox 13 ID: 13
+      Input: Mailbox 12-15 Group: Mailbox ID: Mailbox 14 ID: 14
+      Input: Mailbox 12-15 Group: Mailbox ID: Mailbox 15 ID: 15
+      Input: Mailbox 16-19 Group: Mailbox ID: Mailbox 16 ID: 16
+      Input: Mailbox 16-19 Group: Mailbox ID: Mailbox 17 ID: 17
+      Input: Mailbox 16-19 Group: Mailbox ID: Mailbox 18 ID: 18
+      Input: Mailbox 16-19 Group: Mailbox ID: Mailbox 19 ID: 19
+      Input: Mailbox 20-23 Group: Mailbox ID: Mailbox 20 ID: 20
+      Input: Mailbox 20-23 Group: Mailbox ID: Mailbox 21 ID: 21
+      Input: Mailbox 20-23 Group: Mailbox ID: Mailbox 22 ID: 22
+      Input: Mailbox 20-23 Group: Mailbox ID: Mailbox 23 ID: 23
+      Input: Mailbox 24-27 Group: Mailbox ID: Mailbox 24 ID: 24
+      Input: Mailbox 24-27 Group: Mailbox ID: Mailbox 25 ID: 25
+      Input: Mailbox 24-27 Group: Mailbox ID: Mailbox 26 ID: 26
+      Input: Mailbox 24-27 Group: Mailbox ID: Mailbox 27 ID: 27
+      Input: Mailbox 28-31 Group: Mailbox ID: Mailbox 28 ID: 28
+      Input: Mailbox 28-31 Group: Mailbox ID: Mailbox 29 ID: 29
+      Input: Mailbox 28-31 Group: Mailbox ID: Mailbox 30 ID: 30
+      Input: Mailbox 28-31 Group: Mailbox ID: Mailbox 31 ID: 31
+      Input: Receive FIFO: Receive ID 1: ID Mode: Standard ID
+      Input: Receive FIFO: Receive ID 2: ID Mode: Standard ID
+      Input: Mailbox 0-3 Group: Mailbox ID Mode: Mailbox 0 ID Mode: Standard ID
+      Input: Mailbox 0-3 Group: Mailbox ID Mode: Mailbox 1 ID Mode: Standard ID
+      Input: Mailbox 0-3 Group: Mailbox ID Mode: Mailbox 2 ID Mode: Standard ID
+      Input: Mailbox 0-3 Group: Mailbox ID Mode: Mailbox 3 ID Mode: Standard ID
+      Input: Mailbox 4-7 Group: Mailbox ID Mode: Mailbox 4 ID Mode: Standard ID
+      Input: Mailbox 4-7 Group: Mailbox ID Mode: Mailbox 5 ID Mode: Standard ID
+      Input: Mailbox 4-7 Group: Mailbox ID Mode: Mailbox 6 ID Mode: Standard ID
+      Input: Mailbox 4-7 Group: Mailbox ID Mode: Mailbox 7 ID Mode: Standard ID
+      Input: Mailbox 8-11 Group: Mailbox ID Mode: Mailbox 8 ID Mode: Standard ID
+      Input: Mailbox 8-11 Group: Mailbox ID Mode: Mailbox 9 ID Mode: Standard ID
+      Input: Mailbox 8-11 Group: Mailbox ID Mode: Mailbox 10 ID Mode: Standard ID
+      Input: Mailbox 8-11 Group: Mailbox ID Mode: Mailbox 11 ID Mode: Standard ID
+      Input: Mailbox 12-15 Group: Mailbox ID Mode: Mailbox 12 ID Mode: Standard ID
+      Input: Mailbox 12-15 Group: Mailbox ID Mode: Mailbox 13 ID Mode: Standard ID
+      Input: Mailbox 12-15 Group: Mailbox ID Mode: Mailbox 14 ID Mode: Standard ID
+      Input: Mailbox 12-15 Group: Mailbox ID Mode: Mailbox 15 ID Mode: Standard ID
+      Input: Mailbox 16-19 Group: Mailbox ID Mode: Mailbox 16 ID Mode: Standard ID
+      Input: Mailbox 16-19 Group: Mailbox ID Mode: Mailbox 17 ID Mode: Standard ID
+      Input: Mailbox 16-19 Group: Mailbox ID Mode: Mailbox 18 ID Mode: Standard ID
+      Input: Mailbox 16-19 Group: Mailbox ID Mode: Mailbox 19 ID Mode: Standard ID
+      Input: Mailbox 20-23 Group: Mailbox ID Mode: Mailbox 20 ID Mode: Standard ID
+      Input: Mailbox 20-23 Group: Mailbox ID Mode: Mailbox 21 ID Mode: Standard ID
+      Input: Mailbox 20-23 Group: Mailbox ID Mode: Mailbox 22 ID Mode: Standard ID
+      Input: Mailbox 20-23 Group: Mailbox ID Mode: Mailbox 23 ID Mode: Standard ID
+      Input: Mailbox 24-27 Group: Mailbox ID Mode: Mailbox 24 ID Mode: Standard ID
+      Input: Mailbox 24-27 Group: Mailbox ID Mode: Mailbox 25 ID Mode: Standard ID
+      Input: Mailbox 24-27 Group: Mailbox ID Mode: Mailbox 26 ID Mode: Standard ID
+      Input: Mailbox 24-27 Group: Mailbox ID Mode: Mailbox 27 ID Mode: Standard ID
+      Input: Mailbox 28-31 Group: Mailbox ID Mode: Mailbox 28 ID Mode: Standard ID
+      Input: Mailbox 28-31 Group: Mailbox ID Mode: Mailbox 29 ID Mode: Standard ID
+      Input: Mailbox 28-31 Group: Mailbox ID Mode: Mailbox 30 ID Mode: Standard ID
+      Input: Mailbox 28-31 Group: Mailbox ID Mode: Mailbox 31 ID Mode: Standard ID
+      Input: Mailbox 0-3 Group: Mailbox Type: Mailbox 0 Type: Transmit Mailbox
+      Input: Mailbox 0-3 Group: Mailbox Type: Mailbox 1 Type: Receive Mailbox
+      Input: Mailbox 0-3 Group: Mailbox Type: Mailbox 2 Type: Receive Mailbox
+      Input: Mailbox 0-3 Group: Mailbox Type: Mailbox 3 Type: Receive Mailbox
+      Input: Mailbox 4-7 Group: Mailbox Type: Mailbox 4 Type: Receive Mailbox
+      Input: Mailbox 4-7 Group: Mailbox Type: Mailbox 5 Type: Receive Mailbox
+      Input: Mailbox 4-7 Group: Mailbox Type: Mailbox 6 Type: Receive Mailbox
+      Input: Mailbox 4-7 Group: Mailbox Type: Mailbox 7 Type: Receive Mailbox
+      Input: Mailbox 8-11 Group: Mailbox Type: Mailbox 8 Type: Receive Mailbox
+      Input: Mailbox 8-11 Group: Mailbox Type: Mailbox 9 Type: Receive Mailbox
+      Input: Mailbox 8-11 Group: Mailbox Type: Mailbox 10 Type: Receive Mailbox
+      Input: Mailbox 8-11 Group: Mailbox Type: Mailbox 11 Type: Receive Mailbox
+      Input: Mailbox 12-15 Group: Mailbox Type: Mailbox 12 Type: Receive Mailbox
+      Input: Mailbox 12-15 Group: Mailbox Type: Mailbox 13 Type: Receive Mailbox
+      Input: Mailbox 12-15 Group: Mailbox Type: Mailbox 14 Type: Receive Mailbox
+      Input: Mailbox 12-15 Group: Mailbox Type: Mailbox 15 Type: Receive Mailbox
+      Input: Mailbox 16-19 Group: Mailbox Type: Mailbox 16 Type: Receive Mailbox
+      Input: Mailbox 16-19 Group: Mailbox Type: Mailbox 17 Type: Receive Mailbox
+      Input: Mailbox 16-19 Group: Mailbox Type: Mailbox 18 Type: Receive Mailbox
+      Input: Mailbox 16-19 Group: Mailbox Type: Mailbox 19 Type: Receive Mailbox
+      Input: Mailbox 20-23 Group: Mailbox Type: Mailbox 20 Type: Receive Mailbox
+      Input: Mailbox 20-23 Group: Mailbox Type: Mailbox 21 Type: Receive Mailbox
+      Input: Mailbox 20-23 Group: Mailbox Type: Mailbox 22 Type: Receive Mailbox
+      Input: Mailbox 20-23 Group: Mailbox Type: Mailbox 23 Type: Receive Mailbox
+      Input: Mailbox 24-27 Group: Mailbox Type: Mailbox 24 Type: Receive Mailbox
+      Input: Mailbox 24-27 Group: Mailbox Type: Mailbox 25 Type: Receive Mailbox
+      Input: Mailbox 24-27 Group: Mailbox Type: Mailbox 26 Type: Receive Mailbox
+      Input: Mailbox 24-27 Group: Mailbox Type: Mailbox 27 Type: Receive Mailbox
+      Input: Mailbox 28-31 Group: Mailbox Type: Mailbox 28 Type: Receive Mailbox
+      Input: Mailbox 28-31 Group: Mailbox Type: Mailbox 29 Type: Receive Mailbox
+      Input: Mailbox 28-31 Group: Mailbox Type: Mailbox 30 Type: Receive Mailbox
+      Input: Mailbox 28-31 Group: Mailbox Type: Mailbox 31 Type: Receive Mailbox
+      Input: Receive FIFO: Receive ID 1: Frame Type: Remote Mailbox
+      Input: Receive FIFO: Receive ID 2: Frame Type: Remote Mailbox
+      Input: Mailbox 0-3 Group: Mailbox Frame Type: Mailbox 0 Frame Type: Remote Mailbox
+      Input: Mailbox 0-3 Group: Mailbox Frame Type: Mailbox 1 Frame Type: Data Mailbox
+      Input: Mailbox 0-3 Group: Mailbox Frame Type: Mailbox 2 Frame Type: Data Mailbox
+      Input: Mailbox 0-3 Group: Mailbox Frame Type: Mailbox 3 Frame Type: Data Mailbox
+      Input: Mailbox 4-7 Group: Mailbox Frame Type: Mailbox 4 Frame Type: Data Mailbox
+      Input: Mailbox 4-7 Group: Mailbox Frame Type: Mailbox 5 Frame Type: Data Mailbox
+      Input: Mailbox 4-7 Group: Mailbox Frame Type: Mailbox 6 Frame Type: Data Mailbox
+      Input: Mailbox 4-7 Group: Mailbox Frame Type: Mailbox 7 Frame Type: Data Mailbox
+      Input: Mailbox 8-11 Group: Mailbox Frame Type: Mailbox 8 Frame Type: Data Mailbox
+      Input: Mailbox 8-11 Group: Mailbox Frame Type: Mailbox 9 Frame Type: Data Mailbox
+      Input: Mailbox 8-11 Group: Mailbox Frame Type: Mailbox 10 Frame Type: Data Mailbox
+      Input: Mailbox 8-11 Group: Mailbox Frame Type: Mailbox 11 Frame Type: Data Mailbox
+      Input: Mailbox 12-15 Group: Mailbox Frame Type: Mailbox 12 Frame Type: Data Mailbox
+      Input: Mailbox 12-15 Group: Mailbox Frame Type: Mailbox 13 Frame Type: Data Mailbox
+      Input: Mailbox 12-15 Group: Mailbox Frame Type: Mailbox 14 Frame Type: Data Mailbox
+      Input: Mailbox 12-15 Group: Mailbox Frame Type: Mailbox 15 Frame Type: Data Mailbox
+      Input: Mailbox 16-19 Group: Mailbox Frame Type: Mailbox 16 Frame Type: Data Mailbox
+      Input: Mailbox 16-19 Group: Mailbox Frame Type: Mailbox 17 Frame Type: Data Mailbox
+      Input: Mailbox 16-19 Group: Mailbox Frame Type: Mailbox 18 Frame Type: Data Mailbox
+      Input: Mailbox 16-19 Group: Mailbox Frame Type: Mailbox 19 Frame Type: Data Mailbox
+      Input: Mailbox 20-23 Group: Mailbox Frame Type: Mailbox 20 Frame Type: Data Mailbox
+      Input: Mailbox 20-23 Group: Mailbox Frame Type: Mailbox 21 Frame Type: Data Mailbox
+      Input: Mailbox 20-23 Group: Mailbox Frame Type: Mailbox 22 Frame Type: Data Mailbox
+      Input: Mailbox 20-23 Group: Mailbox Frame Type: Mailbox 23 Frame Type: Data Mailbox
+      Input: Mailbox 24-27 Group: Mailbox Frame Type: Mailbox 24 Frame Type: Data Mailbox
+      Input: Mailbox 24-27 Group: Mailbox Frame Type: Mailbox 25 Frame Type: Data Mailbox
+      Input: Mailbox 24-27 Group: Mailbox Frame Type: Mailbox 26 Frame Type: Data Mailbox
+      Input: Mailbox 24-27 Group: Mailbox Frame Type: Mailbox 27 Frame Type: Data Mailbox
+      Input: Mailbox 28-31 Group: Mailbox Frame Type: Mailbox 28 Frame Type: Data Mailbox
+      Input: Mailbox 28-31 Group: Mailbox Frame Type: Mailbox 29 Frame Type: Data Mailbox
+      Input: Mailbox 28-31 Group: Mailbox Frame Type: Mailbox 30 Frame Type: Data Mailbox
+      Input: Mailbox 28-31 Group: Mailbox Frame Type: Mailbox 31 Frame Type: Data Mailbox
+      Input: Receive FIFO: Receive ID 1: Mask: 0x1FFFFFFF
+      Input: Receive FIFO: Receive ID 2: Mask: 0x1FFFFFFF
+      Input: Mailbox 0-3 Group: Mailbox 0-3 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 4-7 Group: Mailbox 4-7 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 8-11 Group: Mailbox 8-11 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 12-15 Group: Mailbox 12-15 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 16-19 Group: Mailbox 16-19 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 20-23 Group: Mailbox 20-23 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 24-27 Group: Mailbox 24-27 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 28-31 Group: Mailbox 28-31 Group Mask: 0x1FFFFFFF
+      Interrupts: Interrupt Priority Level: Priority 12
+      Interrupts: Transmit FIFO Interrupt Mode: Every Message
+      
   Thread "New Thread"
     Symbol: new_thread0
     Name: New Thread

@@ -33,18 +33,26 @@ EthDuo::EthDuo() {
 }
 
 EthDuo::~EthDuo() {
-  // TODO Auto-generated destructor stub
+	UINT status = nx_ip_delete(&g_ip0);
+	this->error_counter+=status;
+}
+
+void* EthDuo::recv(void * data, uint32_t stream_size){
+	return (int)0;
+}
+
+uint32_t	EthDuo::write(void *data, uint32_t stream_size){
+	return 0;
+}
+int  EthDuo::initialization(){
+	nx_system_initialize();
+	this->g_packet_pool0_quick_setup();
+  	this->g_ip0_quick_setup();
+  	return (int)this->error_counter;
 }
 
 
 
-/* Quick setup for g_dhcp_client0.
- * - g_ip0 must be setup before calling this function
- *     (See Developer Assistance -> g_dhcp_client0 -> g_ip0 -> Quick Setup).
- * - g_packet_pool0 must be setup before calling this function
- *     (See Developer Assistance -> g_dhcp_client0 -> g_packet_pool0 -> Quick Setup).
- * - nx_system_initialize() must be called before calling this function.
- */
 /* Quick setup for g_ip0.
  * - g_packet_pool0 must be setup before calling this function
  *     (See Developer Assistance -> g_ip0 -> g_packet_pool0 -> Quick Setup).
@@ -120,9 +128,5 @@ void EthDuo::g_packet_pool0_quick_setup() {
           (G_PACKET_POOL0_PACKET_SIZE + sizeof(NX_PACKET)));
   assert(NX_SUCCESS == status);
 }
-int  EthDuo::initialization(){
-	nx_system_initialize();
-	this->g_packet_pool0_quick_setup();
-  	this->g_ip0_quick_setup();
-  	return (int)this->error_counter;
-}
+
+

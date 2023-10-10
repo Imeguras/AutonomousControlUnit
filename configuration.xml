@@ -127,7 +127,7 @@
     <node id="board.clock.pclkd.display" option="board.clock.pclkd.display.value"/>
     <node id="board.clock.sdclkout.enable" option="board.clock.sdclkout.enable.enabled"/>
     <node id="board.clock.sdclkout.display" option="board.clock.sdclkout.display.value"/>
-    <node id="board.clock.bclk.div" option="board.clock.bclk.div.2"/>
+    <node id="board.clock.bclk.div" option="board.clock.bclk.div.4"/>
     <node id="board.clock.bclk.display" option="board.clock.bclk.display.value"/>
     <node id="board.clock.bclkout.div" option="board.clock.bclkout.div.2"/>
     <node id="board.clock.bclkout.display" option="board.clock.bclkout.display.value"/>
@@ -191,6 +191,10 @@
     <component apiversion="" class="RTOS" condition="" group="Azure" subgroup="ThreadX" variant="" vendor="Microsoft" version="6.2.1+fsp.4.5.0">
       <description>Azure RTOS ThreadX</description>
       <originalPack>Microsoft.ThreadX.6.2.1+fsp.4.5.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_can" variant="" vendor="Renesas" version="4.5.0">
+      <description>Controller Area Network</description>
+      <originalPack>Renesas.RA.4.5.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -260,9 +264,172 @@
       <property id="module.azure.nxd_mqtt_client.mqtt_stack_size" value="4096"/>
       <property id="module.azure.nxd_mqtt_client.mqtt_client_priority" value="2"/>
     </module>
+    <module id="module.driver.can_on_can.1827816203">
+      <property id="module.driver.can.name" value="g_can0"/>
+      <property id="module.driver.can.channel" value="0"/>
+      <property id="module.driver.can.clock_source" value="module.driver.can.clock_source.canmclk"/>
+      <property id="module.driver.can.sample_point" value="75"/>
+      <property id="module.driver.can.baud_rate" value="500000"/>
+      <property id="module.driver.can.override_baud_setting" value="module.driver.can.override_baud_setting.disabled"/>
+      <property id="module.driver.can.baud_rate_prescaler" value="1"/>
+      <property id="module.driver.can.time_segment_1" value="module.driver.can.time_segment_1.tq4"/>
+      <property id="module.driver.can.time_segment_2" value="module.driver.can.time_segment_2.tq2"/>
+      <property id="module.driver.can.sync_jump_width" value="module.driver.can.sync_jump_width.tq1"/>
+      <property id="module.driver.can.p_callback" value="can_callback"/>
+      <property id="module.driver.can.message_mode" value="module.driver.can.message_mode.overwrite"/>
+      <property id="module.driver.can.global_id_mode" value="module.driver.can.global_id_mode.standard"/>
+      <property id="module.driver.can.mailbox_count" value="module.driver.can.mailbox_count.32"/>
+      <property id="module.driver.can.rxfifo_id1.id" value="0"/>
+      <property id="module.driver.can.rxfifo_id2.id" value="0"/>
+      <property id="module.driver.can.mailbox0_id" value="0"/>
+      <property id="module.driver.can.mailbox1_id" value="1"/>
+      <property id="module.driver.can.mailbox2_id" value="2"/>
+      <property id="module.driver.can.mailbox3_id" value="3"/>
+      <property id="module.driver.can.mailbox4_id" value="4"/>
+      <property id="module.driver.can.mailbox5_id" value="5"/>
+      <property id="module.driver.can.mailbox6_id" value="6"/>
+      <property id="module.driver.can.mailbox7_id" value="7"/>
+      <property id="module.driver.can.mailbox8_id" value="8"/>
+      <property id="module.driver.can.mailbox9_id" value="9"/>
+      <property id="module.driver.can.mailbox10_id" value="10"/>
+      <property id="module.driver.can.mailbox11_id" value="11"/>
+      <property id="module.driver.can.mailbox12_id" value="12"/>
+      <property id="module.driver.can.mailbox13_id" value="13"/>
+      <property id="module.driver.can.mailbox14_id" value="14"/>
+      <property id="module.driver.can.mailbox15_id" value="15"/>
+      <property id="module.driver.can.mailbox16_id" value="16"/>
+      <property id="module.driver.can.mailbox17_id" value="17"/>
+      <property id="module.driver.can.mailbox18_id" value="18"/>
+      <property id="module.driver.can.mailbox19_id" value="19"/>
+      <property id="module.driver.can.mailbox20_id" value="20"/>
+      <property id="module.driver.can.mailbox21_id" value="21"/>
+      <property id="module.driver.can.mailbox22_id" value="22"/>
+      <property id="module.driver.can.mailbox23_id" value="23"/>
+      <property id="module.driver.can.mailbox24_id" value="24"/>
+      <property id="module.driver.can.mailbox25_id" value="25"/>
+      <property id="module.driver.can.mailbox26_id" value="26"/>
+      <property id="module.driver.can.mailbox27_id" value="27"/>
+      <property id="module.driver.can.mailbox28_id" value="28"/>
+      <property id="module.driver.can.mailbox29_id" value="29"/>
+      <property id="module.driver.can.mailbox30_id" value="30"/>
+      <property id="module.driver.can.mailbox31_id" value="31"/>
+      <property id="module.driver.can.rxfifo_id1.id_mode" value="module.driver.can.rxfifo_id1.id_mode.standard"/>
+      <property id="module.driver.can.rxfifo_id2.id_mode" value="module.driver.can.rxfifo_id2.id_mode.standard"/>
+      <property id="module.driver.can.mailbox0_id_mode" value="module.driver.can.mailbox0_id_mode.standard"/>
+      <property id="module.driver.can.mailbox1_id_mode" value="module.driver.can.mailbox1_id_mode.standard"/>
+      <property id="module.driver.can.mailbox2_id_mode" value="module.driver.can.mailbox2_id_mode.standard"/>
+      <property id="module.driver.can.mailbox3_id_mode" value="module.driver.can.mailbox3_id_mode.standard"/>
+      <property id="module.driver.can.mailbox4_id_mode" value="module.driver.can.mailbox4_id_mode.standard"/>
+      <property id="module.driver.can.mailbox5_id_mode" value="module.driver.can.mailbox5_id_mode.standard"/>
+      <property id="module.driver.can.mailbox6_id_mode" value="module.driver.can.mailbox6_id_mode.standard"/>
+      <property id="module.driver.can.mailbox7_id_mode" value="module.driver.can.mailbox7_id_mode.standard"/>
+      <property id="module.driver.can.mailbox8_id_mode" value="module.driver.can.mailbox8_id_mode.standard"/>
+      <property id="module.driver.can.mailbox9_id_mode" value="module.driver.can.mailbox9_id_mode.standard"/>
+      <property id="module.driver.can.mailbox10_id_mode" value="module.driver.can.mailbox10_id_mode.standard"/>
+      <property id="module.driver.can.mailbox11_id_mode" value="module.driver.can.mailbox11_id_mode.standard"/>
+      <property id="module.driver.can.mailbox12_id_mode" value="module.driver.can.mailbox12_id_mode.standard"/>
+      <property id="module.driver.can.mailbox13_id_mode" value="module.driver.can.mailbox13_id_mode.standard"/>
+      <property id="module.driver.can.mailbox14_id_mode" value="module.driver.can.mailbox14_id_mode.standard"/>
+      <property id="module.driver.can.mailbox15_id_mode" value="module.driver.can.mailbox15_id_mode.standard"/>
+      <property id="module.driver.can.mailbox16_id_mode" value="module.driver.can.mailbox16_id_mode.standard"/>
+      <property id="module.driver.can.mailbox17_id_mode" value="module.driver.can.mailbox17_id_mode.standard"/>
+      <property id="module.driver.can.mailbox18_id_mode" value="module.driver.can.mailbox18_id_mode.standard"/>
+      <property id="module.driver.can.mailbox19_id_mode" value="module.driver.can.mailbox19_id_mode.standard"/>
+      <property id="module.driver.can.mailbox20_id_mode" value="module.driver.can.mailbox20_id_mode.standard"/>
+      <property id="module.driver.can.mailbox21_id_mode" value="module.driver.can.mailbox21_id_mode.standard"/>
+      <property id="module.driver.can.mailbox22_id_mode" value="module.driver.can.mailbox22_id_mode.standard"/>
+      <property id="module.driver.can.mailbox23_id_mode" value="module.driver.can.mailbox23_id_mode.standard"/>
+      <property id="module.driver.can.mailbox24_id_mode" value="module.driver.can.mailbox24_id_mode.standard"/>
+      <property id="module.driver.can.mailbox25_id_mode" value="module.driver.can.mailbox25_id_mode.standard"/>
+      <property id="module.driver.can.mailbox26_id_mode" value="module.driver.can.mailbox26_id_mode.standard"/>
+      <property id="module.driver.can.mailbox27_id_mode" value="module.driver.can.mailbox27_id_mode.standard"/>
+      <property id="module.driver.can.mailbox28_id_mode" value="module.driver.can.mailbox28_id_mode.standard"/>
+      <property id="module.driver.can.mailbox29_id_mode" value="module.driver.can.mailbox29_id_mode.standard"/>
+      <property id="module.driver.can.mailbox30_id_mode" value="module.driver.can.mailbox30_id_mode.standard"/>
+      <property id="module.driver.can.mailbox31_id_mode" value="module.driver.can.mailbox31_id_mode.standard"/>
+      <property id="module.driver.can.mailbox0_type" value="module.driver.can.mailbox0_type.transmit"/>
+      <property id="module.driver.can.mailbox1_type" value="module.driver.can.mailbox1_type.receive"/>
+      <property id="module.driver.can.mailbox2_type" value="module.driver.can.mailbox2_type.receive"/>
+      <property id="module.driver.can.mailbox3_type" value="module.driver.can.mailbox3_type.receive"/>
+      <property id="module.driver.can.mailbox4_type" value="module.driver.can.mailbox4_type.receive"/>
+      <property id="module.driver.can.mailbox5_type" value="module.driver.can.mailbox5_type.receive"/>
+      <property id="module.driver.can.mailbox6_type" value="module.driver.can.mailbox6_type.receive"/>
+      <property id="module.driver.can.mailbox7_type" value="module.driver.can.mailbox7_type.receive"/>
+      <property id="module.driver.can.mailbox8_type" value="module.driver.can.mailbox8_type.receive"/>
+      <property id="module.driver.can.mailbox9_type" value="module.driver.can.mailbox9_type.receive"/>
+      <property id="module.driver.can.mailbox10_type" value="module.driver.can.mailbox10_type.receive"/>
+      <property id="module.driver.can.mailbox11_type" value="module.driver.can.mailbox11_type.receive"/>
+      <property id="module.driver.can.mailbox12_type" value="module.driver.can.mailbox12_type.receive"/>
+      <property id="module.driver.can.mailbox13_type" value="module.driver.can.mailbox13_type.receive"/>
+      <property id="module.driver.can.mailbox14_type" value="module.driver.can.mailbox14_type.receive"/>
+      <property id="module.driver.can.mailbox15_type" value="module.driver.can.mailbox15_type.receive"/>
+      <property id="module.driver.can.mailbox16_type" value="module.driver.can.mailbox16_type.receive"/>
+      <property id="module.driver.can.mailbox17_type" value="module.driver.can.mailbox17_type.receive"/>
+      <property id="module.driver.can.mailbox18_type" value="module.driver.can.mailbox18_type.receive"/>
+      <property id="module.driver.can.mailbox19_type" value="module.driver.can.mailbox19_type.receive"/>
+      <property id="module.driver.can.mailbox20_type" value="module.driver.can.mailbox20_type.receive"/>
+      <property id="module.driver.can.mailbox21_type" value="module.driver.can.mailbox21_type.receive"/>
+      <property id="module.driver.can.mailbox22_type" value="module.driver.can.mailbox22_type.receive"/>
+      <property id="module.driver.can.mailbox23_type" value="module.driver.can.mailbox23_type.receive"/>
+      <property id="module.driver.can.mailbox24_type" value="module.driver.can.mailbox24_type.receive"/>
+      <property id="module.driver.can.mailbox25_type" value="module.driver.can.mailbox25_type.receive"/>
+      <property id="module.driver.can.mailbox26_type" value="module.driver.can.mailbox26_type.receive"/>
+      <property id="module.driver.can.mailbox27_type" value="module.driver.can.mailbox27_type.receive"/>
+      <property id="module.driver.can.mailbox28_type" value="module.driver.can.mailbox28_type.receive"/>
+      <property id="module.driver.can.mailbox29_type" value="module.driver.can.mailbox29_type.receive"/>
+      <property id="module.driver.can.mailbox30_type" value="module.driver.can.mailbox30_type.receive"/>
+      <property id="module.driver.can.mailbox31_type" value="module.driver.can.mailbox31_type.receive"/>
+      <property id="module.driver.can.rxfifo_id1.frame_type" value="module.driver.can.rxfifo_id1.frame_type.remote"/>
+      <property id="module.driver.can.rxfifo_id2.frame_type" value="module.driver.can.rxfifo_id2.frame_type.remote"/>
+      <property id="module.driver.can.mailbox0_frame_type" value="module.driver.can.mailbox0_frame_type.remote"/>
+      <property id="module.driver.can.mailbox1_frame_type" value="module.driver.can.mailbox1_frame_type.data"/>
+      <property id="module.driver.can.mailbox2_frame_type" value="module.driver.can.mailbox2_frame_type.data"/>
+      <property id="module.driver.can.mailbox3_frame_type" value="module.driver.can.mailbox3_frame_type.data"/>
+      <property id="module.driver.can.mailbox4_frame_type" value="module.driver.can.mailbox4_frame_type.data"/>
+      <property id="module.driver.can.mailbox5_frame_type" value="module.driver.can.mailbox5_frame_type.data"/>
+      <property id="module.driver.can.mailbox6_frame_type" value="module.driver.can.mailbox6_frame_type.data"/>
+      <property id="module.driver.can.mailbox7_frame_type" value="module.driver.can.mailbox7_frame_type.data"/>
+      <property id="module.driver.can.mailbox8_frame_type" value="module.driver.can.mailbox8_frame_type.data"/>
+      <property id="module.driver.can.mailbox9_frame_type" value="module.driver.can.mailbox9_frame_type.data"/>
+      <property id="module.driver.can.mailbox10_frame_type" value="module.driver.can.mailbox10_frame_type.data"/>
+      <property id="module.driver.can.mailbox11_frame_type" value="module.driver.can.mailbox11_frame_type.data"/>
+      <property id="module.driver.can.mailbox12_frame_type" value="module.driver.can.mailbox12_frame_type.data"/>
+      <property id="module.driver.can.mailbox13_frame_type" value="module.driver.can.mailbox13_frame_type.data"/>
+      <property id="module.driver.can.mailbox14_frame_type" value="module.driver.can.mailbox14_frame_type.data"/>
+      <property id="module.driver.can.mailbox15_frame_type" value="module.driver.can.mailbox15_frame_type.data"/>
+      <property id="module.driver.can.mailbox16_frame_type" value="module.driver.can.mailbox16_frame_type.data"/>
+      <property id="module.driver.can.mailbox17_frame_type" value="module.driver.can.mailbox17_frame_type.data"/>
+      <property id="module.driver.can.mailbox18_frame_type" value="module.driver.can.mailbox18_frame_type.data"/>
+      <property id="module.driver.can.mailbox19_frame_type" value="module.driver.can.mailbox19_frame_type.data"/>
+      <property id="module.driver.can.mailbox20_frame_type" value="module.driver.can.mailbox20_frame_type.data"/>
+      <property id="module.driver.can.mailbox21_frame_type" value="module.driver.can.mailbox21_frame_type.data"/>
+      <property id="module.driver.can.mailbox22_frame_type" value="module.driver.can.mailbox22_frame_type.data"/>
+      <property id="module.driver.can.mailbox23_frame_type" value="module.driver.can.mailbox23_frame_type.data"/>
+      <property id="module.driver.can.mailbox24_frame_type" value="module.driver.can.mailbox24_frame_type.data"/>
+      <property id="module.driver.can.mailbox25_frame_type" value="module.driver.can.mailbox25_frame_type.data"/>
+      <property id="module.driver.can.mailbox26_frame_type" value="module.driver.can.mailbox26_frame_type.data"/>
+      <property id="module.driver.can.mailbox27_frame_type" value="module.driver.can.mailbox27_frame_type.data"/>
+      <property id="module.driver.can.mailbox28_frame_type" value="module.driver.can.mailbox28_frame_type.data"/>
+      <property id="module.driver.can.mailbox29_frame_type" value="module.driver.can.mailbox29_frame_type.data"/>
+      <property id="module.driver.can.mailbox30_frame_type" value="module.driver.can.mailbox30_frame_type.data"/>
+      <property id="module.driver.can.mailbox31_frame_type" value="module.driver.can.mailbox31_frame_type.data"/>
+      <property id="module.driver.can.rxfifo_id1.mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.rxfifo_id2.mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_0_to_3_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_4_to_7_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_8_to_11_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_12_to_15_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_16_to_19_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_20_to_23_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_24_to_27_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_28_to_31_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.ipl" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.can.txfifo_int_mode" value="module.driver.can.txfifo_int_mode.every_frame"/>
+    </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.middleware.rm_threadx_port.0"/>
+      <stack module="module.driver.can_on_can.1827816203"/>
     </context>
     <context id="rtos.threadx.thread.1749503709">
       <property id="_symbol" value="new_thread0"/>
@@ -286,6 +453,10 @@
     </context>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+    </config>
+    <config id="config.driver.can">
+      <property id="config.driver.can.param_checking_enable" value="config.driver.can.param_checking_enable.bsp"/>
+      <property id="config.driver.can.fifo_support" value="config.driver.can.fifo_support.disabled"/>
     </config>
     <config id="config.driver.ether">
       <property id="config.driver.ether.param_checking_enable" value="config.driver.ether.param_checking_enable.bsp"/>
@@ -721,6 +892,9 @@
       <configSetting altId="adc0.mode.custom" configurationId="adc0.mode"/>
       <configSetting altId="adc1.an19.p507" configurationId="adc1.an19"/>
       <configSetting altId="adc1.mode.custom" configurationId="adc1.mode"/>
+      <configSetting altId="can0.crx.p102" configurationId="can0.crx"/>
+      <configSetting altId="can0.ctx.p103" configurationId="can0.ctx"/>
+      <configSetting altId="can0.mode.enabled.free" configurationId="can0.mode"/>
       <configSetting altId="cgc0.extal.p212" configurationId="cgc0.extal"/>
       <configSetting altId="cgc0.mode.mainsub" configurationId="cgc0.mode"/>
       <configSetting altId="cgc0.xtal.p213" configurationId="cgc0.xtal"/>
@@ -774,6 +948,10 @@
       <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode"/>
       <configSetting altId="p100.output.low" configurationId="p100"/>
       <configSetting altId="p100.gpio_mode.gpio_mode_out.low" configurationId="p100.gpio_mode"/>
+      <configSetting altId="p102.can0.crx" configurationId="p102"/>
+      <configSetting altId="p102.gpio_mode.gpio_mode_peripheral" configurationId="p102.gpio_mode"/>
+      <configSetting altId="p103.can0.ctx" configurationId="p103"/>
+      <configSetting altId="p103.gpio_mode.gpio_mode_peripheral" configurationId="p103.gpio_mode"/>
       <configSetting altId="p108.debug0.tms" configurationId="p108"/>
       <configSetting altId="p108.gpio_mode.gpio_mode_peripheral" configurationId="p108.gpio_mode"/>
       <configSetting altId="p109.debug0.tdo" configurationId="p109"/>

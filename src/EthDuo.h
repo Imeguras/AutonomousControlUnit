@@ -7,25 +7,27 @@
 
 #include "bsp_api.h"
 #include "common_data.h"
-#include "AbstractPeripheralLayer.h"
+#include "AbstractPeripheralLayer.cpp"
 #include <stdint.h>
 #ifndef ETHDUO_H_
 #define ETHDUO_H_
 
 class EthDuo : AbstractPeripheralLayer {
 	public:
-	  EthDuo();
+		  EthDuo();
 
-	  virtual ~EthDuo();
-	  int initialization() override;
+		  virtual ~EthDuo();
+		  int initialization() override;
+		  void* recv(void * data, uint32_t stream_size) override;
+		  uint32_t	write(void *data, uint32_t stream_size) override;
 	private:
 
-	  /* Stack memory for g_ip0. */
-	  void g_ip0_quick_setup();
-	  void g_packet_pool0_quick_setup();
+		  /* Stack memory for g_ip0. */
+		  void g_ip0_quick_setup();
+		  void g_packet_pool0_quick_setup();
 
-	  /* Packet pool instance (If this is a Trustzone part, the memory must be
-	   * placed in Non-secure memory). */
+		  /* Packet pool instance (If this is a Trustzone part, the memory must be
+		   * placed in Non-secure memory). */
 
 };
 

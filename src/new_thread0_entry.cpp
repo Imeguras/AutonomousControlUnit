@@ -1,11 +1,30 @@
+#include "HighSpeedAbsL.cpp"
 #include "new_thread0.h"
 #include "EthDuo.h"
 #include <string.h>
-#include "HighSpeedAbsL.h"
+//#include "CanRen.h"
 extern bsp_leds_t g_bsp_leds;
+
 /* New Thread entry function */
 void new_thread0_entry(void) {
-	HighSpeed_AbsL<EthDuo> ethernet();
+	//
+	HighSpeed_AbsL<EthDuo> ethernet;
+	auto k = ethernet.g_AplHandle();
+	//CanRen can;
+	//CanRen canRen;
+
+	/*st_can_frame blah;
+
+	blah.id = 0x41;
+	blah.id_mode =CAN_ID_MODE_STANDARD;
+
+	blah.data[0]=0xAA;
+	blah.data[1]=0x11;*/
+	while(1){
+
+			//can.write((void *)&blah, 0);
+		//	acu.g_AplHandle();
+	}
     /* LED type structure */
     bsp_leds_t leds = g_bsp_leds;
     /* If this board has no LEDs then trap here */
@@ -24,7 +43,7 @@ void new_thread0_entry(void) {
 
     /* Holds level to set for pins */
     bsp_io_level_t pin_level = BSP_IO_LEVEL_LOW;
-    int count = 0;
+
     R_BSP_PinAccessEnable();
 
           /* Update all board LEDs */
