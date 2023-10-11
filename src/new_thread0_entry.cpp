@@ -1,6 +1,7 @@
 #include "HighSpeedAbsL.cpp"
 #include "new_thread0.h"
 #include "EthDuo.h"
+#include "CanRen.h"
 #include <string.h>
 //#include "CanRen.h"
 extern bsp_leds_t g_bsp_leds;
@@ -8,23 +9,28 @@ extern bsp_leds_t g_bsp_leds;
 /* New Thread entry function */
 void new_thread0_entry(void) {
 	//
-	HighSpeed_AbsL<EthDuo> ethernet;
-	auto k = ethernet.g_AplHandle();
+	//HighSpeed_AbsL<EthDuo> ethernet;
+	//auto k = ethernet.g_AplHandle();
+	HighSpeed_AbsL<CanRen> can;
+	//auto f = can.g_AplHandle();
+
+
 	//CanRen can;
 	//CanRen canRen;
 
-	/*st_can_frame blah;
-
+	st_can_frame blah;
 	blah.id = 0x41;
+
 	blah.id_mode =CAN_ID_MODE_STANDARD;
-
 	blah.data[0]=0xAA;
-	blah.data[1]=0x11;*/
-	while(1){
-
+	blah.data[1]=0x11;
+	can->write((void *)&blah, blah.data_length_code);
+	R_BSP_SoftwareDelay(10,BSP_DELAY_UNITS_SECONDS);
 			//can.write((void *)&blah, 0);
 		//	acu.g_AplHandle();
-	}
+	UINT k = can->write((void *)&blah, blah.data_length_code);
+    k +=1;
+	//R_BSP_SoftwareDelay(10,BSP_DELAY_UNITS_SECONDS);
     /* LED type structure */
     bsp_leds_t leds = g_bsp_leds;
     /* If this board has no LEDs then trap here */
@@ -52,7 +58,7 @@ void new_thread0_entry(void) {
               //uint32_t pin = leds.p_leds[count];
           	//R_SCI_UART_Write(&g_uart0_ctrl, (const uint8_t *)"blah",5);
               //
-              if(1){
+              if(k<=0){
               	R_BSP_PinWrite((bsp_io_port_pin_t) leds.p_leds[0], BSP_IO_LEVEL_HIGH);
               }else{
               	R_BSP_PinWrite((bsp_io_port_pin_t)leds.p_leds[2], BSP_IO_LEVEL_HIGH);

@@ -1954,7 +1954,7 @@ FSP Configuration
     
   Module "CAN (r_can)"
     Parameter Checking: Default (BSP)
-    FIFO Support: Disabled
+    FIFO Support: Enabled
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
@@ -2007,7 +2007,7 @@ FSP Configuration
       General: Channel: 0
       General: Clock Source: Main oscillator (CANMCLK)
       Baud Rate Settings: Auto-generated Settings: Sample-Point (%): 75
-      Baud Rate Settings: Auto-generated Settings: CAN Baud Rate (Hz): 500000
+      Baud Rate Settings: Auto-generated Settings: CAN Baud Rate (Hz): 1000000
       Baud Rate Settings: Override Auto-generated Settings: Override Baud Settings: Disabled
       Baud Rate Settings: Override Auto-generated Settings: Baud Rate Prescaler: 1
       Baud Rate Settings: Override Auto-generated Settings: Time Segment 1: 4 Time Quanta
@@ -2016,7 +2016,7 @@ FSP Configuration
       Interrupts: Callback: can_callback
       General: Overwrite/Overrrun Mode: Overwrite Mode
       General: Global ID Mode: Standard ID Mode
-      General: Number of Mailboxes: 32 Mailboxes
+      General: Number of Mailboxes: 24 Mailboxes
       Input: Receive FIFO: Receive ID 1: ID: 0
       Input: Receive FIFO: Receive ID 2: ID: 0
       Input: Mailbox 0-3 Group: Mailbox ID: Mailbox 0 ID: 0
