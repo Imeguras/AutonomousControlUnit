@@ -264,7 +264,7 @@
       <property id="module.azure.nxd_mqtt_client.mqtt_stack_size" value="4096"/>
       <property id="module.azure.nxd_mqtt_client.mqtt_client_priority" value="2"/>
     </module>
-    <module id="module.driver.can_on_can.1827816203">
+    <module id="module.driver.can_on_can.1296598749">
       <property id="module.driver.can.name" value="g_can0"/>
       <property id="module.driver.can.channel" value="0"/>
       <property id="module.driver.can.clock_source" value="module.driver.can.clock_source.canmclk"/>
@@ -429,7 +429,6 @@
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.middleware.rm_threadx_port.0"/>
-      <stack module="module.driver.can_on_can.1827816203"/>
     </context>
     <context id="rtos.threadx.thread.1749503709">
       <property id="_symbol" value="new_thread0"/>
@@ -450,6 +449,7 @@
         </stack>
         <stack module="module.azure.nxd.packet_pool.1697603583" requires="module.azure.nxd_mqtt_client.requires.nxd.packet_pool"/>
       </stack>
+      <stack module="module.driver.can_on_can.1296598749"/>
     </context>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>

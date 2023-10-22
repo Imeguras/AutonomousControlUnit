@@ -4,10 +4,7 @@ FSP_CPP_HEADER
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
 FSP_CPP_FOOTER
 
-/* Callback function */
-void can_callback(can_callback_args_t *p_args){
 
-}
 
 /*******************************************************************************************************************/ 
 /**

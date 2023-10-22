@@ -3,33 +3,36 @@
 #include "EthDuo.h"
 #include "CanRen.h"
 #include <string.h>
-//#include "CanRen.h"
+#include <functional>
+HighSpeed_AbsL<CanRen> * can_ptr;
+
 extern bsp_leds_t g_bsp_leds;
 
 /* New Thread entry function */
 void new_thread0_entry(void) {
 	//
 	//HighSpeed_AbsL<EthDuo> ethernet;
-	//auto k = ethernet.g_AplHandle();
 	HighSpeed_AbsL<CanRen> can;
-	//auto f = can.g_AplHandle();
-
-
-	//CanRen can;
-	//CanRen canRen;
+	can_ptr=&can;
 
 	st_can_frame blah;
 	blah.id = 0x41;
+	uint64_t data= 0x1100220033004400;
 
+	blah.type = CAN_FRAME_TYPE_DATA;
+	blah.data_length_code = 8;
 	blah.id_mode =CAN_ID_MODE_STANDARD;
-	blah.data[0]=0xAA;
-	blah.data[1]=0x11;
-	can->write((void *)&blah, blah.data_length_code);
-	R_BSP_SoftwareDelay(10,BSP_DELAY_UNITS_SECONDS);
+
+	memcpy(blah.data,(void *) &data, sizeof(data));
+
+
+	UINT k =can->write((void *)&blah, blah.data_length_code);
+
+	//R_BSP_SoftwareDelay(10,BSP_DELAY_UNITS_SECONDS);
 			//can.write((void *)&blah, 0);
 		//	acu.g_AplHandle();
-	UINT k = can->write((void *)&blah, blah.data_length_code);
-    k +=1;
+	 //can->write((void *)&blah, blah.data_length_code);
+    //k +=1;
 	//R_BSP_SoftwareDelay(10,BSP_DELAY_UNITS_SECONDS);
     /* LED type structure */
     bsp_leds_t leds = g_bsp_leds;
@@ -79,4 +82,8 @@ void new_thread0_entry(void) {
 
         tx_thread_sleep(TX_TIMER_TICKS_PER_SECOND);
     }
+}
+/* Callback function */
+void can_callback(can_callback_args_t *p_args){
+	(*can_ptr)->can_callback(p_args);
 }
