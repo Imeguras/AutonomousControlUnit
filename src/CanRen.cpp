@@ -37,6 +37,8 @@ int CanRen::initialization(){
 	        	this->available_can_mailboxes_tx.push_back(i);
 	        }
 	}
+	//this->error_counter += R_CAN_CallbackSet(&g_can0_ctrl, &can_callback, g_can0_cfg.p_context, g_can0_ctrl.p_callback_memory);
+
 	return this->error_counter;
 }
 /**
@@ -92,6 +94,7 @@ void CanRen::can_callback(can_callback_args_t *p_args){
             //b_can_rx = true;
         	can_frame_t temp;
             memcpy(&temp, &p_args->frame, sizeof(can_frame_t));  //copy the received data to rx_frame
+            this->buffered_mails_rx.push_back(temp);
             break;
 
         case CAN_EVENT_MAILBOX_MESSAGE_LOST:    //overwrite/overrun error event
