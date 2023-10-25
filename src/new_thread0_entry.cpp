@@ -22,8 +22,17 @@ void new_thread0_entry(void) {
 	blah.id = 0x41;
 
 	blah.id_mode =CAN_ID_MODE_STANDARD;
+	blah.type = CAN_FRAME_TYPE_DATA;
+	blah.data_length_code = 8;
 	blah.data[0]=0xAA;
 	blah.data[1]=0x11;
+	blah.data[2]=0x11;
+	blah.data[3]=0x11;
+	blah.data[4]=0x11;
+	blah.data[5]=0x11;
+	blah.data[6]=0x11;
+	blah.data[7]=0x11;
+
 	can->write((void *)&blah, blah.data_length_code);
 	R_BSP_SoftwareDelay(10,BSP_DELAY_UNITS_SECONDS);
 			//can.write((void *)&blah, 0);
