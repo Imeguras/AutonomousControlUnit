@@ -415,16 +415,16 @@
       <property id="module.driver.can.mailbox31_frame_type" value="module.driver.can.mailbox31_frame_type.data"/>
       <property id="module.driver.can.rxfifo_id1.mask" value="0x1FFFFFFF"/>
       <property id="module.driver.can.rxfifo_id2.mask" value="0x1FFFFFFF"/>
-      <property id="module.driver.can.mailbox_0_to_3_group_mask" value="0x1FFFFFFF"/>
-      <property id="module.driver.can.mailbox_4_to_7_group_mask" value="0x1FFFFFFF"/>
-      <property id="module.driver.can.mailbox_8_to_11_group_mask" value="0x1FFFFFFF"/>
-      <property id="module.driver.can.mailbox_12_to_15_group_mask" value="0x1FFFFFFF"/>
-      <property id="module.driver.can.mailbox_16_to_19_group_mask" value="0x1FFFFFFF"/>
-      <property id="module.driver.can.mailbox_20_to_23_group_mask" value="0x1FFFFFFF"/>
-      <property id="module.driver.can.mailbox_24_to_27_group_mask" value="0x1FFFFFFF"/>
-      <property id="module.driver.can.mailbox_28_to_31_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_0_to_3_group_mask" value="0x7ff"/>
+      <property id="module.driver.can.mailbox_4_to_7_group_mask" value="0x7ff"/>
+      <property id="module.driver.can.mailbox_8_to_11_group_mask" value="0x7ff"/>
+      <property id="module.driver.can.mailbox_12_to_15_group_mask" value="0x7ff"/>
+      <property id="module.driver.can.mailbox_16_to_19_group_mask" value="0x7ff"/>
+      <property id="module.driver.can.mailbox_20_to_23_group_mask" value="0x7FF"/>
+      <property id="module.driver.can.mailbox_24_to_27_group_mask" value="0x7FF"/>
+      <property id="module.driver.can.mailbox_28_to_31_group_mask" value="0x7FF"/>
       <property id="module.driver.can.ipl" value="board.icu.common.irq.priority12"/>
-      <property id="module.driver.can.txfifo_int_mode" value="module.driver.can.txfifo_int_mode.every_frame"/>
+      <property id="module.driver.can.txfifo_int_mode" value="module.driver.can.txfifo_int_mode.empty"/>
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
@@ -456,7 +456,7 @@
     </config>
     <config id="config.driver.can">
       <property id="config.driver.can.param_checking_enable" value="config.driver.can.param_checking_enable.bsp"/>
-      <property id="config.driver.can.fifo_support" value="config.driver.can.fifo_support.enabled"/>
+      <property id="config.driver.can.fifo_support" value="config.driver.can.fifo_support.disabled"/>
     </config>
     <config id="config.driver.ether">
       <property id="config.driver.ether.param_checking_enable" value="config.driver.ether.param_checking_enable.bsp"/>

@@ -1954,7 +1954,7 @@ FSP Configuration
     
   Module "CAN (r_can)"
     Parameter Checking: Default (BSP)
-    FIFO Support: Enabled
+    FIFO Support: Disabled
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
@@ -2221,14 +2221,14 @@ FSP Configuration
       Input: Mailbox 28-31 Group: Mailbox Frame Type: Mailbox 31 Frame Type: Data Mailbox
       Input: Receive FIFO: Receive ID 1: Mask: 0x1FFFFFFF
       Input: Receive FIFO: Receive ID 2: Mask: 0x1FFFFFFF
-      Input: Mailbox 0-3 Group: Mailbox 0-3 Group Mask: 0x1FFFFFFF
-      Input: Mailbox 4-7 Group: Mailbox 4-7 Group Mask: 0x1FFFFFFF
-      Input: Mailbox 8-11 Group: Mailbox 8-11 Group Mask: 0x1FFFFFFF
-      Input: Mailbox 12-15 Group: Mailbox 12-15 Group Mask: 0x1FFFFFFF
-      Input: Mailbox 16-19 Group: Mailbox 16-19 Group Mask: 0x1FFFFFFF
-      Input: Mailbox 20-23 Group: Mailbox 20-23 Group Mask: 0x1FFFFFFF
-      Input: Mailbox 24-27 Group: Mailbox 24-27 Group Mask: 0x1FFFFFFF
-      Input: Mailbox 28-31 Group: Mailbox 28-31 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 0-3 Group: Mailbox 0-3 Group Mask: 0x7ff
+      Input: Mailbox 4-7 Group: Mailbox 4-7 Group Mask: 0x7ff
+      Input: Mailbox 8-11 Group: Mailbox 8-11 Group Mask: 0x7ff
+      Input: Mailbox 12-15 Group: Mailbox 12-15 Group Mask: 0x7ff
+      Input: Mailbox 16-19 Group: Mailbox 16-19 Group Mask: 0x7ff
+      Input: Mailbox 20-23 Group: Mailbox 20-23 Group Mask: 0x7FF
+      Input: Mailbox 24-27 Group: Mailbox 24-27 Group Mask: 0x7FF
+      Input: Mailbox 28-31 Group: Mailbox 28-31 Group Mask: 0x7FF
       Interrupts: Interrupt Priority Level: Priority 12
-      Interrupts: Transmit FIFO Interrupt Mode: Every Message
+      Interrupts: Transmit FIFO Interrupt Mode: Empty
       
