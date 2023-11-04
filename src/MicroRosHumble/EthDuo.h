@@ -20,9 +20,12 @@ class EthDuo : AbstractPeripheralLayer {
 		  int initialization() override;
 		  void* recv(void * data, uint32_t stream_size) override;
 		  uint32_t	write(void *data, uint32_t stream_size) override;
-
+		  UINT error_counter=0;
 	protected:
-
+		  /* Stack memory for g_ip0. */
+		  NX_PACKET_POOL g_packet_pool0;
+		  /* IP instance */
+		  NX_IP g_ip0;
 		  /* Stack memory for g_ip0. */
 		  void g_ip0_quick_setup();
 		  void g_packet_pool0_quick_setup();

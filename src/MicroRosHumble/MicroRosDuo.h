@@ -41,6 +41,7 @@ public:
 	bool _transport_close(struct uxrCustomTransport * transport);
 	size_t _transport_read(struct uxrCustomTransport* transport, uint8_t* buf, size_t len, int timeout, uint8_t* err);
 	size_t _transport_write(struct uxrCustomTransport* transport, const uint8_t * buf, size_t len, uint8_t * err);
+	UINT error_counter=0;
 protected:
 	NX_UDP_SOCKET socket;
 	custom_transport_args remote_addr;

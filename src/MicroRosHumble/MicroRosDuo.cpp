@@ -44,7 +44,8 @@ MicroRosDuo::MicroRosDuo() {
 
 	RosIntanceSingleton::getInstance().setHandle(this);
 	this->remote_addr =  custom_transport_args{
-							   .agent_ip_address=IP_ADDRESS(192,168,0,104),
+
+							   .agent_ip_address=IP_ADDRESS(172,17,0,1),
 							   .agent_port=8888
 							};
 				auto ret = rmw_uros_set_custom_transport(
@@ -54,7 +55,7 @@ MicroRosDuo::MicroRosDuo() {
 						   RosIntanceSingleton::getInstance().handle_close,
 						   RosIntanceSingleton::getInstance().handle_write,
 						   RosIntanceSingleton::getInstance().handle_read);
-	this->_transport_open(nullptr);
+	//this->_transport_open(nullptr);
 
 }
 
@@ -71,10 +72,9 @@ bool MicroRosDuo::_transport_open(struct uxrCustomTransport * transport){
     	// TODO: SD CARD LOG FAILURE
     	return false;
     }
-    /*NX_IP ip;
 
 
-    UINT status = nx_udp_socket_create(&ip, &socket, (CHAR *)"Micro socket", NX_IP_NORMAL, NX_DONT_FRAGMENT, NX_IP_TIME_TO_LIVE, SOCKET_FIFO_SIZE);
+    UINT status = nx_udp_socket_create(&g_ip0, &socket, (CHAR *)"Micro socket", NX_IP_NORMAL, NX_DONT_FRAGMENT, NX_IP_TIME_TO_LIVE, SOCKET_FIFO_SIZE);
 
   /*TODO: FIGURE OUT QOS
    *   if(NX_SUCCESS != status)
@@ -84,21 +84,21 @@ bool MicroRosDuo::_transport_open(struct uxrCustomTransport * transport){
 
     // Find first avaliable udp port and bind socket.
     UINT port;
-    /*status += nx_udp_free_port_find(&ip, 1, &port);
+    status += nx_udp_free_port_find(&g_ip0, 1, &port);
     /*TODO: FIGURE OUT QOS
     if(NX_SUCCESS != status)
     {
         return false;
     }
     */
-    /* status += nx_udp_socket_bind(&socket, port, TX_NO_WAIT);
+    status += nx_udp_socket_bind(&socket, port, TX_NO_WAIT);
     /*TODO: FIGURE OUT QOS
     if(NX_SUCCESS != status)
     {
         return false;
     }
     */
-   //this->error_counter+=status;
+   this->error_counter+=status;
     return true;
 }
 

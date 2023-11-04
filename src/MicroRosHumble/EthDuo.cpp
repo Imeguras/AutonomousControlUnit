@@ -8,10 +8,7 @@
 #include "EthDuo.h"
 
 
-  /* Stack memory for g_ip0. */
-  NX_PACKET_POOL g_packet_pool0;
-/* IP instance */
-NX_IP g_ip0;
+
   /* ARP cache memory for g_ip0. */
   uint8_t g_ip0_arp_cache_memory [G_IP0_ARP_CACHE_SIZE] __attribute__((aligned(4)));
   uint8_t g_ip0_stack_memory  [G_IP0_TASK_STACK_SIZE]  __attribute__ ((aligned(8), section(".stack.g_ip0")));

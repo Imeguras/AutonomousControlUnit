@@ -17,8 +17,10 @@ static volatile bool t;
 /* New Thread entry function */
 void high_speed_interface_thread0_entry(void) {
 
-	HighSpeed_AbsL<EthDuo> ros;
+	HighSpeed_AbsL<MicroRosDuo> ros;
+
 	volatile UINT k=0;
+	k=ros->error_counter;
 	/*
 	rcl_allocator_t allocator = rcl_get_default_allocator();
 	rclc_support_t support;
