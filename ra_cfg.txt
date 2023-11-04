@@ -53,7 +53,7 @@ FSP Configuration
     ID Code (32 Hex Characters): FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
     
   RA Common
-    Main stack size (bytes): 0x1000
+    Main stack size (bytes): 0x2000
     Heap size (bytes): 0x8000
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
@@ -1952,6 +1952,11 @@ FSP Configuration
     Common: Interface Capability: Disable
     Azure IoT: Defender Security Module: Disable
     
+  Module "Timer, Low-Power (r_agt)"
+    Parameter Checking: Default (BSP)
+    Pin Output Support: Disabled
+    Pin Input Support: Disabled
+    
   Module "CAN (r_can)"
     Parameter Checking: Default (BSP)
     FIFO Support: Disabled
@@ -1959,7 +1964,7 @@ FSP Configuration
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
     General: Error Checking: Enabled
-    Timer: Timer Ticks Per Second: 100
+    Timer: Timer Ticks Per Second: 1000
     General: Max Priorities: 32
     General: Minimum Stack: 200
     Timer: Timer Thread Stack Size: 1024
@@ -2002,74 +2007,91 @@ FSP Configuration
       Pin Configuration Name: g_bsp_pin_cfg
       
     Instance "Azure RTOS ThreadX Port (rm_threadx_port)"
-  Thread "New Thread"
-    Symbol: new_thread0
-    Name: New Thread
+    Instance "g_timer0 Timer, Low-Power (r_agt)"
+      General: Name: g_timer0
+      General: Counter Bit Width: AGT 16-bit
+      General: Channel: 0
+      General: Mode: Periodic
+      General: Period: 100
+      General: Period Unit: Raw Counts
+      Output: Duty Cycle Percent (only applicable in PWM mode): 50
+      General: Count Source: PCLKB
+      Output: AGTOA Output: Disabled
+      Output: AGTOB Output: Disabled
+      Output: AGTO Output: Disabled
+      Input: Measurement Mode: Measure Disabled
+      Input: Input Filter: No Filter
+      Input: Enable Pin: Enable Pin Not Used
+      Input: Trigger Edge: Trigger Edge Rising
+      Interrupts: Callback: micro_ros_timer_cb
+      Interrupts: Underflow Interrupt Priority: Priority 12
+      
+  Thread "High Speed Interface"
+    Symbol: high_speed_interface_thread0
+    Name: High Speed Interface
     Stack size (bytes): 0x8000
     Priority: 1
     Auto start: Enabled
     Time slicing interval (ticks): 1
     
-    Instance "g_mqtt_client0 Azure RTOS NetX Duo MQTT Client"
-      Name: g_mqtt_client0
-      Client Thread Stack Size: 4096
-      Client thread priority: 2
+    Instance "g_ip0 Azure RTOS NetX Duo IP Instance"
+      Name: g_ip0
+      IPv4 Address: 192.168.0.2
+      Subnet Mask: 255.255.255.0
+      Default Gateway Address: 192.168.0.1
+      IPv6 Global Address: 2001:0:0:0:0:0:0:1
+      IPv6 Link Local Address (All zeros means use MAC address): 0:0:0:0:0:0:0:0
+      IP Helper Thread Stack Size (bytes): 2048
+      IP Helper Thread Priority: 3
+      ARP cache storage units: Bytes
+          ARP cache size (in storage units): 520
       
-      Instance "g_ip0 Azure RTOS NetX Duo IP Instance"
-        Name: g_ip0
-        IPv4 Address: 192.168.0.2
-        Subnet Mask: 255.255.255.0
-        Default Gateway Address: 192.168.0.1
-        IPv6 Global Address: 2001:0:0:0:0:0:0:1
-        IPv6 Link Local Address (All zeros means use MAC address): 0:0:0:0:0:0:0:0
-        IP Helper Thread Stack Size (bytes): 2048
-        IP Helper Thread Priority: 3
-        ARP cache storage units: Bytes
-            ARP cache size (in storage units): 520
-        
-        Instance "g_packet_pool0 Azure RTOS NetX Duo Packet Pool Instance"
-          Name: g_packet_pool0
-          Packet Size (bytes): 1568
-          Number of Packets in Pool: 16
-          
-        Instance "NetX Duo Ethernet Driver (rm_netxduo_ether)"
-          Name: g_netxduo_ether_0
-          IP MTU: 1500
-          
-          Instance "g_ether0 Ethernet (r_ether)"
-            General: Name: g_ether0
-            General: Channel: 0
-            General: MAC address: 00:91:EB:00:00:00
-            General: Zero-copy Mode: Enable
-            General: Flow control functionality: Disable
-            Filters: Multicast Mode: Enable
-            Filters: Promiscuous Mode: Disable
-            Filters: Broadcast filter: 0
-            Buffers: Number of TX buffer: 4
-            Buffers: Number of RX buffer: 4
-            Buffers: Allocate RX buffer: Disable
-            Buffers: Buffer size: 1514
-            Buffers: Padding size: 2 Bytes
-            Buffers: Padding offset: 14
-            Interrupts: Interrupt priority: Priority 12
-            Interrupts: Callback: rm_netxduo_ether_callback
-            
-            Instance "g_ether_phy0 Ethernet (r_ether_phy)"
-              Name: g_ether_phy0
-              Channel: 0
-              PHY-LSI Address: 0
-              PHY-LSI Reset Completion Timeout: 0x00020000
-              Select MII type: RMII
-              Phy LSI type: Kit Component
-              MII/RMII Register Access Wait-time: 8
-              Flow Control: Disable
-              
-          Instance "Azure RTOS NetX Duo Common"
       Instance "g_packet_pool0 Azure RTOS NetX Duo Packet Pool Instance"
         Name: g_packet_pool0
         Packet Size (bytes): 1568
         Number of Packets in Pool: 16
         
+      Instance "NetX Duo Ethernet Driver (rm_netxduo_ether)"
+        Name: g_netxduo_ether_0
+        IP MTU: 1500
+        
+        Instance "g_ether0 Ethernet (r_ether)"
+          General: Name: g_ether0
+          General: Channel: 0
+          General: MAC address: 00:91:EB:00:00:00
+          General: Zero-copy Mode: Enable
+          General: Flow control functionality: Disable
+          Filters: Multicast Mode: Enable
+          Filters: Promiscuous Mode: Disable
+          Filters: Broadcast filter: 0
+          Buffers: Number of TX buffer: 4
+          Buffers: Number of RX buffer: 4
+          Buffers: Allocate RX buffer: Disable
+          Buffers: Buffer size: 1514
+          Buffers: Padding size: 2 Bytes
+          Buffers: Padding offset: 14
+          Interrupts: Interrupt priority: Priority 12
+          Interrupts: Callback: rm_netxduo_ether_callback
+          
+          Instance "g_ether_phy0 Ethernet (r_ether_phy)"
+            Name: g_ether_phy0
+            Channel: 0
+            PHY-LSI Address: 0
+            PHY-LSI Reset Completion Timeout: 0x00020000
+            Select MII type: RMII
+            Phy LSI type: Kit Component
+            MII/RMII Register Access Wait-time: 8
+            Flow Control: Disable
+            
+        Instance "Azure RTOS NetX Duo Common"
+  Thread "Low Speed Interface Thread0"
+    Symbol: low_speed_interface_thread0
+    Name: Low Speed Interface Thread0
+    Stack size (bytes): 5000
+    Priority: 1
+    Auto start: Enabled
+    Time slicing interval (ticks): 1
+    
     Instance "g_can0 CAN (r_can)"
       General: Name: g_can0
       General: Channel: 0
@@ -2084,7 +2106,7 @@ FSP Configuration
       Interrupts: Callback: can_callback
       General: Overwrite/Overrrun Mode: Overwrite Mode
       General: Global ID Mode: Standard ID Mode
-      General: Number of Mailboxes: 24 Mailboxes
+      General: Number of Mailboxes: 32 Mailboxes
       Input: Receive FIFO: Receive ID 1: ID: 0
       Input: Receive FIFO: Receive ID 2: ID: 0
       Input: Mailbox 0-3 Group: Mailbox ID: Mailbox 0 ID: 0
@@ -2221,14 +2243,14 @@ FSP Configuration
       Input: Mailbox 28-31 Group: Mailbox Frame Type: Mailbox 31 Frame Type: Data Mailbox
       Input: Receive FIFO: Receive ID 1: Mask: 0x1FFFFFFF
       Input: Receive FIFO: Receive ID 2: Mask: 0x1FFFFFFF
-      Input: Mailbox 0-3 Group: Mailbox 0-3 Group Mask: 0x7ff
-      Input: Mailbox 4-7 Group: Mailbox 4-7 Group Mask: 0x7ff
-      Input: Mailbox 8-11 Group: Mailbox 8-11 Group Mask: 0x7ff
-      Input: Mailbox 12-15 Group: Mailbox 12-15 Group Mask: 0x7ff
-      Input: Mailbox 16-19 Group: Mailbox 16-19 Group Mask: 0x7ff
-      Input: Mailbox 20-23 Group: Mailbox 20-23 Group Mask: 0x7FF
-      Input: Mailbox 24-27 Group: Mailbox 24-27 Group Mask: 0x7FF
-      Input: Mailbox 28-31 Group: Mailbox 28-31 Group Mask: 0x7FF
+      Input: Mailbox 0-3 Group: Mailbox 0-3 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 4-7 Group: Mailbox 4-7 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 8-11 Group: Mailbox 8-11 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 12-15 Group: Mailbox 12-15 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 16-19 Group: Mailbox 16-19 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 20-23 Group: Mailbox 20-23 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 24-27 Group: Mailbox 24-27 Group Mask: 0x1FFFFFFF
+      Input: Mailbox 28-31 Group: Mailbox 28-31 Group Mask: 0x1FFFFFFF
       Interrupts: Interrupt Priority Level: Priority 12
-      Interrupts: Transmit FIFO Interrupt Mode: Empty
+      Interrupts: Transmit FIFO Interrupt Mode: Every Message
       

@@ -86,7 +86,7 @@
       <property id="config.bsp.common.id_fixed" value=""/>
     </config>
     <config id="config.bsp.ra">
-      <property id="config.bsp.common.main" value="0x1000"/>
+      <property id="config.bsp.common.main" value="0x2000"/>
       <property id="config.bsp.common.heap" value="0x8000"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
@@ -196,6 +196,10 @@
       <description>Controller Area Network</description>
       <originalPack>Renesas.RA.4.5.0.pack</originalPack>
     </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_agt" variant="" vendor="Renesas" version="4.5.0">
+      <description>Asynchronous General Purpose Timer</description>
+      <originalPack>Renesas.RA.4.5.0.pack</originalPack>
+    </component>
   </raComponentSelection>
   <raElcConfiguration/>
   <raIcuConfiguration/>
@@ -264,7 +268,26 @@
       <property id="module.azure.nxd_mqtt_client.mqtt_stack_size" value="4096"/>
       <property id="module.azure.nxd_mqtt_client.mqtt_client_priority" value="2"/>
     </module>
-    <module id="module.driver.can_on_can.1296598749">
+    <module id="module.driver.timer_on_agt.737432725">
+      <property id="module.driver.timer.name" value="g_timer0"/>
+      <property id="module.driver.timer.bit_width" value="module.driver.timer.bit_width.16"/>
+      <property id="module.driver.timer.channel" value="0"/>
+      <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_periodic"/>
+      <property id="module.driver.timer.period" value="100"/>
+      <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_raw_counts"/>
+      <property id="module.driver.timer.duty_cycle" value="50"/>
+      <property id="module.driver.timer.count_source" value="module.driver.timer.count_source.clock_pclkb"/>
+      <property id="module.driver.timer.agtoa_output_enable" value="module.driver.timer.agtoa_output_enable.false"/>
+      <property id="module.driver.timer.agtob_output_enable" value="module.driver.timer.agtob_output_enable.false"/>
+      <property id="module.driver.timer.agto_output_enable" value="module.driver.timer.agto_output_enable.false"/>
+      <property id="module.driver.timer.measurement_mode" value="module.driver.timer.measurement_mode.measure_disabled"/>
+      <property id="module.driver.timer.agtio_filter" value="module.driver.timer.agtio_filter.agtio_filter_none"/>
+      <property id="module.driver.timer.enable_pin" value="module.driver.timer.enable_pin.enable_pin_not_used"/>
+      <property id="module.driver.timer.trigger_edge" value="module.driver.timer.trigger_edge.trigger_edge_rising"/>
+      <property id="module.driver.timer.p_callback" value="micro_ros_timer_cb"/>
+      <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority12"/>
+    </module>
+    <module id="module.driver.can_on_can.1447135699">
       <property id="module.driver.can.name" value="g_can0"/>
       <property id="module.driver.can.channel" value="0"/>
       <property id="module.driver.can.clock_source" value="module.driver.can.clock_source.canmclk"/>
@@ -278,7 +301,7 @@
       <property id="module.driver.can.p_callback" value="can_callback"/>
       <property id="module.driver.can.message_mode" value="module.driver.can.message_mode.overwrite"/>
       <property id="module.driver.can.global_id_mode" value="module.driver.can.global_id_mode.standard"/>
-      <property id="module.driver.can.mailbox_count" value="module.driver.can.mailbox_count.24"/>
+      <property id="module.driver.can.mailbox_count" value="module.driver.can.mailbox_count.32"/>
       <property id="module.driver.can.rxfifo_id1.id" value="0"/>
       <property id="module.driver.can.rxfifo_id2.id" value="0"/>
       <property id="module.driver.can.mailbox0_id" value="0"/>
@@ -415,41 +438,47 @@
       <property id="module.driver.can.mailbox31_frame_type" value="module.driver.can.mailbox31_frame_type.data"/>
       <property id="module.driver.can.rxfifo_id1.mask" value="0x1FFFFFFF"/>
       <property id="module.driver.can.rxfifo_id2.mask" value="0x1FFFFFFF"/>
-      <property id="module.driver.can.mailbox_0_to_3_group_mask" value="0x7ff"/>
-      <property id="module.driver.can.mailbox_4_to_7_group_mask" value="0x7ff"/>
-      <property id="module.driver.can.mailbox_8_to_11_group_mask" value="0x7ff"/>
-      <property id="module.driver.can.mailbox_12_to_15_group_mask" value="0x7ff"/>
-      <property id="module.driver.can.mailbox_16_to_19_group_mask" value="0x7ff"/>
-      <property id="module.driver.can.mailbox_20_to_23_group_mask" value="0x7FF"/>
-      <property id="module.driver.can.mailbox_24_to_27_group_mask" value="0x7FF"/>
-      <property id="module.driver.can.mailbox_28_to_31_group_mask" value="0x7FF"/>
+      <property id="module.driver.can.mailbox_0_to_3_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_4_to_7_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_8_to_11_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_12_to_15_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_16_to_19_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_20_to_23_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_24_to_27_group_mask" value="0x1FFFFFFF"/>
+      <property id="module.driver.can.mailbox_28_to_31_group_mask" value="0x1FFFFFFF"/>
       <property id="module.driver.can.ipl" value="board.icu.common.irq.priority12"/>
-      <property id="module.driver.can.txfifo_int_mode" value="module.driver.can.txfifo_int_mode.empty"/>
+      <property id="module.driver.can.txfifo_int_mode" value="module.driver.can.txfifo_int_mode.every_frame"/>
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.middleware.rm_threadx_port.0"/>
+      <stack module="module.driver.timer_on_agt.737432725"/>
     </context>
     <context id="rtos.threadx.thread.1749503709">
-      <property id="_symbol" value="new_thread0"/>
-      <property id="rtos.threadx.thread.name" value="New Thread"/>
+      <property id="_symbol" value="high_speed_interface_thread0"/>
+      <property id="rtos.threadx.thread.name" value="High Speed Interface"/>
       <property id="rtos.threadx.thread.stack" value="0x8000"/>
       <property id="rtos.threadx.thread.priority" value="1"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
-      <stack module="module.azure.nxd_mqtt_client.1602620083">
-        <stack module="module.azure.nxd.ip.586674585" requires="module.azure.nxd_mqtt_client.requires.nxd.ip">
-          <stack module="module.azure.nxd.packet_pool.1697603583" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
-          <stack module="module.middleware.rm_netxduo_ether.1082684170" requires="module.azure.nxd.ip.requires.nxd.driver">
-            <stack module="module.driver.ether_on_ether.2118392342" requires="module.middleware.rm_netxduo_ether.requires.ether">
-              <stack module="module.driver.ether_phy_on_ether_phy.491120842" requires="module.driver.ether.requires.ether_phy"/>
-            </stack>
-            <stack module="module.azure.nxd.common.1708851115" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
+      <stack module="module.azure.nxd.ip.586674585">
+        <stack module="module.azure.nxd.packet_pool.1697603583" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
+        <stack module="module.middleware.rm_netxduo_ether.1082684170" requires="module.azure.nxd.ip.requires.nxd.driver">
+          <stack module="module.driver.ether_on_ether.2118392342" requires="module.middleware.rm_netxduo_ether.requires.ether">
+            <stack module="module.driver.ether_phy_on_ether_phy.491120842" requires="module.driver.ether.requires.ether_phy"/>
           </stack>
+          <stack module="module.azure.nxd.common.1708851115" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
         </stack>
-        <stack module="module.azure.nxd.packet_pool.1697603583" requires="module.azure.nxd_mqtt_client.requires.nxd.packet_pool"/>
       </stack>
-      <stack module="module.driver.can_on_can.1296598749"/>
+    </context>
+    <context id="rtos.threadx.thread.903848035">
+      <property id="_symbol" value="low_speed_interface_thread0"/>
+      <property id="rtos.threadx.thread.name" value="Low Speed Interface Thread0"/>
+      <property id="rtos.threadx.thread.stack" value="5000"/>
+      <property id="rtos.threadx.thread.priority" value="1"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
+      <property id="rtos.threadx.thread.timeslice" value="1"/>
+      <stack module="module.driver.can_on_can.1447135699"/>
     </context>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
@@ -457,6 +486,11 @@
     <config id="config.driver.can">
       <property id="config.driver.can.param_checking_enable" value="config.driver.can.param_checking_enable.bsp"/>
       <property id="config.driver.can.fifo_support" value="config.driver.can.fifo_support.disabled"/>
+    </config>
+    <config id="config.driver.agt">
+      <property id="config.driver.agt.param_checking_enable" value="config.driver.agt.param_checking_enable.bsp"/>
+      <property id="config.driver.agt.output_support_enable" value="config.driver.agt.output_support_enable.disabled"/>
+      <property id="config.driver.agt.input_support_enable" value="config.driver.agt.input_support_enable.disabled"/>
     </config>
     <config id="config.driver.ether">
       <property id="config.driver.ether.param_checking_enable" value="config.driver.ether.param_checking_enable.bsp"/>
@@ -847,7 +881,7 @@
     <config id="config.threadx.thread">
       <property id="config.azure.tx.custom_tx_user" value=""/>
       <property id="config.azure.tx.error_checking" value="config.azure.tx.error_checking.enabled"/>
-      <property id="config.azure.tx.timer_ticks_per_second" value="100"/>
+      <property id="config.azure.tx.timer_ticks_per_second" value="1000"/>
       <property id="config.azure.tx.max_priorities" value="32"/>
       <property id="config.azure.tx.minimum_stack" value="200"/>
       <property id="config.azure.tx.timer_thread_stack_size" value="1024"/>

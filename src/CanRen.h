@@ -4,9 +4,9 @@
  *  Created on: 09/10/2023
  *      Author: micron
  */
+#include "low_speed_interface_thread0.h"
 #include <list>
 #include "AbstractPeripheralLayer.cpp"
-#include "new_thread0.h"
 #include "bsp_api.h"
 #include "common_data.h"
 #define CANREN_LOOPBACK_TIMEOUT 200

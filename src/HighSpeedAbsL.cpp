@@ -4,7 +4,7 @@
  *  Created on: 07/10/2023
  *      Author: micron
  */
-#include "EthDuo.h"
+#include "MicroRosHumble/EthDuo.h"
 #include "HighSpeedAbsL.h"
 
 template<typename APL>
