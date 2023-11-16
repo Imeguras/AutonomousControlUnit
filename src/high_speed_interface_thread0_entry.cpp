@@ -5,7 +5,6 @@
 #include "HighSpeedAbsL.cpp"
 #include "MicroRosHumble/EthDuo.h"
 #include "MicroRosHumble/MicroRosDuo.h"
-#include "CanRen.h"
 #include <string.h>
 #include <functional>
 #include <rclc/rclc.h>
@@ -17,8 +16,10 @@ static volatile bool t;
 /* New Thread entry function */
 void high_speed_interface_thread0_entry(void) {
 
-	HighSpeed_AbsL<MicroRosDuo> ros;
+	HighSpeed_AbsL<EthDuo> ros;
+	auto k = ros->initialization();
 
+/*
 	volatile UINT k=0;
 	k=ros->error_counter;
 
@@ -62,16 +63,15 @@ void high_speed_interface_thread0_entry(void) {
 
 
 
-          /* Protect PFS registers */
-	//  R_BSP_PinAccessDisable();
+
+	R_BSP_PinAccessDisable();
     while (1){
         /* Enable access to the PFS registers. If using r_ioport module then register protection is automatically
          * handled. This code uses BSP IO functions to show how it is used.
          */
-    	rcl_publish(&publisher, &msg, NULL); // @suppress("Return value not evaluated")
-    	msg.data++;
+    	//rcl_publish(&publisher, &msg, NULL); // @suppress("Return value not evaluated")
+    	//msg.data++;
     	R_BSP_SoftwareDelay(1,BSP_DELAY_UNITS_SECONDS);
-        /* Toggle level for next write */
-        tx_thread_sleep(TX_TIMER_TICKS_PER_SECOND);
-    }
+		}
+
 }

@@ -25,10 +25,10 @@ HighSpeed_AbsL<APL>::HighSpeed_AbsL() {
 	    if (auto locked = weak.lock()) {
             this->apl_handle->initialization();
 
-	    } else {
+	    }/* else {
 	    	//TODO define a way for debugging
 	    	std::cout << "Object has been destroyed." << std::endl;
-	    }
+	    }*/
 }
 
 template<typename APL> HighSpeed_AbsL<APL>::~HighSpeed_AbsL() {

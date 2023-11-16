@@ -254,7 +254,7 @@
     <module id="module.driver.ether_on_ether.2118392342">
       <property id="module.driver.ether.name" value="g_ether0"/>
       <property id="module.driver.ether.channel" value="module.driver.ether.channel.0"/>
-      <property id="module.driver.ether.mac_address" value="00:91:EB:00:00:00"/>
+      <property id="module.driver.ether.mac_address" value="74:90:50:10:89:0F"/>
       <property id="module.driver.ether.zerocopy" value="module.driver.ether.zerocopy.0"/>
       <property id="module.driver.ether.flow_control" value="module.driver.ether.flow_control.0"/>
       <property id="module.driver.ether.multicast" value="module.driver.ether.multicast.1"/>
@@ -334,7 +334,7 @@
     <context id="rtos.threadx.thread.1749503709">
       <property id="_symbol" value="high_speed_interface_thread0"/>
       <property id="rtos.threadx.thread.name" value="High Speed Interface"/>
-      <property id="rtos.threadx.thread.stack" value="0x8000"/>
+      <property id="rtos.threadx.thread.stack" value="5000"/>
       <property id="rtos.threadx.thread.priority" value="2"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
@@ -352,7 +352,7 @@
       <property id="_symbol" value="low_speed_interface_thread0"/>
       <property id="rtos.threadx.thread.name" value="Low Speed Interface Thread0"/>
       <property id="rtos.threadx.thread.stack" value="5000"/>
-      <property id="rtos.threadx.thread.priority" value="1"/>
+      <property id="rtos.threadx.thread.priority" value="6"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
       <stack module="module.driver.canfd_on_canfd.1030279401"/>

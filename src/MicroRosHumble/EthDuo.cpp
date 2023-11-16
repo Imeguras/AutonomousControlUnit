@@ -10,6 +10,19 @@
 
 
   /* ARP cache memory for g_ip0. */
+
+// Stack memory for g_ip0.
+/*uint8_t g_ip0_stack_memory[G_IP0_TASK_STACK_SIZE] BSP_PLACE_IN_SECTION(".stack.g_ip0") BSP_ALIGN_VARIABLE(BSP_STACK_ALIGNMENT);
+
+// ARP cache memory for g_ip0.
+uint8_t g_ip0_arp_cache_memory[G_IP0_ARP_CACHE_SIZE] BSP_ALIGN_VARIABLE(4);
+
+// Packet pool instance (If this is a Trustzone part, the memory must be placed in Non-secure memory).
+
+uint8_t g_packet_pool0_pool_memory[G_PACKET_POOL0_PACKET_NUM * (G_PACKET_POOL0_PACKET_SIZE + sizeof(NX_PACKET))] BSP_ALIGN_VARIABLE(4) ETHER_BUFFER_PLACE_IN_SECTION;
+*/
+
+
   uint8_t g_ip0_arp_cache_memory [G_IP0_ARP_CACHE_SIZE] __attribute__((aligned(4)));
   uint8_t g_ip0_stack_memory  [G_IP0_TASK_STACK_SIZE]  __attribute__ ((aligned(8), section(".stack.g_ip0")));
 #ifdef ETHER_BUFFER_PLACE_IN_SECTION
@@ -65,7 +78,7 @@ int  EthDuo::initialization(){
  */
 void EthDuo::g_ip0_quick_setup() {
 	  UINT status;
-	  ULONG current_state;
+
   /* Create the ip instance. */
   status = nx_ip_create(&g_ip0, (char *)"g_ip0 IP Instance",G_IP0_ADDRESS,
                         G_IP0_SUBNET_MASK, &g_packet_pool0,
@@ -80,10 +93,11 @@ void EthDuo::g_ip0_quick_setup() {
 
   /* Set the gateway address if it is configured. Make sure this is set if using
    * the Embedded Wireless Framework! */
- /*if (IP_ADDRESS(0, 0, 0, 0) != G_IP0_GATEWAY_ADDRESS) {
+ if (IP_ADDRESS(0, 0, 0, 0) != G_IP0_GATEWAY_ADDRESS) {
     status = nx_ip_gateway_address_set(&g_ip0, G_IP0_GATEWAY_ADDRESS);
     this->error_counter += status;
-  }*/
+  }
+
 
   status =
       nx_arp_enable(&g_ip0, &g_ip0_arp_cache_memory[0], G_IP0_ARP_CACHE_SIZE);
@@ -106,7 +120,7 @@ void EthDuo::g_ip0_quick_setup() {
   this->error_counter += status;
 
   /* Wait for the link to be enabled. */
-
+  ULONG current_state;
   status =
       nx_ip_status_check(&g_ip0, NX_IP_LINK_ENABLED, &current_state, 10000);
   this->error_counter += status;

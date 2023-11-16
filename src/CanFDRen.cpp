@@ -4,43 +4,29 @@
  *  Created on: 09/10/2023
  *      Author: micron
  */
-#ifdef BOARD_RA6M3_EK
+//#ifdef BOARD_RA6M5_EK
 #include "CanRen.h"
 
 
-CanRen::CanRen()  {
+/*
+CanFDRen::CanFDRen()  {
 
 }
 
-CanRen::~CanRen() {
-	UINT status = R_CAN_Close((can_instance_ctrl_t *) &g_can0_ctrl);
+CanFDRen::~CanFDRen() {
+	UINT status = R_CANFD_Close((can_instance_ctrl_t *) &g_can0_ctrl);
 	this->error_counter+=status;
 }
 
-int CanRen::initialization(){
+int CanFDRen::initialization(){
 	rx_ready=false;
 	tx_ready=false;
 
-	UINT status = R_CAN_Open((can_instance_ctrl_t *)&g_can0_ctrl, (can_cfg_t *)&g_can0_cfg);
+	UINT status = R_CANFD_Open((can_instance_ctrl_t *)&g_can0_ctrl, (can_cfg_t *)&g_can0_cfg);
 		//can_callback_args_t callback;
 		//status = R_CAN_CallbackSet((void *)&g_can0_ctrl, (void *)&callback, p_context, p_callback_memory);
 	this->error_counter+=status;
-
-	 auto p_extended = (can_extended_cfg_t *)g_can0_cfg.p_extend;
-	 /**
-	 * Get available tx mailbox
-	 **/
-	for (uint32_t i = 0U; i < p_extended->mailbox_count; i++){
-	        if (CAN_MAILBOX_RECEIVE ==p_extended->p_mailbox[i].mailbox_type){
-	        	this->available_can_mailboxes_rx.push_back(i);
-
-	        }
-	        if(CAN_MAILBOX_TRANSMIT ==p_extended->p_mailbox[i].mailbox_type){
-	        	this->available_can_mailboxes_tx.push_back(i);
-	        	tx_ready=true;
-
-	        }
-	}
+	tx_ready=true;
 	//this->error_counter += R_CAN_CallbackSet(&g_can0_ctrl, &can_callback, g_can0_cfg.p_context, g_can0_ctrl.p_callback_memory);
 
 	return this->error_counter;
@@ -50,7 +36,8 @@ int CanRen::initialization(){
  * @param data @b MUST be already allocated...
  * @param stream_size @b HERE stream_size means how many messages are going to be sent over data default is @b one
  */
-void* CanRen::recv(void * data, uint32_t stream_size=1){
+/*
+void* CanFDRen::recv(void * data, uint32_t stream_size=1){
 	try{
 		while(rx_ready!=true){
 			//R_BSP_SoftwareDelay(CANREN_LOOPBACK_TIMEOUT, BSP_DELAY_UNITS_MILLISECONDS);
@@ -77,7 +64,7 @@ void* CanRen::recv(void * data, uint32_t stream_size=1){
 	return (void *)data;
 
 }
-uint32_t CanRen::write(void *data, uint32_t stream_size){
+uint32_t CanFDRen::write(void *data, uint32_t stream_size){
 	uint32_t ret;
 	(void) stream_size;
 	//get and remove mailbox
@@ -85,26 +72,22 @@ uint32_t CanRen::write(void *data, uint32_t stream_size){
 		R_BSP_SoftwareDelay(CANREN_LOOPBACK_TIMEOUT, BSP_DELAY_UNITS_MILLISECONDS);
 
 	}
-	int mailbox = this->available_can_mailboxes_tx.front();
-	this->available_can_mailboxes_tx.pop_front();
-	if(available_can_mailboxes_tx.empty()){
-		tx_ready=false;
-	}
-	ret = R_CAN_Write((can_instance_ctrl_t *) &g_can0_ctrl, mailbox, (st_can_frame *)data );
+
+	ret = R_CANFD_Write((canfd_instance_ctrl_t *) &g_can0_ctrl, mailbox, (st_can_frame *)data );
 	return ret;
 }
 
 
 
 /* Callback function */
-void CanRen::can_callback(can_callback_args_t *p_args){
+/*
+void CanFDRen::canfd_callback(can_callback_args_t *p_args){
 
     switch (p_args->event) {
 
-
+    	//TODO CHECK IF CAN FD SUIPPORTS THIS
         case CAN_EVENT_TX_COMPLETE:
-        	this->available_can_mailboxes_tx.push_back(p_args->mailbox);
-        	//TODO check if the VCU has received the message
+
         	tx_ready=true;
 
 
@@ -116,10 +99,9 @@ void CanRen::can_callback(can_callback_args_t *p_args){
         	rx_ready=true;
 
 
-        	can_frame_t temp;
-            memmove(&temp, &p_args->frame, sizeof(can_frame_t));  //copy the received data to rx_frame
-            this->buffered_mails_rx.push_back(temp);
-            break;
+        		can_frame_t temp;
+            	memmove(&temp, &p_args->frame, sizeof(can_frame_t));  //copy the received data to rx_frame
+				break;
 
         case CAN_EVENT_MAILBOX_MESSAGE_LOST:    //overwrite/overrun error event
         case CAN_EVENT_BUS_RECOVERY:            //Bus recovery error event
@@ -139,6 +121,7 @@ void CanRen::can_callback(can_callback_args_t *p_args){
     }
 
 
-}/* Callback function */
-#endif
+}*//* Callback function */
+//#endif
+
 

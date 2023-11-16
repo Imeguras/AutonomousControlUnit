@@ -2447,7 +2447,7 @@ FSP Configuration
   Thread "High Speed Interface"
     Symbol: high_speed_interface_thread0
     Name: High Speed Interface
-    Stack size (bytes): 0x8000
+    Stack size (bytes): 5000
     Priority: 2
     Auto start: Enabled
     Time slicing interval (ticks): 1
@@ -2476,7 +2476,7 @@ FSP Configuration
         Instance "g_ether0 Ethernet (r_ether)"
           General: Name: g_ether0
           General: Channel: 0
-          General: MAC address: 00:91:EB:00:00:00
+          General: MAC address: 74:90:50:10:89:0F
           General: Zero-copy Mode: Enable
           General: Flow control functionality: Disable
           Filters: Multicast Mode: Enable
@@ -2506,7 +2506,7 @@ FSP Configuration
     Symbol: low_speed_interface_thread0
     Name: Low Speed Interface Thread0
     Stack size (bytes): 5000
-    Priority: 1
+    Priority: 6
     Auto start: Enabled
     Time slicing interval (ticks): 1
     

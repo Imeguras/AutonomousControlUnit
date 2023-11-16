@@ -11,7 +11,7 @@ static can_frame_t temp;
 static volatile bool rx=false;
 /* Micro Ros entry function */
 void low_speed_interface_thread0_entry(void) {
-	HighSpeed_AbsL<CanRen> can;
+	/*HighSpeed_AbsL<CanRen> can;
 	can_frame_t blah;
 	//blah = temp;
 						blah.id = 0x43;
@@ -47,11 +47,11 @@ void low_speed_interface_thread0_entry(void) {
 			//APP_PRINT("FUNFOU");
 		}
 		tx_thread_sleep(1);
-	}
+	}*/
 	/*	*/
-	while (1) {
+	/*while (1) {
 		tx_thread_sleep(1);
-	}
+//	}*/
 }
 
 /* Callback function */
