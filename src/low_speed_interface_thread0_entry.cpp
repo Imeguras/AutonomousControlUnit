@@ -5,12 +5,14 @@
 #include <low_speed_interface_thread0.h>
 
 #include "HighSpeedAbsL.cpp"
-#include "CanRen.h"
+#include "CanFDRen.h"
 #include "utils.h"
 can_frame_t frame;
 can_info_t info;
 static volatile bool _is_sent = false;
 static volatile bool _is_error =false;
+
+void * interface_callback_t;
 /* CANFD Channel 1 Acceptance Filter List (AFL) rule array */
 extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
 		{
@@ -58,14 +60,10 @@ extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
 extern "C" void canfd_callback(can_callback_args_t * p_args);
 void low_speed_interface_thread0_entry(void) {
 
-     volatile UINT status = R_CANFD_Open(&g_canfd0_ctrl, &g_canfd0_cfg);
-
-     status = R_CANFD_InfoGet(&g_canfd0_ctrl, &info);
-     if(info.error_code){
-    	 led_update(red, BSP_IO_LEVEL_HIGH);
-     }
-
-
+	HighSpeed_AbsL<CanFDRen> canfd;
+	canfd->initialization();
+	interface_callback_t=(void *)&canfd;
+	//void (*canfdCBHandle)(can_callback_args_t *)= callbackWrapper(can_callback_args_t *,canfd);
     frame.id = 0x40;
     frame.id_mode = CAN_ID_MODE_STANDARD;
     frame.type = CAN_FRAME_TYPE_DATA;
@@ -81,34 +79,15 @@ void low_speed_interface_thread0_entry(void) {
     frame.data[5]=0x41;
     frame.data[6]=0x41;
     frame.data[7]=0x41;
-	 status = R_CANFD_Write(&g_canfd0_ctrl, 0, &frame);
-	 while(!_is_sent){
+    canfd->write((void *)&frame,1);
 
-	 }
-	 led_update(green, BSP_IO_LEVEL_HIGH);
+
 }
 
 /* Callback function */
-void canfd0_callback(can_callback_args_t *p_args){
-	switch (p_args->event){
-	case CAN_EVENT_TX_COMPLETE:
-		_is_sent=true;
-		break;
-	case CAN_EVENT_ERR_WARNING:          /* error warning event */
-	case CAN_EVENT_ERR_PASSIVE:          /* error passive event */
-	case CAN_EVENT_ERR_BUS_OFF:          /* error bus off event */
-	case CAN_EVENT_BUS_RECOVERY:         /* Bus recovery error event */
-	case CAN_EVENT_MAILBOX_MESSAGE_LOST: /* overwrite/overrun error event */
-	case CAN_EVENT_ERR_BUS_LOCK:         /* Bus lock detected (32 consecutive dominant bits). */
-	case CAN_EVENT_ERR_CHANNEL:          /* Channel error has occurred. */
-	case CAN_EVENT_TX_ABORTED:           /* Transmit abort event. */
-	case CAN_EVENT_ERR_GLOBAL:           /* Global error has occurred. */
-	case CAN_EVENT_TX_FIFO_EMPTY:        /* Transmit FIFO is empty. */
-	{
-	  _is_error = true;
-	  break;
-	}
-
+extern "C" void canfd0_callback(can_callback_args_t *p_args){
+	if(interface_callback_t != NULL){
+		((CanFDRen *)interface_callback_t)->callbackHandle(p_args);
 	}
 }
 
