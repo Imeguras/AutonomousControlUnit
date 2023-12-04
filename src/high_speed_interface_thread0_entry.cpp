@@ -16,7 +16,7 @@ static volatile bool t;
 /* New Thread entry function */
 void high_speed_interface_thread0_entry(void) {
 
-	HighSpeed_AbsL<EthDuo> ros;
+	/*HighSpeed_AbsL<EthDuo> ros;
 	auto k = ros->initialization();
 
 /*
@@ -32,9 +32,8 @@ void high_speed_interface_thread0_entry(void) {
 	rclc_publisher_init_default(&publisher,&node,ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32) , "/faadihgas");
 	std_msgs__msg__Int32 msg;
 	/* LED type structure */
-	bsp_leds_t leds = g_bsp_leds;
-    /* If this board has no LEDs then trap here */
-	if (0 == leds.led_count)
+	/*bsp_leds_t leds = g_bsp_leds;
+    if (0 == leds.led_count)
     {
         while (1)
         {
@@ -47,13 +46,12 @@ void high_speed_interface_thread0_entry(void) {
 
 
 
-    /* Holds level to set for pins */
-	bsp_io_level_t pin_level = BSP_IO_LEVEL_LOW;
+
+	 /* bsp_io_level_t pin_level = BSP_IO_LEVEL_LOW;
 
 	R_BSP_SoftwareDelay(1,BSP_DELAY_UNITS_SECONDS);
     R_BSP_PinAccessEnable();
 
-          /* Update all board LEDs */
 
               if(k<=0){
               	R_BSP_PinWrite((bsp_io_port_pin_t) leds.p_leds[0], BSP_IO_LEVEL_HIGH);
@@ -71,7 +69,7 @@ void high_speed_interface_thread0_entry(void) {
          */
     	//rcl_publish(&publisher, &msg, NULL); // @suppress("Return value not evaluated")
     	//msg.data++;
-    	R_BSP_SoftwareDelay(1,BSP_DELAY_UNITS_SECONDS);
-		}
+  //  	R_BSP_SoftwareDelay(1,BSP_DELAY_UNITS_SECONDS);
+//		}
 
 }

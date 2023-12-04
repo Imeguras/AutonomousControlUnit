@@ -116,7 +116,7 @@
     <node id="board.clock.pll.div" option="board.clock.pll.div.3"/>
     <node id="board.clock.pll.mul" option="board.clock.pll.mul.250"/>
     <node id="board.clock.pll.display" option="board.clock.pll.display.value"/>
-    <node id="board.clock.pll2.source" option="board.clock.pll2.source.disabled"/>
+    <node id="board.clock.pll2.source" option="board.clock.pll2.source.xtal"/>
     <node id="board.clock.pll2.div" option="board.clock.pll2.div.2"/>
     <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.200"/>
     <node id="board.clock.pll2.display" option="board.clock.pll2.display.value"/>
@@ -125,7 +125,7 @@
     <node id="board.clock.uclk.source" option="board.clock.uclk.source.disabled"/>
     <node id="board.clock.u60ck.source" option="board.clock.u60ck.source.disabled"/>
     <node id="board.clock.octaspiclk.source" option="board.clock.octaspiclk.source.disabled"/>
-    <node id="board.clock.canfdclk.source" option="board.clock.octaspiclk.source.pll"/>
+    <node id="board.clock.canfdclk.source" option="board.clock.octaspiclk.source.pll2"/>
     <node id="board.clock.cecclk.source" option="board.clock.cecclk.source.disabled"/>
     <node id="board.clock.iclk.div" option="board.clock.iclk.div.1"/>
     <node id="board.clock.pclka.div" option="board.clock.pclka.div.2"/>
@@ -304,11 +304,11 @@
       <property id="module.driver.timer.p_callback" value="micro_ros_timer_cb"/>
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority12"/>
     </module>
-    <module id="module.driver.canfd_on_canfd.1030279401">
+    <module id="module.driver.canfd_on_canfd.1264327716">
       <property id="module.driver.canfd.name" value="g_canfd0"/>
-      <property id="module.driver.canfd.channel" value="0"/>
-      <property id="module.driver.canfd.bitrate.automatic.nominal_rate" value="500000"/>
-      <property id="module.driver.canfd.bitrate.automatic.data_rate" value="2000000"/>
+      <property id="module.driver.canfd.channel" value="1"/>
+      <property id="module.driver.canfd.bitrate.automatic.nominal_rate" value="1000000"/>
+      <property id="module.driver.canfd.bitrate.automatic.data_rate" value="1000000"/>
       <property id="module.driver.canfd.bitrate.automatic.sample_point" value="75"/>
       <property id="module.driver.canfd.bitrate.automatic.delay_compensation" value="module.driver.canfd.bitrate.automatic.delay_compensation.enabled"/>
       <property id="module.driver.canfd.manual.nominal.prescaler" value="1"/>
@@ -321,9 +321,9 @@
       <property id="module.driver.canfd.manual.data.sync_jump_width" value="1"/>
       <property id="module.driver.canfd.bitrate.manual.use_manual" value="module.driver.canfd.bitrate.manual.use_manual.disabled"/>
       <property id="module.driver.canfd.p_callback" value="canfd0_callback"/>
-      <property id="module.driver.canfd.txmb.int" value=""/>
+      <property id="module.driver.canfd.txmb.int" value="module.driver.canfd.txmb.int.0,module.driver.canfd.txmb.int.1,module.driver.canfd.txmb.int.2,module.driver.canfd.txmb.int.3,module.driver.canfd.txmb.int.4"/>
       <property id="module.driver.canfd.ch_err.int" value=""/>
-      <property id="module.driver.canfd.ipl" value="board.icu.common.irq.priority3"/>
+      <property id="module.driver.canfd.ipl" value="board.icu.common.irq.priority1"/>
       <property id="module.driver.canfd.afl_array" value="p_canfd0_afl"/>
     </module>
     <context id="_hal.0">
@@ -336,7 +336,7 @@
       <property id="rtos.threadx.thread.name" value="High Speed Interface"/>
       <property id="rtos.threadx.thread.stack" value="5000"/>
       <property id="rtos.threadx.thread.priority" value="2"/>
-      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
       <stack module="module.azure.nxd.ip.586674585">
         <stack module="module.azure.nxd.packet_pool.1697603583" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
@@ -348,14 +348,14 @@
         </stack>
       </stack>
     </context>
-    <context id="rtos.threadx.thread.903848035">
+    <context id="rtos.threadx.thread.49854697">
       <property id="_symbol" value="low_speed_interface_thread0"/>
-      <property id="rtos.threadx.thread.name" value="Low Speed Interface Thread0"/>
-      <property id="rtos.threadx.thread.stack" value="5000"/>
-      <property id="rtos.threadx.thread.priority" value="6"/>
+      <property id="rtos.threadx.thread.name" value="Low Speed Interface"/>
+      <property id="rtos.threadx.thread.stack" value="1024"/>
+      <property id="rtos.threadx.thread.priority" value="1"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
-      <stack module="module.driver.canfd_on_canfd.1030279401"/>
+      <stack module="module.driver.canfd_on_canfd.1264327716"/>
     </context>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
@@ -753,23 +753,23 @@
     </config>
     <config id="config.driver.canfd">
       <property id="config.driver.canfd.param_checking_enable" value="config.driver.canfd.param_checking_enable.bsp"/>
-      <property id="config.driver.canfd.global_err.cb_channel" value="config.driver.canfd.global_err.cb_channel.0"/>
+      <property id="config.driver.canfd.global_err.cb_channel" value="config.driver.canfd.global_err.cb_channel.1"/>
       <property id="config.driver.canfd.global_err.ipl" value="board.icu.common.irq.priority12"/>
-      <property id="config.driver.canfd.rxfifo.ipl" value="board.icu.common.irq.priority12"/>
+      <property id="config.driver.canfd.rxfifo.ipl" value="board.icu.common.irq.priority5"/>
       <property id="config.driver.canfd.fd.standard" value="config.driver.canfd.fd.standard.iso"/>
       <property id="config.driver.canfd.fd.protocol_exception" value="config.driver.canfd.fd.protocol_exception.iso"/>
       <property id="config.driver.canfd.global_err.sources" value=""/>
       <property id="config.driver.canfd.tx_priority" value="config.driver.canfd.tx_priority.buffer"/>
       <property id="config.driver.canfd.dlc_check" value="config.driver.canfd.dlc_check.disabled"/>
       <property id="config.driver.canfd.fd.overflow" value="config.driver.canfd.fd.overflow.reject"/>
-      <property id="config.driver.canfd.rxmb.number" value="0"/>
+      <property id="config.driver.canfd.rxmb.number" value="1"/>
       <property id="config.driver.canfd.rxmb.size" value="config.driver.canfd.rxmb.size.8"/>
       <property id="config.driver.canfd.rxfifo.0.enable" value="config.driver.canfd.rxfifo.0.enable.enabled"/>
       <property id="config.driver.canfd.rxfifo.0.int_mode" value="enum.driver.canfd.fifo.int_mode.every_frame"/>
       <property id="config.driver.canfd.rxfifo.0.int_threshold" value="enum.driver.canfd.fifo.int_threshold.1_2"/>
       <property id="config.driver.canfd.rxfifo.0.payload" value="enum.driver.canfd.fifo.payload.8"/>
       <property id="config.driver.canfd.rxfifo.0.depth" value="enum.driver.canfd.fifo.depth.16"/>
-      <property id="config.driver.canfd.rxfifo.1.enable" value="config.driver.canfd.rxfifo.1.enable.disabled"/>
+      <property id="config.driver.canfd.rxfifo.1.enable" value="config.driver.canfd.rxfifo.1.enable.enabled"/>
       <property id="config.driver.canfd.rxfifo.1.int_mode" value="enum.driver.canfd.fifo.int_mode.every_frame"/>
       <property id="config.driver.canfd.rxfifo.1.int_threshold" value="enum.driver.canfd.fifo.int_threshold.1_2"/>
       <property id="config.driver.canfd.rxfifo.1.payload" value="enum.driver.canfd.fifo.payload.8"/>
@@ -804,8 +804,8 @@
       <property id="config.driver.canfd.rxfifo.7.int_threshold" value="enum.driver.canfd.fifo.int_threshold.1_2"/>
       <property id="config.driver.canfd.rxfifo.7.payload" value="enum.driver.canfd.fifo.payload.8"/>
       <property id="config.driver.canfd.rxfifo.7.depth" value="enum.driver.canfd.fifo.depth.16"/>
-      <property id="config.driver.canfd.afl.ch0_num" value="32"/>
-      <property id="config.driver.canfd.afl.ch1_num" value="0"/>
+      <property id="config.driver.canfd.afl.ch0_num" value="0"/>
+      <property id="config.driver.canfd.afl.ch1_num" value="2"/>
     </config>
     <config id="config.threadx.thread">
       <property id="config.azure.tx.custom_tx_user" value=""/>
@@ -935,9 +935,9 @@
       <configSetting altId="adc0.an02.p002" configurationId="adc0.an02"/>
       <configSetting altId="adc0.mode.custom" configurationId="adc0.mode"/>
       <configSetting altId="adc1.mode.custom" configurationId="adc1.mode"/>
-      <configSetting altId="can0.crx.p202" configurationId="can0.crx"/>
-      <configSetting altId="can0.ctx.p203" configurationId="can0.ctx"/>
-      <configSetting altId="can0.mode.enabled.free" configurationId="can0.mode"/>
+      <configSetting altId="can1.crx.p511" configurationId="can1.crx"/>
+      <configSetting altId="can1.ctx.p512" configurationId="can1.ctx"/>
+      <configSetting altId="can1.mode.enabled.free" configurationId="can1.mode"/>
       <configSetting altId="cgc0.extal.p212" configurationId="cgc0.extal"/>
       <configSetting altId="cgc0.mode.mainsub" configurationId="cgc0.mode"/>
       <configSetting altId="cgc0.xtal.p213" configurationId="cgc0.xtal"/>
@@ -994,10 +994,6 @@
       <configSetting altId="p109.gpio_mode.gpio_mode_peripheral" configurationId="p109.gpio_mode"/>
       <configSetting altId="p110.debug0.tdi" configurationId="p110"/>
       <configSetting altId="p110.gpio_mode.gpio_mode_peripheral" configurationId="p110.gpio_mode"/>
-      <configSetting altId="p202.can0.crx" configurationId="p202"/>
-      <configSetting altId="p202.gpio_mode.gpio_mode_peripheral" configurationId="p202.gpio_mode"/>
-      <configSetting altId="p203.can0.ctx" configurationId="p203"/>
-      <configSetting altId="p203.gpio_mode.gpio_mode_peripheral" configurationId="p203.gpio_mode"/>
       <configSetting altId="p206.input" configurationId="p206"/>
       <configSetting altId="p206.gpio_irq.gpio_irq_enabled" configurationId="p206.gpio_irq"/>
       <configSetting altId="p206.gpio_mode.gpio_mode_in" configurationId="p206.gpio_mode"/>
@@ -1095,6 +1091,10 @@
       <configSetting altId="p507.gpio_mode.gpio_mode_an" configurationId="p507.gpio_mode"/>
       <configSetting altId="p508.asel" configurationId="p508"/>
       <configSetting altId="p508.gpio_mode.gpio_mode_an" configurationId="p508.gpio_mode"/>
+      <configSetting altId="p511.can1.crx" configurationId="p511"/>
+      <configSetting altId="p511.gpio_mode.gpio_mode_peripheral" configurationId="p511.gpio_mode"/>
+      <configSetting altId="p512.can1.ctx" configurationId="p512"/>
+      <configSetting altId="p512.gpio_mode.gpio_mode_peripheral" configurationId="p512.gpio_mode"/>
       <configSetting altId="p603.output.low" configurationId="p603"/>
       <configSetting altId="p603.gpio_mode.gpio_mode_out.low" configurationId="p603.gpio_mode"/>
       <configSetting altId="p611.output.low" configurationId="p611"/>
@@ -1184,8 +1184,6 @@
       <configSetting altId="usbhs0.ovrcura.p707" configurationId="usbhs0.ovrcura"/>
       <configSetting altId="usbhs0.vbus.pb01" configurationId="usbhs0.vbus"/>
       <configSetting altId="usbhs0.vbusen.pb00" configurationId="usbhs0.vbusen"/>
-      <lockSetting id="can0.crx" lock="true"/>
-      <lockSetting id="can0.ctx" lock="true"/>
     </pincfg>
     <pincfg active="false" name="R7FA6M3AH3CFC.pincfg" selected="false" symbol="">
       <configSetting altId="debug0.mode.jtag" configurationId="debug0.mode"/>

@@ -76,7 +76,7 @@ FSP Configuration
     PLL Src: XTAL
     PLL Div /3
     PLL Mul x25.0
-    PLL2 Disabled
+    PLL2 Src: XTAL
     PLL2 Div /2
     PLL2 Mul x20.0
     Clock Src: PLL
@@ -84,7 +84,7 @@ FSP Configuration
     UCLK Disabled
     U60CK Disabled
     OCTASPICLK Disabled
-    CANFDCLK Src: PLL
+    CANFDCLK Src: PLL2
     CECCLK Disabled
     ICLK Div /1
     PCLKA Div /2
@@ -138,8 +138,8 @@ FSP Configuration
       P115 96 - ARDUINO_D9 - - Disabled - - "BUS_ASYNCH0: A01; GPT4: GTIOC4A; SSI0: SSITXD0" - None - - 
       P200 69 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 68 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P202 54 CANFD0_CRX0 MIKROBUS_MISO_ARDUINO_MISO_PMOD1_MISO Low None "Peripheral mode" CMOS None "AGT3: AGTOB3; BUS_ASYNCH0: BC1; CAN0: CRX0; CTSU0: TS19; ETHERC_MII0: ET0_ERXD2; GPT5: GTIOC5B; ICU0: IRQ03; SCI2: SCK2; SCI9: RXD9; SCI9: SCL9; SDHI0: SD0DAT6; SPI0: MISOA" - IO - - 
-      P203 53 CANFD0_CTX0 MIKROBUS_MOSI_ARDUINO_MOSI_PMOD1_MOSI Low None "Peripheral mode" CMOS None "AGT3: AGTOA3; BUS_ASYNCH0: A19; CAN0: CTX0; CTSU0: TS18; ETHERC_MII0: ET0_COL; GPT5: GTIOC5A; ICU0: IRQ02; SCI2: CTSRTS2; SCI9: SDA9; SCI9: TXD9; SDHI0: SD0DAT5; SPI0: MOSIA" - IO - - 
+      P202 54 - MIKROBUS_MISO_ARDUINO_MISO_PMOD1_MISO - - Disabled - - "AGT3: AGTOB3; BUS_ASYNCH0: BC1; CAN0: CRX0; CTSU0: TS19; ETHERC_MII0: ET0_ERXD2; GPT5: GTIOC5B; ICU0: IRQ03; SCI2: SCK2; SCI9: RXD9; SCI9: SCL9; SDHI0: SD0DAT6; SPI0: MISOA" - None - - 
+      P203 53 - MIKROBUS_MOSI_ARDUINO_MOSI_PMOD1_MOSI - - Disabled - - "AGT3: AGTOA3; BUS_ASYNCH0: A19; CAN0: CTX0; CTSU0: TS18; ETHERC_MII0: ET0_COL; GPT5: GTIOC5A; ICU0: IRQ02; SCI2: CTSRTS2; SCI9: SDA9; SCI9: TXD9; SDHI0: SD0DAT5; SPI0: MOSIA" - None - - 
       P204 52 - MIKROBUS_SCK_ARDUINO_SCK_PMOD1_SCK - - Disabled - - "AGT1: AGTIO1; BUS_ASYNCH0: A18; CAC0: CACREF; CTSU0: TS00; ETHERC_MII0: ET0_RX_DV; GPT_OPS0: GTIW; GPT4: GTIOC4B; SCI4: SCK4; SCI9: SCK9; SDHI0: SD0DAT4; SPI0: RSPCKA; SSI0: SSIBCK0; USB_FS0: USB_OVRCURB" - None - - 
       P205 51 - MIKROBUS_SS_ARDUINO_SS - - Disabled - - "AGT1: AGTO1; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSILRCK0; USB_FS0: USB_OVRCURA" - None - - 
       P206 50 GPIO PMOD1_SS - IRQ00 "Input mode" - "input pull-up" "BUS_ASYNCH0: WAIT; CEC0: CECIO; CTSU0: TS02; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSI0: SSIDATA0; USB_FS0: USB_VBUSEN" - IO - - 
@@ -192,8 +192,8 @@ FSP Configuration
       P506 146 ICU0_IRQ15 GROVE2_SDA - IRQ15 "IRQ mode" - None "ADC1: AN122; ICU0: IRQ15; SCI6: SDA6; SCI6: TXD6" - IO - - 
       P507 147 - - - - "Analog mode" - None "ADC1: AN123; SCI5: SCK5; SCI6: SCK6" - None - - 
       P508 148 - - - - "Analog mode" - None "ADC1: AN124; SCI5: CTSRTS5" - None - - 
-      P511 176 - MIKROBUS_SDA_ARDUINO_SDA - - Disabled - - "CAN1: CRX1; GPT0: GTIOC0B; ICU0: IRQ15; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4" - None - - 
-      P512 175 - MIKROBUS_SCL_ARDUINO_SCL - - Disabled - - "CAN1: CTX1; GPT0: GTIOC0A; ICU0: IRQ14; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4" - None - - 
+      P511 176 CANFD1_CRX1 MIKROBUS_SDA_ARDUINO_SDA Low None "Peripheral mode" CMOS None "CAN1: CRX1; GPT0: GTIOC0B; ICU0: IRQ15; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4" - IO - - 
+      P512 175 CANFD1_CTX1 MIKROBUS_SCL_ARDUINO_SCL Low None "Peripheral mode" CMOS None "CAN1: CTX1; GPT0: GTIOC0A; ICU0: IRQ14; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4" - IO - - 
       P513 174 - - - - Disabled - - "SCI5: RXD5; SCI5: SCL5" - None - - 
       P600 122 - OSPI_SIO4 - - Disabled - - "AGT3: AGTIO3; BUS_ASYNCH0: RD; CAC0: CACREF; CGC0: CLKOUT; GPT6: GTIOC6B; OSPI0: OMSIO4; SCI9: SCK9" - None - - 
       P601 121 - OSPI_SIO2 - - Disabled - - "AGT3: AGTEE3; BUS_ASYNCH0: WR; GPT6: GTIOC6A; OSPI0: OMSIO2; SCI9: RXD9; SCI9: SCL9" - None - - 
@@ -315,8 +315,8 @@ FSP Configuration
       P115 96 - ARDUINO_D9 - - Disabled - - "BUS_ASYNCH0: A01; GPT4: GTIOC4A; SSI0: SSITXD0" - None - - 
       P200 69 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 68 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P202 54 - MIKROBUS_MISO_ARDUINO_MISO_PMOD1_MISO Low None Disabled CMOS None "AGT3: AGTOB3; BUS_ASYNCH0: BC1; CAN0: CRX0; CTSU0: TS19; ETHERC_MII0: ET0_ERXD2; GPT5: GTIOC5B; ICU0: IRQ03; SCI2: SCK2; SCI9: RXD9; SCI9: SCL9; SDHI0: SD0DAT6; SPI0: MISOA" - IO - - 
-      P203 53 - MIKROBUS_MOSI_ARDUINO_MOSI_PMOD1_MOSI Low None Disabled CMOS None "AGT3: AGTOA3; BUS_ASYNCH0: A19; CAN0: CTX0; CTSU0: TS18; ETHERC_MII0: ET0_COL; GPT5: GTIOC5A; ICU0: IRQ02; SCI2: CTSRTS2; SCI9: SDA9; SCI9: TXD9; SDHI0: SD0DAT5; SPI0: MOSIA" - IO - - 
+      P202 54 - MIKROBUS_MISO_ARDUINO_MISO_PMOD1_MISO - - Disabled - - "AGT3: AGTOB3; BUS_ASYNCH0: BC1; CAN0: CRX0; CTSU0: TS19; ETHERC_MII0: ET0_ERXD2; GPT5: GTIOC5B; ICU0: IRQ03; SCI2: SCK2; SCI9: RXD9; SCI9: SCL9; SDHI0: SD0DAT6; SPI0: MISOA" - None - - 
+      P203 53 - MIKROBUS_MOSI_ARDUINO_MOSI_PMOD1_MOSI - - Disabled - - "AGT3: AGTOA3; BUS_ASYNCH0: A19; CAN0: CTX0; CTSU0: TS18; ETHERC_MII0: ET0_COL; GPT5: GTIOC5A; ICU0: IRQ02; SCI2: CTSRTS2; SCI9: SDA9; SCI9: TXD9; SDHI0: SD0DAT5; SPI0: MOSIA" - None - - 
       P204 52 - MIKROBUS_SCK_ARDUINO_SCK_PMOD1_SCK - - Disabled - - "AGT1: AGTIO1; BUS_ASYNCH0: A18; CAC0: CACREF; CTSU0: TS00; ETHERC_MII0: ET0_RX_DV; GPT_OPS0: GTIW; GPT4: GTIOC4B; SCI4: SCK4; SCI9: SCK9; SDHI0: SD0DAT4; SPI0: RSPCKA; SSI0: SSIBCK0; USB_FS0: USB_OVRCURB" - None - - 
       P205 51 - MIKROBUS_SS_ARDUINO_SS - - Disabled - - "AGT1: AGTO1; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSILRCK0; USB_FS0: USB_OVRCURA" - None - - 
       P206 50 - PMOD1_SS - None Disabled - None "BUS_ASYNCH0: WAIT; CEC0: CECIO; CTSU0: TS02; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSI0: SSIDATA0; USB_FS0: USB_VBUSEN" - IO - - 
@@ -369,8 +369,8 @@ FSP Configuration
       P506 146 - GROVE2_SDA - None Disabled - None "ADC1: AN122; ICU0: IRQ15; SCI6: SDA6; SCI6: TXD6" - IO - - 
       P507 147 - - - - Disabled - None "ADC1: AN123; SCI5: SCK5; SCI6: SCK6" - None - - 
       P508 148 - - - - Disabled - None "ADC1: AN124; SCI5: CTSRTS5" - None - - 
-      P511 176 - MIKROBUS_SDA_ARDUINO_SDA - - Disabled - - "CAN1: CRX1; GPT0: GTIOC0B; ICU0: IRQ15; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4" - None - - 
-      P512 175 - MIKROBUS_SCL_ARDUINO_SCL - - Disabled - - "CAN1: CTX1; GPT0: GTIOC0A; ICU0: IRQ14; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4" - None - - 
+      P511 176 - MIKROBUS_SDA_ARDUINO_SDA Low None Disabled CMOS None "CAN1: CRX1; GPT0: GTIOC0B; ICU0: IRQ15; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4" - IO - - 
+      P512 175 - MIKROBUS_SCL_ARDUINO_SCL Low None Disabled CMOS None "CAN1: CTX1; GPT0: GTIOC0A; ICU0: IRQ14; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4" - IO - - 
       P513 174 - - - - Disabled - - "SCI5: RXD5; SCI5: SCL5" - None - - 
       P600 122 - OSPI_SIO4 - - Disabled - - "AGT3: AGTIO3; BUS_ASYNCH0: RD; CAC0: CACREF; CGC0: CLKOUT; GPT6: GTIOC6B; OSPI0: OMSIO4; SCI9: SCK9" - None - - 
       P601 121 - OSPI_SIO2 - - Disabled - - "AGT3: AGTEE3; BUS_ASYNCH0: WR; GPT6: GTIOC6A; OSPI0: OMSIO2; SCI9: RXD9; SCI9: SCL9" - None - - 
@@ -492,8 +492,8 @@ FSP Configuration
       P115 96 GPIO ARDUINO_D9 - - "Output mode (Initial Low)" - - "BUS_ASYNCH0: A01; GPT4: GTIOC4A; SSI0: SSITXD0" - None - - 
       P200 69 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 68 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P202 54 SPI0_MISOA MIKROBUS_MISO_ARDUINO_MISO_PMOD1_MISO High None "Peripheral mode" CMOS None "AGT3: AGTOB3; BUS_ASYNCH0: BC1; CAN0: CRX0; CTSU0: TS19; ETHERC_MII0: ET0_ERXD2; GPT5: GTIOC5B; ICU0: IRQ03; SCI2: SCK2; SCI9: RXD9; SCI9: SCL9; SDHI0: SD0DAT6; SPI0: MISOA" - IO - - 
-      P203 53 SPI0_MOSIA MIKROBUS_MOSI_ARDUINO_MOSI_PMOD1_MOSI High None "Peripheral mode" CMOS None "AGT3: AGTOA3; BUS_ASYNCH0: A19; CAN0: CTX0; CTSU0: TS18; ETHERC_MII0: ET0_COL; GPT5: GTIOC5A; ICU0: IRQ02; SCI2: CTSRTS2; SCI9: SDA9; SCI9: TXD9; SDHI0: SD0DAT5; SPI0: MOSIA" - IO - - 
+      P202 54 SPI0_MISOA MIKROBUS_MISO_ARDUINO_MISO_PMOD1_MISO - - "Peripheral mode" - - "AGT3: AGTOB3; BUS_ASYNCH0: BC1; CAN0: CRX0; CTSU0: TS19; ETHERC_MII0: ET0_ERXD2; GPT5: GTIOC5B; ICU0: IRQ03; SCI2: SCK2; SCI9: RXD9; SCI9: SCL9; SDHI0: SD0DAT6; SPI0: MISOA" - None - - 
+      P203 53 SPI0_MOSIA MIKROBUS_MOSI_ARDUINO_MOSI_PMOD1_MOSI - - "Peripheral mode" - - "AGT3: AGTOA3; BUS_ASYNCH0: A19; CAN0: CTX0; CTSU0: TS18; ETHERC_MII0: ET0_COL; GPT5: GTIOC5A; ICU0: IRQ02; SCI2: CTSRTS2; SCI9: SDA9; SCI9: TXD9; SDHI0: SD0DAT5; SPI0: MOSIA" - None - - 
       P204 52 SPI0_RSPCKA MIKROBUS_SCK_ARDUINO_SCK_PMOD1_SCK - - "Peripheral mode" - - "AGT1: AGTIO1; BUS_ASYNCH0: A18; CAC0: CACREF; CTSU0: TS00; ETHERC_MII0: ET0_RX_DV; GPT_OPS0: GTIW; GPT4: GTIOC4B; SCI4: SCK4; SCI9: SCK9; SDHI0: SD0DAT4; SPI0: RSPCKA; SSI0: SSIBCK0; USB_FS0: USB_OVRCURB" - None - - 
       P205 51 SPI0_SSLA0 MIKROBUS_SS_ARDUINO_SS - - "Peripheral mode" - - "AGT1: AGTO1; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSILRCK0; USB_FS0: USB_OVRCURA" - None - - 
       P206 50 SPI0_SSLA1 PMOD1_SS - None "Peripheral mode" - None "BUS_ASYNCH0: WAIT; CEC0: CECIO; CTSU0: TS02; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSI0: SSIDATA0; USB_FS0: USB_VBUSEN" - IO - - 
@@ -546,8 +546,8 @@ FSP Configuration
       P506 146 SCI6_SDA6 GROVE2_SDA - None "Peripheral mode" - None "ADC1: AN122; ICU0: IRQ15; SCI6: SDA6; SCI6: TXD6" - IO - - 
       P507 147 - - - - Disabled - None "ADC1: AN123; SCI5: SCK5; SCI6: SCK6" - None - - 
       P508 148 - - - - Disabled - None "ADC1: AN124; SCI5: CTSRTS5" - None - - 
-      P511 176 IIC1_SDA1 MIKROBUS_SDA_ARDUINO_SDA - - "Peripheral mode" - - "CAN1: CRX1; GPT0: GTIOC0B; ICU0: IRQ15; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4" - None - - 
-      P512 175 IIC1_SCL1 MIKROBUS_SCL_ARDUINO_SCL - - "Peripheral mode" - - "CAN1: CTX1; GPT0: GTIOC0A; ICU0: IRQ14; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4" - None - - 
+      P511 176 IIC1_SDA1 MIKROBUS_SDA_ARDUINO_SDA High None "Peripheral mode" CMOS None "CAN1: CRX1; GPT0: GTIOC0B; ICU0: IRQ15; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4" - IO - - 
+      P512 175 IIC1_SCL1 MIKROBUS_SCL_ARDUINO_SCL High None "Peripheral mode" CMOS None "CAN1: CTX1; GPT0: GTIOC0A; ICU0: IRQ14; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4" - IO - - 
       P513 174 - - - - Disabled - - "SCI5: RXD5; SCI5: SCL5" - None - - 
       P600 122 OSPI0_OMSIO4 OSPI_SIO4 - - "Peripheral mode" - - "AGT3: AGTIO3; BUS_ASYNCH0: RD; CAC0: CACREF; CGC0: CLKOUT; GPT6: GTIOC6B; OSPI0: OMSIO4; SCI9: SCK9" - None - - 
       P601 121 OSPI0_OMSIO2 OSPI_SIO2 - - "Peripheral mode" - - "AGT3: AGTEE3; BUS_ASYNCH0: WR; GPT6: GTIOC6A; OSPI0: OMSIO2; SCI9: RXD9; SCI9: SCL9" - None - - 
@@ -669,8 +669,8 @@ FSP Configuration
       P115 96 - ARDUINO_D9 - - Disabled - - "BUS_ASYNCH0: A01; GPT4: GTIOC4A; SSI0: SSITXD0" - None - - 
       P200 69 - - - - Disabled - - "ICU0: NMI" - None - - 
       P201 68 - - - - Disabled - - "SYSTEM0: MD" - None - - 
-      P202 54 - MIKROBUS_MISO_ARDUINO_MISO_PMOD1_MISO Low None Disabled CMOS None "AGT3: AGTOB3; BUS_ASYNCH0: BC1; CAN0: CRX0; CTSU0: TS19; ETHERC_MII0: ET0_ERXD2; GPT5: GTIOC5B; ICU0: IRQ03; SCI2: SCK2; SCI9: RXD9; SCI9: SCL9; SDHI0: SD0DAT6; SPI0: MISOA" - IO - - 
-      P203 53 - MIKROBUS_MOSI_ARDUINO_MOSI_PMOD1_MOSI Low None Disabled CMOS None "AGT3: AGTOA3; BUS_ASYNCH0: A19; CAN0: CTX0; CTSU0: TS18; ETHERC_MII0: ET0_COL; GPT5: GTIOC5A; ICU0: IRQ02; SCI2: CTSRTS2; SCI9: SDA9; SCI9: TXD9; SDHI0: SD0DAT5; SPI0: MOSIA" - IO - - 
+      P202 54 - MIKROBUS_MISO_ARDUINO_MISO_PMOD1_MISO - - Disabled - - "AGT3: AGTOB3; BUS_ASYNCH0: BC1; CAN0: CRX0; CTSU0: TS19; ETHERC_MII0: ET0_ERXD2; GPT5: GTIOC5B; ICU0: IRQ03; SCI2: SCK2; SCI9: RXD9; SCI9: SCL9; SDHI0: SD0DAT6; SPI0: MISOA" - None - - 
+      P203 53 - MIKROBUS_MOSI_ARDUINO_MOSI_PMOD1_MOSI - - Disabled - - "AGT3: AGTOA3; BUS_ASYNCH0: A19; CAN0: CTX0; CTSU0: TS18; ETHERC_MII0: ET0_COL; GPT5: GTIOC5A; ICU0: IRQ02; SCI2: CTSRTS2; SCI9: SDA9; SCI9: TXD9; SDHI0: SD0DAT5; SPI0: MOSIA" - None - - 
       P204 52 - MIKROBUS_SCK_ARDUINO_SCK_PMOD1_SCK - - Disabled - - "AGT1: AGTIO1; BUS_ASYNCH0: A18; CAC0: CACREF; CTSU0: TS00; ETHERC_MII0: ET0_RX_DV; GPT_OPS0: GTIW; GPT4: GTIOC4B; SCI4: SCK4; SCI9: SCK9; SDHI0: SD0DAT4; SPI0: RSPCKA; SSI0: SSIBCK0; USB_FS0: USB_OVRCURB" - None - - 
       P205 51 - MIKROBUS_SS_ARDUINO_SS - - Disabled - - "AGT1: AGTO1; BUS_ASYNCH0: A16; CGC0: CLKOUT; CTSU0: TS01; ETHERC_MII0: ET0_WOL; ETHERC_RMII0: ET0_WOL; GPT_OPS0: GTIV; GPT4: GTIOC4A; ICU0: IRQ01; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4; SCI9: CTSRTS9; SDHI0: SD0DAT3; SPI0: SSLA0; SSI0: SSILRCK0; USB_FS0: USB_OVRCURA" - None - - 
       P206 50 - PMOD1_SS - None Disabled - None "BUS_ASYNCH0: WAIT; CEC0: CECIO; CTSU0: TS02; ETHERC_MII0: ET0_LINKSTA; ETHERC_RMII0: ET0_LINKSTA; GPT_OPS0: GTIU; ICU0: IRQ00; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4; SCI9: CTS9; SDHI0: SD0DAT2; SPI0: SSLA1; SSI0: SSIDATA0; USB_FS0: USB_VBUSEN" - IO - - 
@@ -723,8 +723,8 @@ FSP Configuration
       P506 146 - GROVE2_SDA - None Disabled - None "ADC1: AN122; ICU0: IRQ15; SCI6: SDA6; SCI6: TXD6" - IO - - 
       P507 147 - - - - Disabled - None "ADC1: AN123; SCI5: SCK5; SCI6: SCK6" - None - - 
       P508 148 - - - - Disabled - None "ADC1: AN124; SCI5: CTSRTS5" - None - - 
-      P511 176 - MIKROBUS_SDA_ARDUINO_SDA - - Disabled - - "CAN1: CRX1; GPT0: GTIOC0B; ICU0: IRQ15; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4" - None - - 
-      P512 175 - MIKROBUS_SCL_ARDUINO_SCL - - Disabled - - "CAN1: CTX1; GPT0: GTIOC0A; ICU0: IRQ14; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4" - None - - 
+      P511 176 - MIKROBUS_SDA_ARDUINO_SDA Low None Disabled CMOS None "CAN1: CRX1; GPT0: GTIOC0B; ICU0: IRQ15; IIC1: SDA1; SCI4: RXD4; SCI4: SCL4" - IO - - 
+      P512 175 - MIKROBUS_SCL_ARDUINO_SCL Low None Disabled CMOS None "CAN1: CTX1; GPT0: GTIOC0A; ICU0: IRQ14; IIC1: SCL1; SCI4: SDA4; SCI4: TXD4" - IO - - 
       P513 174 - - - - Disabled - - "SCI5: RXD5; SCI5: SCL5" - None - - 
       P600 122 - OSPI_SIO4 - - Disabled - - "AGT3: AGTIO3; BUS_ASYNCH0: RD; CAC0: CACREF; CGC0: CLKOUT; GPT6: GTIOC6B; OSPI0: OMSIO4; SCI9: SCK9" - None - - 
       P601 121 - OSPI_SIO2 - - Disabled - - "AGT3: AGTEE3; BUS_ASYNCH0: WR; GPT6: GTIOC6A; OSPI0: OMSIO2; SCI9: RXD9; SCI9: SCL9" - None - - 
@@ -2325,23 +2325,23 @@ FSP Configuration
     
   Module "CAN FD (r_canfd)"
     Parameter Checking: Default (BSP)
-    Global Error Interrupt: Callback Channel: Channel 0
+    Global Error Interrupt: Callback Channel: Channel 1
     Global Error Interrupt: Priority: Priority 12
-    Reception: FIFOs: Interrupt Priority: Priority 12
+    Reception: FIFOs: Interrupt Priority: Priority 5
     Flexible Data (FD): FD Frame Format: ISO 11898-1
     Flexible Data (FD): Protocol Exceptions: Enabled (ISO 11898-1)
     Global Error Interrupt: Sources: 
     Transmission Priority: Buffer Number
     DLC Check: Disabled
     Flexible Data (FD): Payload Overflow: Reject
-    Reception: Message Buffers: Number of Buffers: 0
+    Reception: Message Buffers: Number of Buffers: 1
     Reception: Message Buffers: Payload Size: 8 bytes
     Reception: FIFOs: FIFO 0: Enable: Enabled
     Reception: FIFOs: FIFO 0: Interrupt Mode: Every Frame
     Reception: FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
     Reception: FIFOs: FIFO 0: Payload Size: 8 bytes
     Reception: FIFOs: FIFO 0: Depth: 16 stages
-    Reception: FIFOs: FIFO 1: Enable: Disabled
+    Reception: FIFOs: FIFO 1: Enable: Enabled
     Reception: FIFOs: FIFO 1: Interrupt Mode: Every Frame
     Reception: FIFOs: FIFO 1: Interrupt Threshold: 1/2 full
     Reception: FIFOs: FIFO 1: Payload Size: 8 bytes
@@ -2376,8 +2376,8 @@ FSP Configuration
     Reception: FIFOs: FIFO 7: Interrupt Threshold: 1/2 full
     Reception: FIFOs: FIFO 7: Payload Size: 8 bytes
     Reception: FIFOs: FIFO 7: Depth: 16 stages
-    Reception: Acceptance Filtering: Channel 0 Rule Count: 32
-    Reception: Acceptance Filtering: Channel 1 Rule Count: 0
+    Reception: Acceptance Filtering: Channel 0 Rule Count: 0
+    Reception: Acceptance Filtering: Channel 1 Rule Count: 2
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
@@ -2449,7 +2449,7 @@ FSP Configuration
     Name: High Speed Interface
     Stack size (bytes): 5000
     Priority: 2
-    Auto start: Enabled
+    Auto start: Disabled
     Time slicing interval (ticks): 1
     
     Instance "g_ip0 Azure RTOS NetX Duo IP Instance"
@@ -2502,19 +2502,19 @@ FSP Configuration
             Flow Control: Disable
             
         Instance "Azure RTOS NetX Duo Common"
-  Thread "Low Speed Interface Thread0"
+  Thread "Low Speed Interface"
     Symbol: low_speed_interface_thread0
-    Name: Low Speed Interface Thread0
-    Stack size (bytes): 5000
-    Priority: 6
+    Name: Low Speed Interface
+    Stack size (bytes): 1024
+    Priority: 1
     Auto start: Enabled
     Time slicing interval (ticks): 1
     
     Instance "g_canfd0 CAN FD (r_canfd)"
       General: Name: g_canfd0
-      General: Channel: 0
-      Bitrate: Automatic: Nominal Rate (bps): 500000
-      Bitrate: Automatic: FD Data Rate (bps): 2000000
+      General: Channel: 1
+      Bitrate: Automatic: Nominal Rate (bps): 1000000
+      Bitrate: Automatic: FD Data Rate (bps): 1000000
       Bitrate: Automatic: Sample Point (%): 75
       Bitrate: Delay Compensation: Enable
       Bitrate: Manual: Nominal: Prescaler (divisor): 1
@@ -2527,8 +2527,8 @@ FSP Configuration
       Bitrate: Manual: Data: Sync Jump Width (Tq): 1
       Bitrate: Manual: Use manual settings: No
       Interrupts: Callback: canfd0_callback
-      Transmit Interrupts: 
+      Transmit Interrupts: TXMB 0, TXMB 1, TXMB 2, TXMB 3, TXMB 4
       Channel Error Interrupts: 
-      Interrupts: Channel Interrupt Priority Level: Priority 3
+      Interrupts: Channel Interrupt Priority Level: Priority 1
       Filter List Array: p_canfd0_afl
       
