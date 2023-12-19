@@ -232,9 +232,9 @@
     <module id="module.middleware.rm_threadx_port.0"/>
     <module id="module.azure.nxd.ip.586674585">
       <property id="module.azure.nxd.ip.name" value="g_ip0"/>
-      <property id="module.azure.nxd.ip.address" value="192.168.0.2"/>
+      <property id="module.azure.nxd.ip.address" value="0.0.0.0"/>
       <property id="module.azure.nxd.ip.subnet_mask" value="255.255.255.0"/>
-      <property id="module.azure.nxd.ip.gateway_address" value="192.168.0.1"/>
+      <property id="module.azure.nxd.ip.gateway_address" value="0.0.0.0"/>
       <property id="module.azure.nxd.ipv6.address_global" value="2001:0:0:0:0:0:0:1"/>
       <property id="module.azure.nxd.ipv6.address_local" value="0:0:0:0:0:0:0:0"/>
       <property id="module.azure.nxd.ip.stack_size" value="2048"/>
@@ -323,9 +323,17 @@
       <property id="module.driver.canfd.p_callback" value="canfd0_callback"/>
       <property id="module.driver.canfd.txmb.int" value="module.driver.canfd.txmb.int.0,module.driver.canfd.txmb.int.1,module.driver.canfd.txmb.int.2,module.driver.canfd.txmb.int.3,module.driver.canfd.txmb.int.4"/>
       <property id="module.driver.canfd.ch_err.int" value=""/>
-      <property id="module.driver.canfd.ipl" value="board.icu.common.irq.priority1"/>
+      <property id="module.driver.canfd.ipl" value="board.icu.common.irq.priority3"/>
       <property id="module.driver.canfd.afl_array" value="p_canfd0_afl"/>
     </module>
+    <module id="module.azure.nxd_dhcp_client.181244634">
+      <property id="module.azure.nxd_dhcp_client.name" value="g_dhcp_client0"/>
+    </module>
+    <object id="rtos.threadx.object.semaphore.708407163">
+      <property id="rtos.threadx.object.semaphore.name" value="Critical Systems Status"/>
+      <property id="rtos.threadx.object.semaphore.symbol" value="css"/>
+      <property id="rtos.threadx.object.semaphore.count" value="0"/>
+    </object>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.middleware.rm_threadx_port.0"/>
@@ -334,26 +342,29 @@
     <context id="rtos.threadx.thread.1749503709">
       <property id="_symbol" value="high_speed_interface_thread0"/>
       <property id="rtos.threadx.thread.name" value="High Speed Interface"/>
-      <property id="rtos.threadx.thread.stack" value="5000"/>
-      <property id="rtos.threadx.thread.priority" value="2"/>
-      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
+      <property id="rtos.threadx.thread.stack" value="10000"/>
+      <property id="rtos.threadx.thread.priority" value="4"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
-      <stack module="module.azure.nxd.ip.586674585">
-        <stack module="module.azure.nxd.packet_pool.1697603583" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
-        <stack module="module.middleware.rm_netxduo_ether.1082684170" requires="module.azure.nxd.ip.requires.nxd.driver">
-          <stack module="module.driver.ether_on_ether.2118392342" requires="module.middleware.rm_netxduo_ether.requires.ether">
-            <stack module="module.driver.ether_phy_on_ether_phy.491120842" requires="module.driver.ether.requires.ether_phy"/>
+      <stack module="module.azure.nxd_dhcp_client.181244634">
+        <stack module="module.azure.nxd.ip.586674585" requires="module.azure.nxd_dhcp_client.requires.nxd.ip">
+          <stack module="module.azure.nxd.packet_pool.1697603583" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
+          <stack module="module.middleware.rm_netxduo_ether.1082684170" requires="module.azure.nxd.ip.requires.nxd.driver">
+            <stack module="module.driver.ether_on_ether.2118392342" requires="module.middleware.rm_netxduo_ether.requires.ether">
+              <stack module="module.driver.ether_phy_on_ether_phy.491120842" requires="module.driver.ether.requires.ether_phy"/>
+            </stack>
+            <stack module="module.azure.nxd.common.1708851115" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
           </stack>
-          <stack module="module.azure.nxd.common.1708851115" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
         </stack>
+        <stack module="module.azure.nxd.packet_pool.1697603583" requires="module.azure.nxd_dhcp_client.requires.nxd.packet_pool"/>
       </stack>
     </context>
     <context id="rtos.threadx.thread.49854697">
       <property id="_symbol" value="low_speed_interface_thread0"/>
       <property id="rtos.threadx.thread.name" value="Low Speed Interface"/>
       <property id="rtos.threadx.thread.stack" value="1024"/>
-      <property id="rtos.threadx.thread.priority" value="1"/>
-      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
+      <property id="rtos.threadx.thread.priority" value="6"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
       <stack module="module.driver.canfd_on_canfd.1264327716"/>
     </context>

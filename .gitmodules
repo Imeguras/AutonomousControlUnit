@@ -1,0 +1,3 @@
+[submodule "src/data_structs/chm"]
+	path = src/data_structs/chm
+	url = https://github.com/FSLART/Can-Header-Map

@@ -25,9 +25,10 @@ public:
 	uint32_t	write(void *data, uint32_t stream_size) override;
 	volatile bool rx_ready;
 	volatile bool tx_ready;
+
 	void callbackHandle(can_callback_args_t *p_args);
 private:
-
+	std::list<uint32_t> fbuffers_rx;
 
 
 };

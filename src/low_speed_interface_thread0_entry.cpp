@@ -7,7 +7,10 @@
 #include "HighSpeedAbsL.cpp"
 #include "CanFDRen.h"
 #include "utils.h"
-can_frame_t frame;
+#include "data_structs/AutomataStructs.hpp"
+#include "data_structs/chm/CAN_asdb.h"
+#include "data_structs/Store.h"
+volatile can_frame_t frame;
 can_info_t info;
 static volatile bool _is_sent = false;
 static volatile bool _is_error =false;
@@ -64,24 +67,19 @@ void low_speed_interface_thread0_entry(void) {
 	canfd->initialization();
 	interface_callback_t=(void *)&canfd;
 	//void (*canfdCBHandle)(can_callback_args_t *)= callbackWrapper(can_callback_args_t *,canfd);
-    frame.id = 0x40;
+    frame.id = CAN_AS_STATUS;
     frame.id_mode = CAN_ID_MODE_STANDARD;
     frame.type = CAN_FRAME_TYPE_DATA;
     frame.data_length_code = 8U;
     frame.options = 0;
+    critical_as temp_data;
+    	tx_semaphore_get(&css, 32);
+    		temp_data = store::critical_autonomous_system_status;
+		tx_semaphore_put(&css);
+	MAP_ENCODE_AS_STATE(frame.data,temp_data.state);
 
-	/* Update transmit frame data with message */
-    frame.data[0]=0x41;
-    frame.data[1]=0x41;
-    frame.data[2]=0x41;
-    frame.data[3]=0x41;
-    frame.data[4]=0x41;
-    frame.data[5]=0x41;
-    frame.data[6]=0x41;
-    frame.data[7]=0x41;
+/* Update transmit frame data with message */
     canfd->write((void *)&frame,1);
-
-
 }
 
 /* Callback function */

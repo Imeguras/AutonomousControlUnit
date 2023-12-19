@@ -9,6 +9,7 @@
 #include "common_data.h"
 #include "AbstractPeripheralLayer.cpp"
 #include <stdint.h>
+#include "nxd_dhcp_client.h"
 #ifndef ETHDUO_H_
 #define ETHDUO_H_
 
@@ -26,6 +27,8 @@ class EthDuo : AbstractPeripheralLayer {
 		  NX_PACKET_POOL g_packet_pool0;
 		  /* IP instance */
 		  NX_IP g_ip0;
+		  NX_DHCP g_dhcp_client0;
+
 		  /* Stack memory for g_ip0. */
 		  void g_ip0_quick_setup();
 		  void g_packet_pool0_quick_setup();

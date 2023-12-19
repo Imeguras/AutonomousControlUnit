@@ -105,11 +105,11 @@ void EthDuo::g_ip0_quick_setup() {
 
 
 
-  status = nx_tcp_enable(&g_ip0);
-  this->error_counter += status;
-
   status = nx_udp_enable(&g_ip0);
   this->error_counter += status;
+  /*status = nx_tcp_enable(&g_ip0);
+  this->error_counter += status;
+
   status = nx_icmp_enable(&g_ip0);
   this->error_counter += status;
 
@@ -119,10 +119,16 @@ void EthDuo::g_ip0_quick_setup() {
   status = nx_igmp_enable(&g_ip0);
   this->error_counter += status;
 
+  status = nx_dhcp_create(&g_dhcp_client0, &g_ip0, (char *)"g_dhcp_client0");
+
+  nx_dhcp_packet_pool_set(&g_dhcp_client0, &g_packet_pool0);
+  nx_dhcp_start(&g_dhcp_client0);
+
+  this->error_counter += status;
   /* Wait for the link to be enabled. */
   ULONG current_state;
   status =
-      nx_ip_status_check(&g_ip0, NX_IP_LINK_ENABLED, &current_state, 10000);
+      nx_ip_status_check(&g_ip0, NX_IP_LINK_ENABLED, &current_state, 20000);
   this->error_counter += status;
 
   	//assert(NX_SUCCESS == status);
