@@ -8,12 +8,13 @@
 #include "rmw_microros/rmw_microros.h"
 
 #include "HighSpeedAbsL.cpp"
-#include "MicroRosHumble/EthDuo.h"
-#include "MicroRosHumble/MicroRosDuo.h"
+#include "interfaces/EthDuo.h"
+#include "interfaces/MicroRosDuo.h"
 #include "MicroRosHumble/microros_transports.h"
 
 #include "data_structs/AutomataStructs.hpp"
 #include "data_structs/Store.h"
+#include "utils.h"
 #define TX_DATA_HIGH_SPEED_TIMEOUT 32
 
 static std_msgs__msg__Int8 msg;
@@ -24,9 +25,15 @@ void subscription_callback(const void * msgin);
 // Implementation example:
 
 void high_speed_interface_thread0_entry(void) {
-
+    led_update(red, BSP_IO_LEVEL_HIGH);
 	HighSpeed_AbsL<EthDuo> ros;
-	ros->initialization();
+	//ros->initialization();
+	led_update(red, BSP_IO_LEVEL_LOW);
+	led_update(green,BSP_IO_LEVEL_HIGH );
+	while(1){
+	    R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
+	}
+
 }
 
 /*

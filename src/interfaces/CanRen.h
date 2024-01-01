@@ -5,7 +5,7 @@
  *  Created on: 09/10/2023
  *      Author: micron
  */
-#ifdef BOARD_RA6M3_EK
+#ifdef R_CAN_Open
 #include "low_speed_interface_thread0.h"
 #include <list>
 #include "AbstractPeripheralLayer.cpp"

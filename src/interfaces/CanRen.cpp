@@ -4,7 +4,7 @@
  *  Created on: 09/10/2023
  *      Author: micron
  */
-#ifdef BOARD_RA6M3_EK
+#ifdef R_CAN_Open
 #include "CanRen.h"
 
 

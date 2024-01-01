@@ -4,7 +4,7 @@
  *  Created on: 09/10/2023
  *      Author: micron
  */
-//#ifdef BOARD_RA6M5_EK
+#ifdef R_CANFD_Open
 #include "CanFDRen.h"
 
 
@@ -84,3 +84,4 @@ void CanFDRen::callbackHandle(can_callback_args_t *p_args){
 	}
 }
 
+#endif

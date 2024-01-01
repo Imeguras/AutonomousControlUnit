@@ -10,7 +10,7 @@
 #include "low_speed_interface_thread0.h"
 #include "AbstractPeripheralLayer.cpp"
 #include "bsp_api.h"
-#ifdef BOARD_RA6M5_EK
+#ifdef R_CANFD_Open
 
 #include "common_data.h"
 #define CANFDREN_LOOPBACK_TIMEOUT 200

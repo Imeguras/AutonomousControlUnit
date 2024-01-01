@@ -5,12 +5,12 @@
  *      Author: micron
  */
 
-#include "MicroRosHumble/EthDuo.h"
+#include "interfaces/EthDuo.h"
 
-#include <uxr/client/transport.h>
+//#include <uxr/client/transport.h>
 #include <rmw_microros/rmw_microros.h>
 #include <rmw_microxrcedds_c/config.h>
-#include "microros_transports.h"
+#include "MicroRosHumble/microros_transports.h"
 /*
 #include "rmw_microros/rmw_microros.h"
 #include "microros_transports.h"*/
