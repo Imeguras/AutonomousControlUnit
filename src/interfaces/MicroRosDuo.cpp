@@ -6,6 +6,7 @@
  */
 
 #include "MicroRosDuo.h"
+#include "MicroRosHumble/microros_allocators.c"
 #include "bsp_api.h"
 #include "common_data.h"
 //TODO: THIS IS INCREDIBLY DANGEROUS AND WILL FUCK UP AT SOME POINT
@@ -45,17 +46,27 @@ MicroRosDuo::MicroRosDuo() {
 	RosIntanceSingleton::getInstance().setHandle(this);
 	this->remote_addr =  custom_transport_args{
 
-							   .agent_ip_address=IP_ADDRESS(192,168,0,103),
+							   .agent_ip_address=IP_ADDRESS(192,168,0,102),
 							   .agent_port=8888
 							};
-				auto ret = rmw_uros_set_custom_transport(
+	rmw_uros_set_custom_transport(
 						   false,
 						   (void *) &remote_addr,
 						   RosIntanceSingleton::getInstance().handle_open,
 						   RosIntanceSingleton::getInstance().handle_close,
 						   RosIntanceSingleton::getInstance().handle_write,
 						   RosIntanceSingleton::getInstance().handle_read);
-	//this->_transport_open(nullptr);
+
+	rcl_allocator_t custom_allocator = rcutils_get_zero_initialized_allocator();
+    custom_allocator.allocate = microros_allocate;
+    custom_allocator.deallocate = microros_deallocate;
+    custom_allocator.reallocate = microros_reallocate;
+	custom_allocator.zero_allocate =  microros_zero_allocate;
+	if (!rcutils_set_default_allocator(&custom_allocator)) {
+	    //TODO this should be written
+	        printf("Error on default allocators (line %d)\n", __LINE__);
+    }
+
 
 }
 
@@ -67,11 +78,11 @@ void* MicroRosDuo::recv(void * data, uint32_t stream_size){
 }
 bool MicroRosDuo::_transport_open(struct uxrCustomTransport * transport){
     (void) transport;
-    int ret_init= this->EthDuo::initialization();
+    /*int ret_init= this->EthDuo::initialization();
     if(ret_init != 0 ){
     	// TODO: SD CARD LOG FAILURE
     	return false;
-    }
+    }*/
 
 
     UINT status = nx_udp_socket_create(&g_ip0, &socket, (CHAR *)"Micro socket", NX_IP_NORMAL, NX_DONT_FRAGMENT, NX_IP_TIME_TO_LIVE, SOCKET_FIFO_SIZE);

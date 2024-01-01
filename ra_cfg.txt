@@ -1601,7 +1601,7 @@ FSP Configuration
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
     General: Error Checking: Enabled
-    Timer: Timer Ticks Per Second: 100
+    Timer: Timer Ticks Per Second: 1000
     General: Max Priorities: 32
     General: Minimum Stack: 200
     Timer: Timer Thread Stack Size: 1024
@@ -1666,7 +1666,7 @@ FSP Configuration
   Thread "High Speed Interface"
     Symbol: high_speed_interface_thread0
     Name: High Speed Interface
-    Stack size (bytes): 0x1000
+    Stack size (bytes): 0x1388
     Priority: 3
     Auto start: Enabled
     Time slicing interval (ticks): 1

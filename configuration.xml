@@ -303,7 +303,7 @@
     <context id="rtos.threadx.thread.1075500400">
       <property id="_symbol" value="high_speed_interface_thread0"/>
       <property id="rtos.threadx.thread.name" value="High Speed Interface"/>
-      <property id="rtos.threadx.thread.stack" value="0x1000"/>
+      <property id="rtos.threadx.thread.stack" value="0x1388"/>
       <property id="rtos.threadx.thread.priority" value="3"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
@@ -722,7 +722,7 @@
     <config id="config.threadx.thread">
       <property id="config.azure.tx.custom_tx_user" value=""/>
       <property id="config.azure.tx.error_checking" value="config.azure.tx.error_checking.enabled"/>
-      <property id="config.azure.tx.timer_ticks_per_second" value="100"/>
+      <property id="config.azure.tx.timer_ticks_per_second" value="1000"/>
       <property id="config.azure.tx.max_priorities" value="32"/>
       <property id="config.azure.tx.minimum_stack" value="200"/>
       <property id="config.azure.tx.timer_thread_stack_size" value="1024"/>

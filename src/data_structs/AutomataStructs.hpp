@@ -5,6 +5,7 @@
  *      Author: micron
  */
 #include <stdint.h>
+#include <std_msgs/msg/int8.h>
 #pragma once
 enum critical_as_state {
 	OFF=1,
@@ -15,10 +16,41 @@ enum critical_as_state {
 	UNKNOWN
 
 };
-typedef struct {
-	critical_as_state state;
 
-}critical_as;
+template<typename T>
+class critical_as_int8{
+	public: 
+		T state;
+		critical_as_int8(){
+			state = UNKNOWN;
+		}
+		critical_as_int8(T state){
+			this->state = state;
+			msg = *(std_msgs__msg__Int8__create());
+			msg.data = state;	
+		}
+		std_msgs__msg__Int8 get(){
+		    return msg;
+		}
+		void set(std_msgs__msg__Int8 msg){
+		    this->msg = msg;
+
+		}
+		void set(T state){
+		    this->state=state;
+		}
+		void operator=(T state){
+		    this->set(state);
+		}
+		void operator=(std_msgs__msg__Int8 msg){
+		    this->set(msg);
+		}
+
+
+	private: 
+		std_msgs__msg__Int8 msg;
+
+};
 
 
 
