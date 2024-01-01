@@ -46,13 +46,13 @@ void high_speed_interface_thread0_entry(void) {
     rclc_node_init_default(&node, "faadihgas_node", "", &support);
 
     rclc_publisher_init_default(&publisher_critical_status,&node,ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8) , "/system_status/critical_as/state");
-    rclc_subscription_init_default(&subscriber_critical_status, &node,ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8), "/system_status/critical_as/state");
+    //rclc_subscription_init_default(&subscriber_critical_status, &node,ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8), "/system_status/critical_as/state");
 
-    rcl_ret_t rc = rclc_executor_add_subscription(
+    /*rcl_ret_t rc = rclc_executor_add_subscription(
       &executor, &subscriber_critical_status, &call_msg,
       &subscription_callback, ON_NEW_DATA);
     rclc_executor_spin(&executor);
-    (void) rc;
+    (void) rc;*/
     critical_as_int8<critical_as_state> temp_payload = {OFF};
     //critical_as_int8<critical_as_state> temp_payload_old = temp_payload;
 
