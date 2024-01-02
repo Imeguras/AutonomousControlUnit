@@ -1729,3 +1729,8 @@ FSP Configuration
     Auto start: Enabled
     Time slicing interval (ticks): 1
     
+  Object "css Semaphore"
+    Name: Critical System Status
+    Symbol: css
+    Initial count: 0
+    

@@ -18,13 +18,13 @@ enum critical_as_state {
 };
 
 template<typename T>
-class critical_as_int8{
+class wrapper_int8{
 	public: 
 		T state;
-		critical_as_int8(){
+		wrapper_int8(){
 			state = UNKNOWN;
 		}
-		critical_as_int8(T state){
+		wrapper_int8(T state){
 			this->state = state;
 			msg = *(std_msgs__msg__Int8__create());
 			msg.data = state;	
@@ -34,16 +34,23 @@ class critical_as_int8{
 		}
 		void set(std_msgs__msg__Int8 msg){
 		    this->msg = msg;
+		    this->state= (critical_as_state)msg.data;
+
 
 		}
 		void set(T state){
 		    this->state=state;
+		    this->msg= *(std_msgs__msg__Int8__create());
+		    msg.data = (int8_t)state;
 		}
 		void operator=(T state){
 		    this->set(state);
 		}
 		void operator=(std_msgs__msg__Int8 msg){
 		    this->set(msg);
+		}
+		bool operator!=(wrapper_int8<T> other){
+		    return this->state != other.state;
 		}
 
 

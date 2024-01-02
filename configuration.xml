@@ -295,6 +295,11 @@
       <property id="module.driver.timer.p_callback" value="micro_ros_timer_cb"/>
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority12"/>
     </module>
+    <object id="rtos.threadx.object.semaphore.1326368467">
+      <property id="rtos.threadx.object.semaphore.name" value="Critical System Status"/>
+      <property id="rtos.threadx.object.semaphore.symbol" value="css"/>
+      <property id="rtos.threadx.object.semaphore.count" value="0"/>
+    </object>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.middleware.rm_threadx_port.0"/>

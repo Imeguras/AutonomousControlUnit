@@ -9,7 +9,7 @@
 #define DATA_STRUCTS_STORE_H_
 
 namespace store {
-//static critical_as_int8 critical_autonomous_system_status = {OFF};
+static wrapper_int8<critical_as_state> critical_autonomous_system_status = {OFF};
 
 } /* namespace store */
 
