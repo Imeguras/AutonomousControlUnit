@@ -21,33 +21,35 @@ template<typename T>
 class wrapper_int8{
 	public: 
 		T state;
+
 		wrapper_int8(){
 			state = UNKNOWN;
 		}
-		wrapper_int8(T state){
-			this->state = state;
+		wrapper_int8(T incoming_state){
+
+			this->state = incoming_state;
 			msg = *(std_msgs__msg__Int8__create());
-			msg.data = state;	
+			msg.data = incoming_state;
 		}
 		std_msgs__msg__Int8 get(){
 		    return msg;
 		}
-		void set(std_msgs__msg__Int8 msg){
-		    this->msg = msg;
-		    this->state= (critical_as_state)msg.data;
+		void set(std_msgs__msg__Int8 incoming_msg){
+		    this->msg = incoming_msg;
+		    this->state= (critical_as_state)incoming_msg.data;
 
 
 		}
-		void set(T state){
-		    this->state=state;
+		void set(T incoming_state){
+		    this->state=incoming_state;
 		    this->msg= *(std_msgs__msg__Int8__create());
-		    msg.data = (int8_t)state;
+		    msg.data = (int8_t)incoming_state;
 		}
-		void operator=(T state){
-		    this->set(state);
+		void operator=(T incoming_state){
+		    this->set(incoming_state);
 		}
-		void operator=(std_msgs__msg__Int8 msg){
-		    this->set(msg);
+		void operator=(std_msgs__msg__Int8 incoming_msg){
+		    this->set(incoming_msg);
 		}
 		bool operator!=(wrapper_int8<T> other){
 		    return this->state != other.state;

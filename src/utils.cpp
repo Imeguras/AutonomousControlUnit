@@ -8,6 +8,24 @@
 #include "utils.h"
 
 extern bsp_leds_t g_bsp_leds;
+void led_blink(int times){
+    led_blink(green, times);
+}
+void error_blink(int times){
+    led_blink(red, times);
+}
+
+
+void led_blink(led_state_t led_state, int times){
+    e_bsp_io_level led_blink=BSP_IO_LEVEL_LOW;
+        times*=2;
+        for(int i = times; i > 0; i--){
+            led_blink=BSP_IO_LEVEL_LOW?BSP_IO_LEVEL_HIGH:BSP_IO_LEVEL_LOW;
+            led_update(led_state, led_blink );
+            R_BSP_SoftwareDelay(500,BSP_DELAY_UNITS_MILLISECONDS );
+
+        }
+}
 
  void led_update(led_state_t led_state, e_bsp_io_level value){
 	//BSP_IO_LEVEL_LOW

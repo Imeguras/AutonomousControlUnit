@@ -15,31 +15,29 @@
 #include "data_structs/AutomataStructs.hpp"
 #include "data_structs/Store.h"
 #include "utils.h"
+
 #define TX_DATA_HIGH_SPEED_TIMEOUT 32
 #define ROS2_EXECUTOR_MAX_HANDLES 1
-static std_msgs__msg__Int8 msg;
+static std_msgs__msg__Int8 msg_incoming;
 /* New Thread entry function */
 void (* sub_callback)(const void *);
 void subscription_callback(const void * msgin);
-// Implementation example:
-void error_blink(int f);
+
 void high_speed_interface_thread0_entry(void) {
     led_update(red, BSP_IO_LEVEL_HIGH);
 	HighSpeed_AbsL<MicroRosDuo> ros;
-	for(int i = 3; i > 0; i--){
-	    led_update(green,BSP_IO_LEVEL_HIGH );
-	    R_BSP_SoftwareDelay(500,BSP_DELAY_UNITS_MILLISECONDS );
-        led_update(green,BSP_IO_LEVEL_LOW );
-        R_BSP_SoftwareDelay(500,BSP_DELAY_UNITS_MILLISECONDS );
-	}
-
+	led_blink(3);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Waggregate-return"
 
 	rcl_allocator_t allocator = rcl_get_default_allocator();
 	rcl_init_options_t init_options = rcl_get_zero_initialized_init_options();
-	auto _oi = rcl_init_options_init(&init_options, allocator);
-	auto _iosdid =rcl_init_options_set_domain_id(&init_options, 42);
-	FSP_PARAMETER_NOT_USED(_oi);
-	FSP_PARAMETER_NOT_USED(_iosdid);
+
+	auto _opt_init = rcl_init_options_init(&init_options, allocator);
+	auto _opt_set_domain =rcl_init_options_set_domain_id(&init_options, 42);
+	FSP_PARAMETER_NOT_USED(_opt_init);
+	FSP_PARAMETER_NOT_USED(_opt_set_domain);
+
 	// Initialize rclc support object with custom options
 	rclc_support_t support;
 	rclc_support_init_with_options(&support, 0, NULL, &init_options, &allocator);
@@ -52,11 +50,10 @@ void high_speed_interface_thread0_entry(void) {
     rcl_publisher_t publisher_critical_status;
     rcl_subscription_t subscriber_critical_status= rcl_get_zero_initialized_subscription();
 
+#pragma GCC diagnostic pop
+
 
     rcl_ret_t rc = RCL_RET_OK;
-    const unsigned int timer_period = RCL_MS_TO_NS(1000);
-
-
 
     rclc_node_init_default(&node, "faadihgas_node", "", &support);
 
@@ -73,7 +70,7 @@ void high_speed_interface_thread0_entry(void) {
     }
 
     rc = rclc_executor_add_subscription(
-      &executor, &subscriber_critical_status, &msg,
+      &executor, &subscriber_critical_status, &msg_incoming,
       &subscription_callback, ON_NEW_DATA);
 
     if (RCL_RET_OK != rc) {
@@ -95,7 +92,7 @@ void high_speed_interface_thread0_entry(void) {
 
 	    //R_BSP_SoftwareDelay(1, BSP_DELAY_UNITS_MILLISECONDS);
 
-	    payload = msg;
+	    payload = msg_incoming;
 	    auto publish_ret = rcl_publish(&publisher_critical_status, &payload, NULL);
 	    FSP_PARAMETER_NOT_USED(publish_ret);
 
@@ -110,32 +107,13 @@ void high_speed_interface_thread0_entry(void) {
 	}
 
 }
-void error_blink(int f){
-    for(int i = f; i > 0; i--){
-        led_update(red,BSP_IO_LEVEL_LOW );
-        R_BSP_SoftwareDelay(500,BSP_DELAY_UNITS_MILLISECONDS );
-        led_update(red,BSP_IO_LEVEL_HIGH );
-        R_BSP_SoftwareDelay(500,BSP_DELAY_UNITS_MILLISECONDS );
-    }
-}
+
 void subscription_callback(const void * msgin){
+    const std_msgs__msg__Int8 * msg_cast = (const std_msgs__msg__Int8 *)msgin;
+    msg_incoming.data = msg_cast->data;
     led_update(blue, BSP_IO_LEVEL_LOW);
     R_BSP_SoftwareDelay(200, BSP_DELAY_UNITS_MILLISECONDS);
     led_update(blue, BSP_IO_LEVEL_HIGH);
-  // Cast received message to used type
-
-    const std_msgs__msg__Int8 * msg_cast = (const std_msgs__msg__Int8 *)msgin;
-    msg.data = msg_cast->data;
-
 }
 
-/*
-
-
-    	R_BSP_SoftwareDelay(10,BSP_DELAY_UNITS_MILLISECONDS);
-	}
-}
-
-
-*/
 

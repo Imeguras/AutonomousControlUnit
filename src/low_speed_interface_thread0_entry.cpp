@@ -12,8 +12,6 @@
 #include "data_structs/Store.h"
 volatile can_frame_t frame;
 can_info_t info;
-static volatile bool _is_sent = false;
-static volatile bool _is_error =false;
 
 void * interface_callback_t;
 /*CANFD Channel 1 Acceptance Filter List (AFL) rule array */
@@ -67,19 +65,24 @@ void low_speed_interface_thread0_entry(void) {
 	//canfd->initialization();
 	interface_callback_t=(void *)&canfd;
 	//void (*canfdCBHandle)(can_callback_args_t *)= callbackWrapper(can_callback_args_t *,canfd);
-    frame.id = CAN_AS_STATUS;
-    frame.id_mode = CAN_ID_MODE_STANDARD;
-    frame.type = CAN_FRAME_TYPE_DATA;
-    frame.data_length_code = 8U;
-    frame.options = 0;
-    wrapper_int8<critical_as_state> temp_data;
-        tx_semaphore_get(&css, 32);
-    		temp_data = store::critical_autonomous_system_status;
-		tx_semaphore_put(&css);
-	MAP_ENCODE_AS_STATE(frame.data,temp_data.state);
+    while(1){
+        frame.id = CAN_AS_STATUS;
+        frame.id_mode = CAN_ID_MODE_STANDARD;
+        frame.type = CAN_FRAME_TYPE_DATA;
+        frame.data_length_code = 8U;
+        frame.options = 0;
+        wrapper_int8<critical_as_state> temp_data;
+            tx_semaphore_get(&css, 32);
+                temp_data = store::critical_autonomous_system_status;
+            tx_semaphore_put(&css);
+        MAP_ENCODE_AS_STATE(frame.data,temp_data.state);
 
-/* Update transmit frame data with message */
-    canfd->write((void *)&frame,1);
+    /* Update transmit frame data with message */
+        canfd->write((void *)&frame,1);
+
+    }
+
+
 }
 
 /* Callback function */
