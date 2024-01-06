@@ -76,7 +76,7 @@ FSP Configuration
     PLL Src: XTAL
     PLL Div /3
     PLL Mul x25.0
-    PLL2 Disabled
+    PLL2 Src: XTAL
     PLL2 Div /2
     PLL2 Mul x20.0
     Clock Src: PLL
@@ -84,7 +84,7 @@ FSP Configuration
     UCLK Disabled
     U60CK Disabled
     OCTASPICLK Disabled
-    CANFDCLK Disabled
+    CANFDCLK Src: PLL2
     CECCLK Disabled
     ICLK Div /1
     PCLKA Div /2
@@ -1598,6 +1598,62 @@ FSP Configuration
     Pin Output Support: Disabled
     Pin Input Support: Disabled
     
+  Module "CAN FD (r_canfd)"
+    Parameter Checking: Default (BSP)
+    Global Error Interrupt: Callback Channel: Channel 0
+    Global Error Interrupt: Priority: Priority 12
+    Reception: FIFOs: Interrupt Priority: Priority 12
+    Flexible Data (FD): FD Frame Format: ISO 11898-1
+    Flexible Data (FD): Protocol Exceptions: Enabled (ISO 11898-1)
+    Global Error Interrupt: Sources: FD Payload Overflow
+    Transmission Priority: Buffer Number
+    DLC Check: Disabled
+    Flexible Data (FD): Payload Overflow: Reject
+    Reception: Message Buffers: Number of Buffers: 0
+    Reception: Message Buffers: Payload Size: 8 bytes
+    Reception: FIFOs: FIFO 0: Enable: Enabled
+    Reception: FIFOs: FIFO 0: Interrupt Mode: Every Frame
+    Reception: FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
+    Reception: FIFOs: FIFO 0: Payload Size: 8 bytes
+    Reception: FIFOs: FIFO 0: Depth: 16 stages
+    Reception: FIFOs: FIFO 1: Enable: Disabled
+    Reception: FIFOs: FIFO 1: Interrupt Mode: Every Frame
+    Reception: FIFOs: FIFO 1: Interrupt Threshold: 1/2 full
+    Reception: FIFOs: FIFO 1: Payload Size: 8 bytes
+    Reception: FIFOs: FIFO 1: Depth: 16 stages
+    Reception: FIFOs: FIFO 2: Enable: Disabled
+    Reception: FIFOs: FIFO 2: Interrupt Mode: Every Frame
+    Reception: FIFOs: FIFO 2: Interrupt Threshold: 1/2 full
+    Reception: FIFOs: FIFO 2: Payload Size: 8 bytes
+    Reception: FIFOs: FIFO 2: Depth: 16 stages
+    Reception: FIFOs: FIFO 3: Enable: Disabled
+    Reception: FIFOs: FIFO 3: Interrupt Mode: Every Frame
+    Reception: FIFOs: FIFO 3: Interrupt Threshold: 1/2 full
+    Reception: FIFOs: FIFO 3: Payload Size: 8 bytes
+    Reception: FIFOs: FIFO 3: Depth: 16 stages
+    Reception: FIFOs: FIFO 4: Enable: Disabled
+    Reception: FIFOs: FIFO 4: Interrupt Mode: Every Frame
+    Reception: FIFOs: FIFO 4: Interrupt Threshold: 1/2 full
+    Reception: FIFOs: FIFO 4: Payload Size: 8 bytes
+    Reception: FIFOs: FIFO 4: Depth: 16 stages
+    Reception: FIFOs: FIFO 5: Enable: Disabled
+    Reception: FIFOs: FIFO 5: Interrupt Mode: Every Frame
+    Reception: FIFOs: FIFO 5: Interrupt Threshold: 1/2 full
+    Reception: FIFOs: FIFO 5: Payload Size: 8 bytes
+    Reception: FIFOs: FIFO 5: Depth: 16 stages
+    Reception: FIFOs: FIFO 6: Enable: Disabled
+    Reception: FIFOs: FIFO 6: Interrupt Mode: Every Frame
+    Reception: FIFOs: FIFO 6: Interrupt Threshold: 1/2 full
+    Reception: FIFOs: FIFO 6: Payload Size: 8 bytes
+    Reception: FIFOs: FIFO 6: Depth: 16 stages
+    Reception: FIFOs: FIFO 7: Enable: Disabled
+    Reception: FIFOs: FIFO 7: Interrupt Mode: Every Frame
+    Reception: FIFOs: FIFO 7: Interrupt Threshold: 1/2 full
+    Reception: FIFOs: FIFO 7: Payload Size: 8 bytes
+    Reception: FIFOs: FIFO 7: Depth: 16 stages
+    Reception: Acceptance Filtering: Channel 0 Rule Count: 32
+    Reception: Acceptance Filtering: Channel 1 Rule Count: 0
+    
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
     General: Error Checking: Enabled
@@ -1729,6 +1785,28 @@ FSP Configuration
     Auto start: Enabled
     Time slicing interval (ticks): 1
     
+    Instance "g_canfd0 CAN FD (r_canfd)"
+      General: Name: g_canfd0
+      General: Channel: 0
+      Bitrate: Automatic: Nominal Rate (bps): 1000000
+      Bitrate: Automatic: FD Data Rate (bps): 1000000
+      Bitrate: Automatic: Sample Point (%): 75
+      Bitrate: Delay Compensation: Enable
+      Bitrate: Manual: Nominal: Prescaler (divisor): 1
+      Bitrate: Manual: Nominal: Time Segment 1 (Tq): 29
+      Bitrate: Manual: Nominal: Time Segment 2 (Tq): 10
+      Bitrate: Manual: Nominal: Sync Jump Width (Tq): 4
+      Bitrate: Manual: Data: Prescaler (divisor): 1
+      Bitrate: Manual: Data: Time Segment 1 (Tq): 5
+      Bitrate: Manual: Data: Time Segment 2 (Tq): 2
+      Bitrate: Manual: Data: Sync Jump Width (Tq): 1
+      Bitrate: Manual: Use manual settings: No
+      Interrupts: Callback: canfd0_callback
+      Transmit Interrupts: 
+      Channel Error Interrupts: 
+      Interrupts: Channel Interrupt Priority Level: Priority 12
+      Filter List Array: p_canfd0_afl
+      
   Object "css Semaphore"
     Name: Critical System Status
     Symbol: css

@@ -46,7 +46,7 @@ MicroRosDuo::MicroRosDuo() {
 	RosIntanceSingleton::getInstance().setHandle(this);
 	this->remote_addr =  custom_transport_args{
 
-							   .agent_ip_address=IP_ADDRESS(192,168,0,102),
+							   .agent_ip_address=IP_ADDRESS(192,168,0,100),
 							   .agent_port=8888
 							};
 	rmw_uros_set_custom_transport(

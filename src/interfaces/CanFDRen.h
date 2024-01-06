@@ -10,12 +10,19 @@
 #include "low_speed_interface_thread0.h"
 #include "AbstractPeripheralLayer.cpp"
 #include "bsp_api.h"
-#ifdef R_CANFD_Open
-
 #include "common_data.h"
+
+#if BSP_FEATURE_CANFD_FD_SUPPORT
+
+
 #define CANFDREN_LOOPBACK_TIMEOUT 200
 #ifndef CANFDREN_H_
 #define CANFDREN_H_
+
+#if not defined(__IGNORE_CANFD_USAGE__) and BSP_FEATURE_CANFD_NUM_INSTANCES == 0
+    #error "You need to add a CANFD stack in order to use this"
+#endif
+
 class CanFDRen : AbstractPeripheralLayer{
 public:
 	CanFDRen();
@@ -33,6 +40,6 @@ private:
 
 };
 
-
 #endif /* CANREN_H_ */
+
 #endif

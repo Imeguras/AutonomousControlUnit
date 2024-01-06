@@ -26,7 +26,6 @@ void error_blink(int f);
 void high_speed_interface_thread0_entry(void) {
     led_update(red, BSP_IO_LEVEL_HIGH);
 	HighSpeed_AbsL<MicroRosDuo> ros;
-
 	for(int i = 3; i > 0; i--){
 	    led_update(green,BSP_IO_LEVEL_HIGH );
 	    R_BSP_SoftwareDelay(500,BSP_DELAY_UNITS_MILLISECONDS );

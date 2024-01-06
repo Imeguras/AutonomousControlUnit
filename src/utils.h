@@ -19,6 +19,8 @@ typedef enum
 } led_state_t;
 
 void led_update(led_state_t led_state, e_bsp_io_level value);
+
+
 //static void led_update(led_state_t led_state);
 
 #endif /* UTILS_H_ */

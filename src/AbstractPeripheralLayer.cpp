@@ -12,7 +12,7 @@ public:
 	AbstractPeripheralLayer(){
 
 	}
-	~AbstractPeripheralLayer(){
+	virtual ~AbstractPeripheralLayer(){
 
 	}
 
