@@ -97,8 +97,9 @@ void high_speed_interface_thread0_entry(void) {
 	    FSP_PARAMETER_NOT_USED(publish_ret);
 
         if(payload!=payload_old ){
+
             tx_semaphore_get(&css, TX_DATA_HIGH_SPEED_TIMEOUT);
-                store::critical_autonomous_system_status = payload;
+                store::Store::getInstance().critical_autonomous_system_status = payload;
             tx_semaphore_put(&css);
             payload_old=payload;
         }

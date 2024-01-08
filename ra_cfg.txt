@@ -1600,7 +1600,7 @@ FSP Configuration
     
   Module "CAN FD (r_canfd)"
     Parameter Checking: Default (BSP)
-    Global Error Interrupt: Callback Channel: Channel 0
+    Global Error Interrupt: Callback Channel: Channel 1
     Global Error Interrupt: Priority: Priority 12
     Reception: FIFOs: Interrupt Priority: Priority 12
     Flexible Data (FD): FD Frame Format: ISO 11898-1
@@ -1609,7 +1609,7 @@ FSP Configuration
     Transmission Priority: Buffer Number
     DLC Check: Disabled
     Flexible Data (FD): Payload Overflow: Reject
-    Reception: Message Buffers: Number of Buffers: 0
+    Reception: Message Buffers: Number of Buffers: 1
     Reception: Message Buffers: Payload Size: 8 bytes
     Reception: FIFOs: FIFO 0: Enable: Enabled
     Reception: FIFOs: FIFO 0: Interrupt Mode: Every Frame
@@ -1651,8 +1651,8 @@ FSP Configuration
     Reception: FIFOs: FIFO 7: Interrupt Threshold: 1/2 full
     Reception: FIFOs: FIFO 7: Payload Size: 8 bytes
     Reception: FIFOs: FIFO 7: Depth: 16 stages
-    Reception: Acceptance Filtering: Channel 0 Rule Count: 32
-    Reception: Acceptance Filtering: Channel 1 Rule Count: 0
+    Reception: Acceptance Filtering: Channel 0 Rule Count: 0
+    Reception: Acceptance Filtering: Channel 1 Rule Count: 32
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
@@ -1785,9 +1785,9 @@ FSP Configuration
     Auto start: Enabled
     Time slicing interval (ticks): 1
     
-    Instance "g_canfd0 CAN FD (r_canfd)"
-      General: Name: g_canfd0
-      General: Channel: 0
+    Instance "g_canfd1 CAN FD (r_canfd)"
+      General: Name: g_canfd1
+      General: Channel: 1
       Bitrate: Automatic: Nominal Rate (bps): 1000000
       Bitrate: Automatic: FD Data Rate (bps): 1000000
       Bitrate: Automatic: Sample Point (%): 75
@@ -1801,11 +1801,11 @@ FSP Configuration
       Bitrate: Manual: Data: Time Segment 2 (Tq): 2
       Bitrate: Manual: Data: Sync Jump Width (Tq): 1
       Bitrate: Manual: Use manual settings: No
-      Interrupts: Callback: canfd0_callback
-      Transmit Interrupts: 
-      Channel Error Interrupts: 
-      Interrupts: Channel Interrupt Priority Level: Priority 12
-      Filter List Array: p_canfd0_afl
+      Interrupts: Callback: canfd1_callback
+      Transmit Interrupts: TXMB 0, TXMB 1, TXMB 2, TXMB 3, TXMB 4, TXMB 5, TXMB 6, TXMB 7
+      Channel Error Interrupts: Bus-Off Entry, Bus-Off Recovery, Overload
+      Interrupts: Channel Interrupt Priority Level: Priority 6
+      Filter List Array: p_canfd1_afl
       
   Object "css Semaphore"
     Name: Critical System Status

@@ -16,6 +16,15 @@ enum critical_as_state {
 	UNKNOWN
 
 };
+enum critical_as_mission {
+    ACCELERATION=1,
+    SKIDPAD=2,
+    TRACKDRIVE=3,
+    BRAKEDRIVE=4,
+    INSPECTION=5,
+    AUTOCROSS=6,
+    UNKNOWN
+};
 
 template<typename T>
 class wrapper_int8{

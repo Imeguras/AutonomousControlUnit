@@ -22,7 +22,7 @@ CanFDRen::~CanFDRen() {
 int CanFDRen::initialization(){
     UINT status=-1;
 
-	status = R_CANFD_Open(&g_canfd0_ctrl, &g_canfd0_cfg);
+	status = R_CANFD_Open(&g_canfd1_ctrl, &g_canfd1_cfg);
 	if(status== FSP_SUCCESS){
 		tx_ready=true;
 		rx_ready= true;
@@ -41,7 +41,7 @@ void* CanFDRen::recv(void * data, uint32_t stream_size=1){
 	this->fbuffers_rx.pop_front();
 	//TODO: read more than one?
 
-	R_CANFD_Read(&g_canfd0_ctrl,index,  (can_frame_t *)&data);
+	R_CANFD_Read(&g_canfd1_ctrl,index,  (can_frame_t *)&data);
 	return ((void *)data);
 }
 /**
@@ -52,26 +52,31 @@ void* CanFDRen::recv(void * data, uint32_t stream_size=1){
  */
 uint32_t CanFDRen::write(void *data, uint32_t stream_size){
 	//TODO buffers??!
-	/*while(this->tx_ready != true) {
-
-	}*/
     FSP_PARAMETER_NOT_USED(stream_size);
-	UINT status = R_CANFD_Write(&g_canfd0_ctrl, 0, (can_frame_t *)data);
-	//TODO: multiple tx
-	this->tx_ready=false;
+
+
+    tx_ready=false;
+    UINT status = R_CANFD_Write(&g_canfd1_ctrl, 0, (can_frame_t *)data);
+    while(tx_ready != true) {
+        R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MICROSECONDS);
+    }
+
+
 
 	return status;
 }
 
 void CanFDRen::callbackHandle(can_callback_args_t *p_args){
-	switch (p_args->event){
+
+    switch (p_args->event){
+
         case CAN_EVENT_TX_COMPLETE:
-            this->tx_ready=true;
+            tx_ready=true;
             break;
         case CAN_EVENT_RX_COMPLETE:
             //TODO validations?
             this->fbuffers_rx.push_back(p_args->buffer);
-            this->rx_ready=true;
+            rx_ready=true;
             break;
         case CAN_EVENT_TX_FIFO_EMPTY:       /* Transmit FIFO is empty. */
             break;
@@ -92,8 +97,8 @@ void CanFDRen::callbackHandle(can_callback_args_t *p_args){
         case CAN_EVENT_ERR_GLOBAL:           /* Global error has occurred. */
         case CAN_EVENT_ERR_BUS_OFF:          /* error bus off event */
         case CAN_EVENT_ERR_BUS_LOCK:{         /* Bus lock detected (32 consecutive dominant bits). */
-            this->tx_ready=false;
-            this->rx_ready=false;
+            tx_ready=false;
+            rx_ready=false;
             break;
         }
         default:

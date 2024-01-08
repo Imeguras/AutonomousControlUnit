@@ -22,7 +22,8 @@
 #if not defined(__IGNORE_CANFD_USAGE__) and BSP_FEATURE_CANFD_NUM_INSTANCES == 0
     #error "You need to add a CANFD stack in order to use this"
 #endif
-
+static bool rx_ready;
+static bool tx_ready;
 class CanFDRen : AbstractPeripheralLayer{
 public:
 	CanFDRen();
@@ -30,12 +31,12 @@ public:
 	int initialization() override;
 	void* recv(void * data, uint32_t stream_size) override;
 	uint32_t	write(void *data, uint32_t stream_size) override;
-	volatile bool rx_ready;
-	volatile bool tx_ready;
+
 
 	void callbackHandle(can_callback_args_t *p_args);
 private:
 	std::list<uint32_t> fbuffers_rx;
+
 
 
 };

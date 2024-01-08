@@ -15,7 +15,7 @@ can_info_t info;
 
 void * interface_callback_t;
 /*CANFD Channel 1 Acceptance Filter List (AFL) rule array */
-extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
+extern "C" const canfd_afl_entry_t p_canfd1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
 		{
 		    .id =
 		      {
@@ -62,7 +62,7 @@ extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
 void low_speed_interface_thread0_entry(void) {
 
 	HighSpeed_AbsL<CanFDRen> canfd;
-	//canfd->initialization();
+	canfd->initialization();
 	interface_callback_t=(void *)&canfd;
 	//void (*canfdCBHandle)(can_callback_args_t *)= callbackWrapper(can_callback_args_t *,canfd);
     while(1){
@@ -72,9 +72,9 @@ void low_speed_interface_thread0_entry(void) {
         frame.data_length_code = 8U;
         frame.options = 0;
         wrapper_int8<critical_as_state> temp_data;
-            tx_semaphore_get(&css, 32);
-                temp_data = store::critical_autonomous_system_status;
-            tx_semaphore_put(&css);
+        tx_semaphore_get(&css, TX_WAIT_FOREVER);
+            temp_data = store::Store::getInstance().critical_autonomous_system_status;
+        tx_semaphore_put(&css);
         MAP_ENCODE_AS_STATE(frame.data,temp_data.state);
 
     /* Update transmit frame data with message */
@@ -86,7 +86,7 @@ void low_speed_interface_thread0_entry(void) {
 }
 
 /* Callback function */
-extern "C" void canfd0_callback(can_callback_args_t *p_args){
+extern "C" void canfd1_callback(can_callback_args_t *p_args){
 	if(interface_callback_t != NULL){
 		((CanFDRen *)interface_callback_t)->callbackHandle(p_args);
 	}

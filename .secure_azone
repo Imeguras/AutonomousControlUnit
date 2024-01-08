@@ -112,7 +112,7 @@
         </peripheral>
         <peripheral name="AGT0" group="AGT" security=""/>
         <peripheral name="ETHERC0" group="ETHERC" security=""/>
-        <peripheral name="CANFD0" group="CANFD" security=""/>
+        <peripheral name="CANFD1" group="CANFD" security=""/>
         <peripheral name="ICU">
             <slot name="IRQ0" secure="false"/>
             <slot name="IRQ1" secure="false"/>

@@ -9,8 +9,28 @@
 #define DATA_STRUCTS_STORE_H_
 
 namespace store {
-static wrapper_int8<critical_as_state> critical_autonomous_system_status = {OFF};
+class Store{
 
-} /* namespace store */
+public:
+    static Store& getInstance(){
+        static Store instance;
+        return instance;
+    }
+private:
+    Store(){
+            critical_autonomous_system_status={OFF};
+        }
+
+public:
+    Store(Store const&)=delete;
+    void operator=(Store const&)=delete;
+
+    wrapper_int8<critical_as_state> critical_autonomous_system_status;
+
+};
+
+
+}
+/* namespace store */
 
 #endif /* DATA_STRUCTS_STORE_H_ */
