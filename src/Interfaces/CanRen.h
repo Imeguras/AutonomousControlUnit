@@ -5,16 +5,12 @@
  *  Created on: 09/10/2023
  *      Author: micron
  */
-
+#ifdef BOARD_RA6M3_EK
 #include "low_speed_interface_thread0.h"
 #include <list>
 #include "AbstractPeripheralLayer.cpp"
 #include "bsp_api.h"
 #include "common_data.h"
-#if BSP_FEATURE_CAN_NUM_CHANNELS > 0
-#if not defined(__IGNORE_CAN_USAGE__) and BSP_FEATURE_CAN_NUM_INSTANCES == 0
-    #error "You need to add a CAN stack in order to use this"
-#endif
 #define CANREN_LOOPBACK_TIMEOUT 200
 #ifndef CANREN_H_
 #define CANREN_H_

@@ -5,6 +5,5 @@
  *      Author: micron
  */
 
+#include "../Interfaces/EthDuo.h"
 
-
-#include "interfaces/EthDuo.h"

@@ -4,7 +4,7 @@
  *  Created on: 07/10/2023
  *      Author: micron
  */
-#include "interfaces/EthDuo.h"
+#include "MicroRosHumble/EthDuo.h"
 #include "HighSpeedAbsL.h"
 
 template<typename APL>
@@ -23,14 +23,12 @@ HighSpeed_AbsL<APL>::HighSpeed_AbsL() {
 	std::weak_ptr<APL> weak = this->apl_handle;
 	    // Access the object using weak_ptr
 	    if (auto locked = weak.lock()) {
-            locked->initialization();
+            this->apl_handle->initialization();
 
-	    } else {
-	    	//TODO define a better screaming protocol
-	        led_update(red, BSP_IO_LEVEL_HIGH);
-
-	        //std::cout << "Object has been destroyed." << std::endl;
-	    }
+	    }/* else {
+	    	//TODO define a way for debugging
+	    	std::cout << "Object has been destroyed." << std::endl;
+	    }*/
 }
 
 template<typename APL> HighSpeed_AbsL<APL>::~HighSpeed_AbsL() {

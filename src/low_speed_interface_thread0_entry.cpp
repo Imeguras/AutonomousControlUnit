@@ -71,15 +71,20 @@ void low_speed_interface_thread0_entry(void) {
         frame.type = CAN_FRAME_TYPE_DATA;
         frame.data_length_code = 8U;
         frame.options = 0;
-        wrapper_int8<critical_as_state> temp_data;
+        wrapper_int8<critical_as_state> temp_state;
+        wrapper_int8<critical_as_mission> temp_mission;
         tx_semaphore_get(&css, TX_WAIT_FOREVER);
-            temp_data = store::Store::getInstance().critical_autonomous_system_status;
+            temp_state = store::Store::getInstance().critical_autonomous_system_status;
+			//temp_mission= store::Store::getInstance().critical_autonomous_mission_status;
+
         tx_semaphore_put(&css);
-        MAP_ENCODE_AS_STATE(frame.data,temp_data.state);
+        MAP_ENCODE_AS_STATE(frame.data,temp_state.value);
+		//MAP_ENCODE_AS_STATE(frame.data,temp_mission.value);
+		
 
     /* Update transmit frame data with message */
         canfd->write((void *)&frame,1);
-
+        R_BSP_SoftwareDelay(1, BSP_DELAY_UNITS_MICROSECONDS);
     }
 
 
