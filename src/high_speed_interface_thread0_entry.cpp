@@ -33,8 +33,10 @@ void thread_setup(void);
 void subscription_callback_status(const void * msgin);
 void subscription_callback_mission(const void * msgin);
 
-//void high_speed_interface_thread0_entry(void) {
+void high_speed_interface_thread0_entry(void) {
+}
 //    //led_update(red, BSP_IO_LEVEL_HIGH);
+
 //    //HighSpeed_AbsL<MicroRosDuo> ros;
 //
 //    for(int i = 3; i > 0; i--){
