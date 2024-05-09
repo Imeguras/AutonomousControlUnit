@@ -6,7 +6,7 @@ FSP Configuration
     ram_size_bytes: 917504
     data_flash_size_bytes: 12288
     package_style: LQFP
-    package_pins: 144
+    package_pins: 176
     
   RA8T1
     series: 8
@@ -330,11 +330,6 @@ FSP Configuration
     Parameter Checking: Default (BSP)
     
   Module "Azure RTOS ThreadX Port (rm_threadx_port)"
-  Module "Timer, Low-Power (r_agt)"
-    Parameter Checking: Default (BSP)
-    Pin Output Support: Disabled
-    Pin Input Support: Disabled
-    
   Module "Azure RTOS NetX Duo IP Instance"
     Common: Error Checking: Enabled (default)
     Common: IP Packet Filter: Disabled (default)
@@ -1464,14 +1459,10 @@ FSP Configuration
     Common: Interface Capability: Disable
     Azure IoT: Defender Security Module: Disable
     
-  Module "CAN FD Lite (r_canfdlite)"
+  Module "Timer, Low-Power (r_agt)"
     Parameter Checking: Default (BSP)
-    Global Error Interrupt: Callback Channel: Both
-    Global Error Interrupt: Priority: Priority 12
-    Reception: FIFOs: Interrupt Priority: Priority 12
-    Flexible Data (FD): Protocol Exceptions: Enabled (ISO 11898-1)
-    Reception: Acceptance Filtering: Channel 0 Rule Count: 16
-    Reception: Acceptance Filtering: Channel 1 Rule Count: 16
+    Pin Output Support: Disabled
+    Pin Input Support: Disabled
     
   Module "CAN FD Lite (r_canfdlite)"
     Parameter Checking: Default (BSP)
@@ -1480,7 +1471,7 @@ FSP Configuration
     Reception: FIFOs: Interrupt Priority: Priority 12
     Flexible Data (FD): Protocol Exceptions: Enabled (ISO 11898-1)
     Reception: Acceptance Filtering: Channel 0 Rule Count: 16
-    Reception: Acceptance Filtering: Channel 1 Rule Count: 0
+    Reception: Acceptance Filtering: Channel 1 Rule Count: 16
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
@@ -1544,8 +1535,8 @@ FSP Configuration
       Input: Input Filter: No Filter
       Input: Enable Pin: Enable Pin Not Used
       Input: Trigger Edge: Trigger Edge Rising
-      Interrupts: Callback: NULL
-      Interrupts: Underflow Interrupt Priority: Disabled
+      Interrupts: Callback: micro_ros_timer_cb
+      Interrupts: Underflow Interrupt Priority: Priority 12
       
   Thread "High Speed Interface"
     Symbol: high_speed_interface_thread0
@@ -1634,7 +1625,7 @@ FSP Configuration
       Interrupts: Callback: canfd0_callback
       Transmit Interrupts: TXMB 0, TXMB 1, TXMB 2, TXMB 3
       Channel Error Interrupts: Error Warning, Error Passive, Bus-Off Entry, Bus-Off Recovery, Overload
-      Interrupts: Channel Interrupt Priority Level: Priority 0 (highest)
+      Interrupts: Channel Interrupt Priority Level: Priority 5
       Filter List Array: p_canfd0_afl
       Buffer RAM Usage: 
       Global Error Interrupt: Sources: DLC Check, Message Lost, FD Payload Overflow
@@ -1654,12 +1645,63 @@ FSP Configuration
       Reception: FIFOs: FIFO 1: Payload Size: 32 bytes
       Reception: FIFOs: FIFO 1: Depth: 16 stages
       Common FIFOs: FIFO 0: Enable: Disabled
-      Common FIFOs: FIFO 0: Mode: Transmit
+      Common FIFOs: FIFO 0: Mode: Receive
       Common FIFOs: FIFO 0: RX Interrupt Enable: Enabled
       Common FIFOs: FIFO 0: TX Interrupt Enable: Enabled
       Common FIFOs: FIFO 0: Interrupt Mode: Every Frame
       Common FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
       Common FIFOs: FIFO 0: Payload Size: 32 bytes
+      Common FIFOs: FIFO 0: Depth: 16 stages
+      Common FIFOs: FIFO 0: TX Message Buffer: 0
+      Common FIFOs: FIFO 0: Interval TX Delay: 0
+      Common FIFOs: FIFO 0: Interval Timer: Reference clock
+      Common FIFOs: FIFO 0: Interval Timer Reference Clock Resolution: x1
+      
+    Instance "g_canfd1 CAN FD Lite (r_canfdlite)"
+      General: Name: g_canfd1
+      General: Channel: 1
+      Bitrate: Automatic: Nominal Rate (bps): 1000000
+      Bitrate: Automatic: FD Data Rate (bps): 2000000
+      Bitrate: Automatic: Sample Point (%): 75
+      Bitrate: Delay Compensation: Enable
+      Bitrate: Manual: Nominal: Prescaler (divisor): 1
+      Bitrate: Manual: Nominal: Time Segment 1 (Tq): 29
+      Bitrate: Manual: Nominal: Time Segment 2 (Tq): 10
+      Bitrate: Manual: Nominal: Sync Jump Width (Tq): 4
+      Bitrate: Manual: Data: Prescaler (divisor): 1
+      Bitrate: Manual: Data: Time Segment 1 (Tq): 5
+      Bitrate: Manual: Data: Time Segment 2 (Tq): 2
+      Bitrate: Manual: Data: Sync Jump Width (Tq): 1
+      Bitrate: Manual: Use manual settings: No
+      Interrupts: Callback: canfd1_callback
+      Transmit Interrupts: TXMB 0
+      Channel Error Interrupts: Error Warning, Error Passive, Bus-Off Entry, Bus-Off Recovery, Overload
+      Interrupts: Channel Interrupt Priority Level: Priority 12
+      Filter List Array: p_canfd1_afl
+      Buffer RAM Usage: 
+      Global Error Interrupt: Sources: 
+      Transmission Priority: Buffer Number
+      DLC Check: Disabled
+      Flexible Data (FD): Payload Overflow: Reject
+      Reception: Message Buffers: Number of Buffers: 0
+      Reception: Message Buffers: Payload Size: 8 bytes
+      Reception: FIFOs: FIFO 0: Enable: Enabled
+      Reception: FIFOs: FIFO 0: Interrupt Mode: Every Frame
+      Reception: FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
+      Reception: FIFOs: FIFO 0: Payload Size: 8 bytes
+      Reception: FIFOs: FIFO 0: Depth: 16 stages
+      Reception: FIFOs: FIFO 1: Enable: Disabled
+      Reception: FIFOs: FIFO 1: Interrupt Mode: Every Frame
+      Reception: FIFOs: FIFO 1: Interrupt Threshold: 1/2 full
+      Reception: FIFOs: FIFO 1: Payload Size: 8 bytes
+      Reception: FIFOs: FIFO 1: Depth: 16 stages
+      Common FIFOs: FIFO 0: Enable: Disabled
+      Common FIFOs: FIFO 0: Mode: Receive
+      Common FIFOs: FIFO 0: RX Interrupt Enable: Disabled
+      Common FIFOs: FIFO 0: TX Interrupt Enable: Disabled
+      Common FIFOs: FIFO 0: Interrupt Mode: At Threshold Value
+      Common FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
+      Common FIFOs: FIFO 0: Payload Size: 8 bytes
       Common FIFOs: FIFO 0: Depth: 16 stages
       Common FIFOs: FIFO 0: TX Message Buffer: 0
       Common FIFOs: FIFO 0: Interval TX Delay: 0

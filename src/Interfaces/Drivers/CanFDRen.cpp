@@ -20,8 +20,9 @@ CanFDRen::~CanFDRen() {
 }
 //By default go to channel 0
 int CanFDRen::initialization(){
-    this->g_canfd_ctrl = g_canfd0_ctrl;
-    this->g_canfd_cfg = g_canfd0_cfg;
+    //this->g_canfd_ctrl = g_canfd0_ctrl;
+    //this->g_canfd_cfg = g_canfd0_cfg;
+
     UINT status = R_CANFD_Open(&g_canfd0_ctrl, &g_canfd0_cfg);
     if(status== FSP_SUCCESS){
         tx_ready=true;
@@ -76,36 +77,40 @@ uint32_t CanFDRen::write(void *data, uint32_t stream_size){
 }
 
 void CanFDRen::callbackHandle(can_callback_args_t *p_args){
+    led_update(lime, BSP_IO_LEVEL_HIGH);
 	switch (p_args->event){
-	case CAN_EVENT_TX_COMPLETE:
-	    led_update(ambar, BSP_IO_LEVEL_HIGH);
-	    this->tx_ready=true;
-	    R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-        led_update(ambar, BSP_IO_LEVEL_LOW);
-		break;
-	case CAN_EVENT_RX_COMPLETE:
-		//TODO validations?
-		this->fbuffers_rx.push_back(p_args->buffer);
-		this->rx_ready=true;
-		break;
-	case CAN_EVENT_ERR_WARNING:          /* error warning event */
-	case CAN_EVENT_ERR_PASSIVE:          /* error passive event */
-	case CAN_EVENT_ERR_BUS_OFF:          /* error bus off event */
-	case CAN_EVENT_BUS_RECOVERY:         /* Bus recovery error event */
-	case CAN_EVENT_MAILBOX_MESSAGE_LOST: /* overwrite/overrun error event */
-	case CAN_EVENT_ERR_BUS_LOCK:         /* Bus lock detected (32 consecutive dominant bits). */
-	case CAN_EVENT_ERR_CHANNEL:          /* Channel error has occurred. */
-	case CAN_EVENT_TX_ABORTED:           /* Transmit abort event. */
-	case CAN_EVENT_ERR_GLOBAL:           /* Global error has occurred. */
-	case CAN_EVENT_TX_FIFO_EMPTY:       /* Transmit FIFO is empty. */
-	case CAN_EVENT_FIFO_MESSAGE_LOST:
-	{
-		this->tx_ready=false;
-		this->rx_ready=false;
-	  break;
-	}
+        case CAN_EVENT_TX_COMPLETE:
+            led_update(ambar, BSP_IO_LEVEL_HIGH);
+            this->tx_ready=true;
+            R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
+            led_update(ambar, BSP_IO_LEVEL_LOW);
+            break;
+        case CAN_EVENT_RX_COMPLETE:
+            //TODO validations?
+            this->fbuffers_rx.push_back(p_args->buffer);
+            this->rx_ready=true;
+            break;
+        case CAN_EVENT_ERR_WARNING:          /* error warning event */
+        case CAN_EVENT_ERR_PASSIVE:          /* error passive event */
+        case CAN_EVENT_ERR_BUS_OFF:          /* error bus off event */
+        case CAN_EVENT_BUS_RECOVERY:         /* Bus recovery error event */
+        case CAN_EVENT_MAILBOX_MESSAGE_LOST: /* overwrite/overrun error event */
+        case CAN_EVENT_ERR_BUS_LOCK:         /* Bus lock detected (32 consecutive dominant bits). */
+        case CAN_EVENT_ERR_CHANNEL:          /* Channel error has occurred. */
+        case CAN_EVENT_TX_ABORTED:           /* Transmit abort event. */
+        case CAN_EVENT_ERR_GLOBAL:           /* Global error has occurred. */
+        case CAN_EVENT_TX_FIFO_EMPTY:       /* Transmit FIFO is empty. */
+        case CAN_EVENT_FIFO_MESSAGE_LOST:
+        {
+            this->tx_ready=false;
+            this->rx_ready=false;
+          break;
+        }
 
 	}
+
+	R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
+    led_update(lime, BSP_IO_LEVEL_LOW);
 }
 
 //#endif

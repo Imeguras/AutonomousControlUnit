@@ -56,12 +56,55 @@ extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
         }
 
 };
+extern "C" const canfd_afl_entry_t p_canfd1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
+      {
+          .id =
+            {
+              .id = 0x1FFFFFFF,
+              .frame_type = CAN_FRAME_TYPE_DATA,
+              .id_mode    = CAN_ID_MODE_EXTENDED,
+            },
+          .mask =
+            {
+              .mask_id         = 0,
+              .mask_frame_type = 1,
+              .mask_id_mode    = 1,
+            },
+          .destination =
+            {
+              .minimum_dlc = CANFD_MINIMUM_DLC_0,
+              .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_0,
+              .fifo_select_flags = CANFD_RX_FIFO_0,
+            }
+      },{
+          .id =
+            {
+              .id = 0x1FFFFFFF,
+              .frame_type = CAN_FRAME_TYPE_DATA,
+              .id_mode    = CAN_ID_MODE_STANDARD,
+            },
+          .mask =
+            {
+              .mask_id         = 0,
+              .mask_frame_type = 1,
+              .mask_id_mode    = 1,
+            },
+          .destination =
+            {
+              .minimum_dlc = CANFD_MINIMUM_DLC_0,
+              .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_1,
+              .fifo_select_flags = CANFD_RX_FIFO_1,
+            }
+        }
 
-extern "C" void canfd_callback(can_callback_args_t * p_args);
+};
+
+extern "C" void canfd0_callback(can_callback_args_t * p_args);
 void low_speed_interface_thread0_entry(void) {
+  //R_CANFD_Open(&g_canfd1_ctrl, &g_canfd1_cfg);
 
   HighSpeed_AbsL<CanFDRen> canfd;
-  canfd->initialization();
+
   interface_callback_t=(void *)&canfd;
   //void (*canfdCBHandle)(can_callback_args_t *)= callbackWrapper(can_callback_args_t *,canfd);
     frame.id = CAN_AS_STATUS;
@@ -84,7 +127,7 @@ void low_speed_interface_thread0_entry(void) {
 
 ///* Update transmit frame data with message */
 
-    //canfd->write((void *)&frame,0);
+    canfd->write((void *)&frame,0);
     R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
     while(1){
         R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
@@ -99,4 +142,3 @@ extern "C" void canfd0_callback(can_callback_args_t *p_args){
       ((CanFDRen *)interface_callback_t)->callbackHandle(p_args);
   }
 }
-
