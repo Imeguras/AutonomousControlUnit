@@ -60,6 +60,7 @@ void* CanFDRen::recv(void * data, uint32_t stream_size=1){
  * @return
  */
 uint32_t CanFDRen::write(void *data, uint32_t stream_size){
+    FSP_PARAMETER_NOT_USED(stream_size);
 	//TODO buffers??!
 	/*while(this->tx_ready != true) {
 
@@ -95,7 +96,8 @@ void CanFDRen::callbackHandle(can_callback_args_t *p_args){
 	case CAN_EVENT_ERR_CHANNEL:          /* Channel error has occurred. */
 	case CAN_EVENT_TX_ABORTED:           /* Transmit abort event. */
 	case CAN_EVENT_ERR_GLOBAL:           /* Global error has occurred. */
-	case CAN_EVENT_TX_FIFO_EMPTY:        /* Transmit FIFO is empty. */
+	case CAN_EVENT_TX_FIFO_EMPTY:       /* Transmit FIFO is empty. */
+	case CAN_EVENT_FIFO_MESSAGE_LOST:
 	{
 		this->tx_ready=false;
 		this->rx_ready=false;
