@@ -1,4 +1,5 @@
 #include "hal_data.h"
+#include "../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
 
 FSP_CPP_HEADER
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
@@ -16,6 +17,7 @@ void hal_entry(void)
     /* Enter non-secure code */
     R_BSP_NonSecureEnter();
 #endif
+
 }
 
 /*******************************************************************************************************************//**

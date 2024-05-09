@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <raConfiguration version="8">
   <generalSettings>
-    <option key="#Board#" value="board.custom"/>
+    <option key="#Board#" value="board.board_ra8t1_acuity_bsp"/>
     <option key="CPU" value="RA8T1"/>
     <option key="Core" value="CM85"/>
-    <option key="#TargetName#" value="R7FA8T1AHECFB"/>
+    <option key="#TargetName#" value="R7FA8T1AHECFC"/>
     <option key="#TargetARCHITECTURE#" value="cortex-m85"/>
     <option key="#DeviceCommand#" value="R7FA8T1AH"/>
     <option key="#RTOS#" value="rtos.threadx"/>
-    <option key="#pinconfiguration#" value="R7FA8T1AHECFB.pincfg"/>
+    <option key="#pinconfiguration#" value="R7FA8T1AHECFC.pincfg"/>
     <option key="#FSPVersion#" value="5.1.0"/>
+    <option key="#ConfigurationFragments#" value="LART##BSP##Board##BOARD_RA8T1_ACUITY_BSP##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
   </generalSettings>
   <raBspConfiguration>
-    <config id="config.bsp.ra8t1.R7FA8T1AHECFB">
+    <config id="config.bsp.ra8t1.R7FA8T1AHECFC">
       <property id="config.bsp.part_number" value="config.bsp.part_number.value"/>
       <property id="config.bsp.rom_size_bytes" value="config.bsp.rom_size_bytes.value"/>
       <property id="config.bsp.rom_size_bytes_hidden" value="2064384"/>
@@ -116,8 +117,8 @@
       <property id="config.bsp.fsp.dcache" value="config.bsp.fsp.dcache.disabled"/>
     </config>
     <config id="config.bsp.ra">
-      <property id="config.bsp.common.main" value="5000"/>
-      <property id="config.bsp.common.heap" value="0x2000"/>
+      <property id="config.bsp.common.main" value="0x1000"/>
+      <property id="config.bsp.common.heap" value="0x400"/>
       <property id="config.bsp.common.vcc" value="3300"/>
       <property id="config.bsp.common.checking" value="config.bsp.common.checking.disabled"/>
       <property id="config.bsp.common.assert" value="config.bsp.common.assert.none"/>
@@ -149,8 +150,8 @@
     <node id="board.clock.pll1q.display" option="board.clock.pll1q.display.value"/>
     <node id="board.clock.pll1r.div" option="board.clock.pll1r.div.2"/>
     <node id="board.clock.pll1r.display" option="board.clock.pll1r.display.value"/>
-    <node id="board.clock.pll2.source" option="board.clock.pll2.source.xtal"/>
-    <node id="board.clock.pll2.div" option="board.clock.pll2.div.3"/>
+    <node id="board.clock.pll2.source" option="board.clock.pll2.source.disabled"/>
+    <node id="board.clock.pll2.div" option="board.clock.pll2.div.1"/>
     <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.48_00"/>
     <node id="board.clock.pll2.display" option="board.clock.pll2.display.value"/>
     <node id="board.clock.pll2p.div" option="board.clock.pll2p.div.2"/>
@@ -163,13 +164,13 @@
     <node id="board.clock.clkout.source" option="board.clock.clkout.source.disabled"/>
     <node id="board.clock.sciclk.source" option="board.clock.sciclk.source.disabled"/>
     <node id="board.clock.spiclk.source" option="board.clock.spiclk.source.disabled"/>
-    <node id="board.clock.canfdclk.source" option="board.clock.canfdclk.source.pll2r"/>
+    <node id="board.clock.canfdclk.source" option="board.clock.canfdclk.source.pll1p"/>
     <node id="board.clock.lcdclk.source" option="board.clock.lcdclk.source.disabled"/>
     <node id="board.clock.i3cclk.source" option="board.clock.i3cclk.source.disabled"/>
     <node id="board.clock.uck.source" option="board.clock.uck.source.disabled"/>
     <node id="board.clock.u60ck.source" option="board.clock.u60ck.source.disabled"/>
     <node id="board.clock.octaspiclk.source" option="board.clock.octaspiclk.source.disabled"/>
-    <node id="board.clock.cpuclk.div" option="board.clock.cpuclk.div.2"/>
+    <node id="board.clock.cpuclk.div" option="board.clock.cpuclk.div.1"/>
     <node id="board.clock.iclk.div" option="board.clock.iclk.div.2"/>
     <node id="board.clock.pclka.div" option="board.clock.pclka.div.4"/>
     <node id="board.clock.pclkb.div" option="board.clock.pclkb.div.8"/>
@@ -183,7 +184,7 @@
     <node id="board.clock.clkout.div" option="board.clock.clkout.div.1"/>
     <node id="board.clock.sciclk.div" option="board.clock.sciclk.div.4"/>
     <node id="board.clock.spiclk.div" option="board.clock.spiclk.div.4"/>
-    <node id="board.clock.canfdclk.div" option="board.clock.canfdclk.div.4"/>
+    <node id="board.clock.canfdclk.div" option="board.clock.canfdclk.div.8"/>
     <node id="board.clock.lcdclk.div" option="board.clock.lcdclk.div.2"/>
     <node id="board.clock.i3cclk.div" option="board.clock.i3cclk.div.3"/>
     <node id="board.clock.uck.div" option="board.clock.uck.div.5"/>
@@ -231,12 +232,8 @@
       <description>Azure RTOS ThreadX Port</description>
       <originalPack>Renesas.RA.5.1.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="custom" variant="" vendor="Renesas" version="5.1.0">
-      <description>Custom Board Support Files</description>
-      <originalPack>Renesas.RA_board_custom.5.1.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="ra8t1" subgroup="device" variant="R7FA8T1AHECFB" vendor="Renesas" version="5.1.0">
-      <description>Board support package for R7FA8T1AHECFB</description>
+    <component apiversion="" class="BSP" condition="" group="ra8t1" subgroup="device" variant="R7FA8T1AHECFC" vendor="Renesas" version="5.1.0">
+      <description>Board support package for R7FA8T1AHECFC</description>
       <originalPack>Renesas.RA_mcu_ra8t1.5.1.0.pack</originalPack>
     </component>
     <component apiversion="" class="BSP" condition="" group="ra8t1" subgroup="device" variant="" vendor="Renesas" version="5.1.0">
@@ -247,12 +244,12 @@
       <description>Board support package for RA8T1 - FSP Data</description>
       <originalPack>Renesas.RA_mcu_ra8t1.5.1.0.pack</originalPack>
     </component>
+    <component apiversion="1.5.0" class="BSP" condition="" group="Board" subgroup="BOARD_RA8T1_ACUITY_BSP" variant="" vendor="LART" version="5.1.0">
+      <description/>
+      <originalPack>LART.BOARD_RA8T1_ACUITY_BSP.5.1.0.pack</originalPack>
+    </component>
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_agt" variant="" vendor="Renesas" version="5.1.0">
       <description>Asynchronous General Purpose Timer</description>
-      <originalPack>Renesas.RA.5.1.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_canfdlite" variant="" vendor="Renesas" version="5.1.0">
-      <description>Controller Area Network - Flexible Data</description>
       <originalPack>Renesas.RA.5.1.0.pack</originalPack>
     </component>
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="5.1.0">
@@ -271,6 +268,10 @@
       <description>Azure RTOS NetX Duo</description>
       <originalPack>Microsoft.NetXDuo.6.2.1+renesas.1.fsp.5.1.0.pack</originalPack>
     </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_canfdlite" variant="" vendor="Renesas" version="5.1.0">
+      <description>Controller Area Network - Flexible Data</description>
+      <originalPack>Renesas.RA.5.1.0.pack</originalPack>
+    </component>
   </raComponentSelection>
   <raElcConfiguration/>
   <raIcuConfiguration/>
@@ -284,26 +285,7 @@
       <property id="module.driver.ioport.pincfg" value="g_bsp_pin_cfg"/>
     </module>
     <module id="module.middleware.rm_threadx_port.0"/>
-    <module id="module.driver.timer_on_agt.1407348818">
-      <property id="module.driver.timer.name" value="g_timer0"/>
-      <property id="module.driver.timer.bit_width" value="module.driver.timer.bit_width.16"/>
-      <property id="module.driver.timer.channel" value="0"/>
-      <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_periodic"/>
-      <property id="module.driver.timer.period" value="100"/>
-      <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_usec"/>
-      <property id="module.driver.timer.duty_cycle" value="50"/>
-      <property id="module.driver.timer.count_source" value="module.driver.timer.count_source.clock_pclkb"/>
-      <property id="module.driver.timer.agtoa_output_enable" value="module.driver.timer.agtoa_output_enable.false"/>
-      <property id="module.driver.timer.agtob_output_enable" value="module.driver.timer.agtob_output_enable.false"/>
-      <property id="module.driver.timer.agto_output_enable" value="module.driver.timer.agto_output_enable.false"/>
-      <property id="module.driver.timer.measurement_mode" value="module.driver.timer.measurement_mode.measure_disabled"/>
-      <property id="module.driver.timer.agtio_filter" value="module.driver.timer.agtio_filter.agtio_filter_none"/>
-      <property id="module.driver.timer.enable_pin" value="module.driver.timer.enable_pin.enable_pin_not_used"/>
-      <property id="module.driver.timer.trigger_edge" value="module.driver.timer.trigger_edge.trigger_edge_rising"/>
-      <property id="module.driver.timer.p_callback" value="NULL"/>
-      <property id="module.driver.timer.ipl" value="_disabled"/>
-    </module>
-    <module id="module.azure.nxd.ip.872727601">
+    <module id="module.azure.nxd.ip.1012628965">
       <property id="module.azure.nxd.ip.name" value="g_ip0"/>
       <property id="module.azure.nxd.ip.address" value="192.168.0.2"/>
       <property id="module.azure.nxd.ip.subnet_mask" value="255.255.255.0"/>
@@ -315,16 +297,16 @@
       <property id="module.azure.nxd.ip.arp_cache_size_units" value="module.azure.nxd.ip.arp_cache_size_units.bytes"/>
       <property id="module.azure.nxd.ip.arp_cache_size" value="520"/>
     </module>
-    <module id="module.azure.nxd.packet_pool.510329480">
+    <module id="module.azure.nxd.packet_pool.869584768">
       <property id="module.azure.nxd.packet_pool.name" value="g_packet_pool0"/>
       <property id="module.azure.nxd.packet_pool.packet_size" value="1568"/>
       <property id="module.azure.nxd.packet_pool.number_of_packets" value="16"/>
     </module>
-    <module id="module.middleware.rm_netxduo_ether.390476686">
+    <module id="module.middleware.rm_netxduo_ether.640011255">
       <property id="module.middleware.rm_netxduo_ether.name" value="g_netxduo_ether_0"/>
       <property id="module.middleware.rm_netxduo_ether.ip_mtu" value="1500"/>
     </module>
-    <module id="module.driver.ether_on_ether.922421597">
+    <module id="module.driver.ether_on_ether.1621446083">
       <property id="module.driver.ether.name" value="g_ether0"/>
       <property id="module.driver.ether.channel" value="module.driver.ether.channel.0"/>
       <property id="module.driver.ether.mac_address" value="00:11:22:33:44:55"/>
@@ -342,7 +324,7 @@
       <property id="module.driver.ether.interrupt_priority" value="board.icu.common.irq.priority12"/>
       <property id="module.driver.ether.p_callback" value="NULL"/>
     </module>
-    <module id="module.driver.ether_phy_on_ether_phy.769123598">
+    <module id="module.driver.ether_phy_on_ether_phy.246884112">
       <property id="module.driver.ether_phy.name" value="g_ether_phy0"/>
       <property id="module.driver.ether_phy.channel" value="module.driver.ether_phy.channel.0"/>
       <property id="module.driver.ether_phy.phy_lsi_address" value="0"/>
@@ -354,11 +336,30 @@
       <property id="module.driver.ether_phy.mii_bit_access_wait_time" value="8"/>
       <property id="module.driver.ether_phy.flow_control" value="module.driver.ether_phy.flow_control.0"/>
     </module>
-    <module id="module.azure.nxd.common.541392668"/>
-    <module id="module.driver.canfd_on_canfdlite.477852662">
+    <module id="module.azure.nxd.common.1973900195"/>
+    <module id="module.driver.timer_on_agt.466954800">
+      <property id="module.driver.timer.name" value="g_timer0"/>
+      <property id="module.driver.timer.bit_width" value="module.driver.timer.bit_width.16"/>
+      <property id="module.driver.timer.channel" value="0"/>
+      <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_periodic"/>
+      <property id="module.driver.timer.period" value="100"/>
+      <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_usec"/>
+      <property id="module.driver.timer.duty_cycle" value="50"/>
+      <property id="module.driver.timer.count_source" value="module.driver.timer.count_source.clock_pclkb"/>
+      <property id="module.driver.timer.agtoa_output_enable" value="module.driver.timer.agtoa_output_enable.false"/>
+      <property id="module.driver.timer.agtob_output_enable" value="module.driver.timer.agtob_output_enable.false"/>
+      <property id="module.driver.timer.agto_output_enable" value="module.driver.timer.agto_output_enable.false"/>
+      <property id="module.driver.timer.measurement_mode" value="module.driver.timer.measurement_mode.measure_disabled"/>
+      <property id="module.driver.timer.agtio_filter" value="module.driver.timer.agtio_filter.agtio_filter_none"/>
+      <property id="module.driver.timer.enable_pin" value="module.driver.timer.enable_pin.enable_pin_not_used"/>
+      <property id="module.driver.timer.trigger_edge" value="module.driver.timer.trigger_edge.trigger_edge_rising"/>
+      <property id="module.driver.timer.p_callback" value="micro_ros_timer_cb"/>
+      <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority12"/>
+    </module>
+    <module id="module.driver.canfd_on_canfdlite.912504583">
       <property id="module.driver.canfdlite.name" value="g_canfd0"/>
       <property id="module.driver.canfdlite.channel" value="0"/>
-      <property id="module.driver.canfdlite.bitrate.automatic.nominal_rate" value="500000"/>
+      <property id="module.driver.canfdlite.bitrate.automatic.nominal_rate" value="1000000"/>
       <property id="module.driver.canfdlite.bitrate.automatic.data_rate" value="2000000"/>
       <property id="module.driver.canfdlite.bitrate.automatic.sample_point" value="75"/>
       <property id="module.driver.canfdlite.bitrate.automatic.delay_compensation" value="module.driver.canfdlite.bitrate.automatic.delay_compensation.enabled"/>
@@ -372,34 +373,34 @@
       <property id="module.driver.canfdlite.manual.data.sync_jump_width" value="1"/>
       <property id="module.driver.canfdlite.bitrate.manual.use_manual" value="module.driver.canfdlite.bitrate.manual.use_manual.disabled"/>
       <property id="module.driver.canfdlite.p_callback" value="canfd0_callback"/>
-      <property id="module.driver.canfdlite.txmb.int" value=""/>
-      <property id="module.driver.canfdlite.ch_err.int" value=""/>
-      <property id="module.driver.canfdlite.ipl" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.canfdlite.txmb.int" value="module.driver.canfd.txmb.int.0,module.driver.canfd.txmb.int.1,module.driver.canfd.txmb.int.2,module.driver.canfd.txmb.int.3"/>
+      <property id="module.driver.canfdlite.ch_err.int" value="module.driver.canfdlite.ch_err.int.err_warning,module.driver.canfdlite.ch_err.int.err_passive,module.driver.canfdlite.ch_err.int.bus_off_entry,module.driver.canfdlite.ch_err.int.bus_off_recovery,module.driver.canfdlite.ch_err.int.overload"/>
+      <property id="module.driver.canfdlite.ipl" value="board.icu.common.irq.priority0"/>
       <property id="module.driver.canfdlite.afl_array" value="p_canfd0_afl"/>
       <property id="module.driver.canfdlite.buffer_ram_used" value=""/>
-      <property id="module.driver.canfdlite.global_err.sources" value=""/>
+      <property id="module.driver.canfdlite.global_err.sources" value="module.driver.canfdlite.global_err.sources.dlc_check,module.driver.canfdlite.global_err.sources.message_lost,module.driver.canfdlite.global_err.sources.overflow"/>
       <property id="module.driver.canfdlite.tx_priority" value="module.driver.canfdlite.tx_priority.buffer"/>
       <property id="module.driver.canfdlite.dlc_check" value="module.driver.canfdlite.dlc_check.disabled"/>
-      <property id="module.driver.canfdlite.fd.overflow" value="module.driver.canfdlite.fd.overflow.reject"/>
-      <property id="module.driver.canfdlite.rxmb.number" value="0"/>
-      <property id="module.driver.canfdlite.rxmb.size" value="module.driver.canfdlite.rxmb.size.8"/>
+      <property id="module.driver.canfdlite.fd.overflow" value="module.driver.canfdlite.fd.overflow.truncate"/>
+      <property id="module.driver.canfdlite.rxmb.number" value="1"/>
+      <property id="module.driver.canfdlite.rxmb.size" value="module.driver.canfdlite.rxmb.size.64"/>
       <property id="module.driver.canfdlite.rxfifo.0.enable" value="module.driver.canfdlite.rxfifo.0.enable.enabled"/>
       <property id="module.driver.canfdlite.rxfifo.0.int_mode" value="enum.driver.canfd.fifo.int_mode.every_frame"/>
       <property id="module.driver.canfdlite.rxfifo.0.int_threshold" value="enum.driver.canfd.fifo.int_threshold.1_2"/>
-      <property id="module.driver.canfdlite.rxfifo.0.payload" value="enum.driver.canfd.fifo.payload.8"/>
+      <property id="module.driver.canfdlite.rxfifo.0.payload" value="enum.driver.canfd.fifo.payload.32"/>
       <property id="module.driver.canfdlite.rxfifo.0.depth" value="enum.driver.canfd.fifo.depth.16"/>
       <property id="module.driver.canfdlite.rxfifo.1.enable" value="module.driver.canfdlite.rxfifo.1.enable.disabled"/>
       <property id="module.driver.canfdlite.rxfifo.1.int_mode" value="enum.driver.canfd.fifo.int_mode.every_frame"/>
       <property id="module.driver.canfdlite.rxfifo.1.int_threshold" value="enum.driver.canfd.fifo.int_threshold.1_2"/>
-      <property id="module.driver.canfdlite.rxfifo.1.payload" value="enum.driver.canfd.fifo.payload.8"/>
+      <property id="module.driver.canfdlite.rxfifo.1.payload" value="enum.driver.canfd.fifo.payload.32"/>
       <property id="module.driver.canfdlite.rxfifo.1.depth" value="enum.driver.canfd.fifo.depth.16"/>
       <property id="module.driver.canfdlite.commonfifo.0.enable" value="module.driver.canfdlite.commonfifo.0.enable.disabled"/>
-      <property id="module.driver.canfdlite.commonfifo.0.mode" value="module.driver.canfdlite.commonfifo.0.mode.rx"/>
-      <property id="module.driver.canfdlite.commonfifo.0.rxi_enable" value="module.driver.canfdlite.commonfifo.0.rxi_enable.disabled"/>
-      <property id="module.driver.canfdlite.commonfifo.0.txi_enable" value="module.driver.canfdlite.commonfifo.0.txi_enable.disabled"/>
-      <property id="module.driver.canfdlite.commonfifo.0.int_mode" value="enum.driver.canfd.fifo.int_mode.threshold"/>
+      <property id="module.driver.canfdlite.commonfifo.0.mode" value="module.driver.canfdlite.commonfifo.0.mode.tx"/>
+      <property id="module.driver.canfdlite.commonfifo.0.rxi_enable" value="module.driver.canfdlite.commonfifo.0.rxi_enable.enabled"/>
+      <property id="module.driver.canfdlite.commonfifo.0.txi_enable" value="module.driver.canfdlite.commonfifo.0.txi_enable.enabled"/>
+      <property id="module.driver.canfdlite.commonfifo.0.int_mode" value="enum.driver.canfd.fifo.int_mode.every_frame"/>
       <property id="module.driver.canfdlite.commonfifo.0.int_threshold" value="enum.driver.canfd.fifo.int_threshold.1_2"/>
-      <property id="module.driver.canfdlite.commonfifo.0.payload" value="enum.driver.canfd.fifo.payload.8"/>
+      <property id="module.driver.canfdlite.commonfifo.0.payload" value="enum.driver.canfd.fifo.payload.32"/>
       <property id="module.driver.canfdlite.commonfifo.0.depth" value="enum.driver.canfd.fifo.depth.16"/>
       <property id="module.driver.canfdlite.commonfifo.0.txmb" value="0"/>
       <property id="module.driver.canfdlite.commonfifo.0.txdelay" value="0"/>
@@ -409,42 +410,42 @@
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.middleware.rm_threadx_port.0"/>
-      <stack module="module.driver.timer_on_agt.1407348818"/>
+      <stack module="module.driver.timer_on_agt.466954800"/>
     </context>
-    <context id="rtos.threadx.thread.1130329893">
+    <context id="rtos.threadx.thread.314982813">
       <property id="_symbol" value="high_speed_interface_thread0"/>
       <property id="rtos.threadx.thread.name" value="High Speed Interface"/>
       <property id="rtos.threadx.thread.stack" value="1024"/>
       <property id="rtos.threadx.thread.priority" value="1"/>
-      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
-      <stack module="module.azure.nxd.ip.872727601">
-        <stack module="module.azure.nxd.packet_pool.510329480" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
-        <stack module="module.middleware.rm_netxduo_ether.390476686" requires="module.azure.nxd.ip.requires.nxd.driver">
-          <stack module="module.driver.ether_on_ether.922421597" requires="module.middleware.rm_netxduo_ether.requires.ether">
-            <stack module="module.driver.ether_phy_on_ether_phy.769123598" requires="module.driver.ether.requires.ether_phy"/>
+      <stack module="module.azure.nxd.ip.1012628965">
+        <stack module="module.azure.nxd.packet_pool.869584768" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
+        <stack module="module.middleware.rm_netxduo_ether.640011255" requires="module.azure.nxd.ip.requires.nxd.driver">
+          <stack module="module.driver.ether_on_ether.1621446083" requires="module.middleware.rm_netxduo_ether.requires.ether">
+            <stack module="module.driver.ether_phy_on_ether_phy.246884112" requires="module.driver.ether.requires.ether_phy"/>
           </stack>
-          <stack module="module.azure.nxd.common.541392668" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
+          <stack module="module.azure.nxd.common.1973900195" requires="module.middleware.rm_netxduo_ether.requires.nxd.common"/>
         </stack>
       </stack>
     </context>
-    <context id="rtos.threadx.thread.294530612">
+    <context id="rtos.threadx.thread.1465499733">
       <property id="_symbol" value="low_speed_interface_thread0"/>
       <property id="rtos.threadx.thread.name" value="Low Speed Interface"/>
       <property id="rtos.threadx.thread.stack" value="1024"/>
       <property id="rtos.threadx.thread.priority" value="1"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
-      <stack module="module.driver.canfd_on_canfdlite.477852662"/>
+      <stack module="module.driver.canfd_on_canfdlite.912504583"/>
     </context>
-    <config id="config.driver.ioport">
-      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
-    </config>
-    <config id="config.driver.agt">
-      <property id="config.driver.agt.param_checking_enable" value="config.driver.agt.param_checking_enable.bsp"/>
-      <property id="config.driver.agt.output_support_enable" value="config.driver.agt.output_support_enable.disabled"/>
-      <property id="config.driver.agt.input_support_enable" value="config.driver.agt.input_support_enable.disabled"/>
-    </config>
+    <context id="rtos.threadx.thread.395209896">
+      <property id="_symbol" value="kickstart_rainbow"/>
+      <property id="rtos.threadx.thread.name" value="KickStart_Rainbow"/>
+      <property id="rtos.threadx.thread.stack" value="512"/>
+      <property id="rtos.threadx.thread.priority" value="0"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
+      <property id="rtos.threadx.thread.timeslice" value="1"/>
+    </context>
     <config id="config.driver.ether">
       <property id="config.driver.ether.param_checking_enable" value="config.driver.ether.param_checking_enable.bsp"/>
       <property id="config.driver.ether.link_present" value="config.driver.ether.link_present.0"/>
@@ -458,7 +459,7 @@
       <property id="config.driver.canfdlite.rxfifo.ipl" value="board.icu.common.irq.priority12"/>
       <property id="config.driver.canfdlite.fd.protocol_exception" value="config.driver.canfdlite.fd.protocol_exception.iso"/>
       <property id="config.driver.canfdlite.afl.ch0_num" value="16"/>
-      <property id="config.driver.canfdlite.afl.ch1_num" value="16"/>
+      <property id="config.driver.canfdlite.afl.ch1_num" value="0"/>
     </config>
     <config id="config.driver.ether_phy">
       <property id="config.driver.ether_phy.param_checking_enable" value="config.driver.ether_phy.param_checking_enable.bsp"/>
@@ -469,6 +470,14 @@
       <property id="config.driver.ether_phy.use_custom_phy_lsi" value="config.driver.ether_phy.use_custom_phy_lsi.disabled"/>
       <property id="config.driver.ether_phy.use_reference_clock" value="config.driver.ether_phy.use_reference_clock.default"/>
       <property id="config.driver.ether_phy.init_phy_lsi_automatic" value="config.driver.ether_phy.init_phy_lsi_automatic.enabled"/>
+    </config>
+    <config id="config.driver.ioport">
+      <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
+    </config>
+    <config id="config.driver.agt">
+      <property id="config.driver.agt.param_checking_enable" value="config.driver.agt.param_checking_enable.bsp"/>
+      <property id="config.driver.agt.output_support_enable" value="config.driver.agt.output_support_enable.disabled"/>
+      <property id="config.driver.agt.input_support_enable" value="config.driver.agt.input_support_enable.disabled"/>
     </config>
     <config id="config.azure.nxd">
       <property id="config.azure.nxd_src.error_checking" value="config.azure.nxd_src.error_checking.enabled"/>
@@ -879,23 +888,18 @@
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>
-    <symbolicName propertyId="p005.symbolic_name" value="LED0"/>
-    <pincfg active="true" name="R7FA8T1AHECFB.pincfg" selected="false" symbol="g_bsp_pin_cfg">
-      <configSetting altId="jtag_fslash_swd.mode.jtag.free" configurationId="jtag_fslash_swd.mode"/>
-      <configSetting altId="jtag_fslash_swd.tck.p211" configurationId="jtag_fslash_swd.tck"/>
-      <configSetting altId="jtag_fslash_swd.tdi.p208" configurationId="jtag_fslash_swd.tdi"/>
-      <configSetting altId="jtag_fslash_swd.tdo.p209" configurationId="jtag_fslash_swd.tdo"/>
-      <configSetting altId="jtag_fslash_swd.tms.p210" configurationId="jtag_fslash_swd.tms"/>
-      <configSetting altId="p208.jtag_fslash_swd.tdi" configurationId="p208"/>
-      <configSetting altId="p208.gpio_mode.gpio_mode_peripheral" configurationId="p208.gpio_mode"/>
-      <configSetting altId="p209.jtag_fslash_swd.tdo" configurationId="p209"/>
-      <configSetting altId="p209.gpio_mode.gpio_mode_peripheral" configurationId="p209.gpio_mode"/>
-      <configSetting altId="p210.jtag_fslash_swd.tms" configurationId="p210"/>
-      <configSetting altId="p210.gpio_mode.gpio_mode_peripheral" configurationId="p210.gpio_mode"/>
-      <configSetting altId="p211.jtag_fslash_swd.tck" configurationId="p211"/>
-      <configSetting altId="p211.gpio_mode.gpio_mode_peripheral" configurationId="p211.gpio_mode"/>
-    </pincfg>
-    <pincfg active="true" name="CONFIGv1.4.2.pincfg" selected="true" symbol="g_bsp_pin_cfg0">
+    <symbolicName propertyId="p000.symbolic_name" value="SPI_CANFD_INT"/>
+    <symbolicName propertyId="p001.symbolic_name" value="WAKE_UP_ON_LAN"/>
+    <symbolicName propertyId="p002.symbolic_name" value="MUX_ETH_SD"/>
+    <symbolicName propertyId="p003.symbolic_name" value="LED0"/>
+    <symbolicName propertyId="p004.symbolic_name" value="LED1"/>
+    <symbolicName propertyId="p005.symbolic_name" value="LED2"/>
+    <symbolicName propertyId="p006.symbolic_name" value="LED3"/>
+    <symbolicName propertyId="p007.symbolic_name" value="LED4"/>
+    <symbolicName propertyId="p008.symbolic_name" value="LED5"/>
+    <symbolicName propertyId="p009.symbolic_name" value="LED6"/>
+    <symbolicName propertyId="p010.symbolic_name" value="LED7"/>
+    <pincfg active="true" name="BOARD_RA8T1_ACUITY_BSP.pincfg" selected="true" symbol="g_bsp_pin_cfg">
       <configSetting altId="canfd0.crx0.p102" configurationId="canfd0.crx0"/>
       <configSetting altId="canfd0.ctx0.p103" configurationId="canfd0.ctx0"/>
       <configSetting altId="canfd0.mode.enabled.d" configurationId="canfd0.mode"/>
@@ -903,6 +907,9 @@
       <configSetting altId="canfd1.crx1.p610" configurationId="canfd1.crx1"/>
       <configSetting altId="canfd1.ctx1.p609" configurationId="canfd1.ctx1"/>
       <configSetting altId="canfd1.mode.enabled.free" configurationId="canfd1.mode"/>
+      <configSetting altId="cgc.extal.p212" configurationId="cgc.extal"/>
+      <configSetting altId="cgc.mode.custom.free" configurationId="cgc.mode"/>
+      <configSetting altId="cgc.xtal.p213" configurationId="cgc.xtal"/>
       <configSetting altId="ether_rmii.et0_exout.p404" configurationId="ether_rmii.et0_exout"/>
       <configSetting altId="ether_rmii.et0_linksta.p403" configurationId="ether_rmii.et0_linksta"/>
       <configSetting altId="ether_rmii.et0_mdc.p401" configurationId="ether_rmii.et0_mdc"/>
@@ -925,17 +932,17 @@
       <configSetting altId="irq10.mode.custom.free" configurationId="irq10.mode"/>
       <configSetting altId="irq2.irq2.p100" configurationId="irq2.irq2"/>
       <configSetting altId="irq2.mode.custom.free" configurationId="irq2.mode"/>
-      <configSetting altId="jtag_fslash_swd.mode.jtag.free" configurationId="jtag_fslash_swd.mode"/>
-      <configSetting altId="jtag_fslash_swd.tck.p211" configurationId="jtag_fslash_swd.tck"/>
-      <configSetting altId="jtag_fslash_swd.tdi.p208" configurationId="jtag_fslash_swd.tdi"/>
-      <configSetting altId="jtag_fslash_swd.tdo.p209" configurationId="jtag_fslash_swd.tdo"/>
-      <configSetting altId="jtag_fslash_swd.tms.p210" configurationId="jtag_fslash_swd.tms"/>
+      <configSetting altId="jtag_fslash_swd.mode.swd.free" configurationId="jtag_fslash_swd.mode"/>
+      <configSetting altId="jtag_fslash_swd.swclk.p211" configurationId="jtag_fslash_swd.swclk"/>
+      <configSetting altId="jtag_fslash_swd.swdio.p210" configurationId="jtag_fslash_swd.swdio"/>
       <configSetting altId="p000.input" configurationId="p000"/>
+      <configSetting altId="p000.gpio_irq.gpio_irq_enabled" configurationId="p000.gpio_irq"/>
       <configSetting altId="p000.gpio_mode.gpio_mode_in" configurationId="p000.gpio_mode"/>
       <configSetting altId="p001.input" configurationId="p001"/>
+      <configSetting altId="p001.gpio_irq.gpio_irq_enabled" configurationId="p001.gpio_irq"/>
       <configSetting altId="p001.gpio_mode.gpio_mode_in" configurationId="p001.gpio_mode"/>
-      <configSetting altId="p002.output.low" configurationId="p002"/>
-      <configSetting altId="p002.gpio_mode.gpio_mode_out.low" configurationId="p002.gpio_mode"/>
+      <configSetting altId="p002.output.high" configurationId="p002"/>
+      <configSetting altId="p002.gpio_mode.gpio_mode_out.high" configurationId="p002.gpio_mode"/>
       <configSetting altId="p003.output.high" configurationId="p003"/>
       <configSetting altId="p003.gpio_mode.gpio_mode_out.high" configurationId="p003.gpio_mode"/>
       <configSetting altId="p004.output.high" configurationId="p004"/>
@@ -965,14 +972,16 @@
       <configSetting altId="p105.irq0.irq0" configurationId="p105"/>
       <configSetting altId="p105.gpio_irq.gpio_irq_enabled" configurationId="p105.gpio_irq"/>
       <configSetting altId="p105.gpio_mode.gpio_mode_irq" configurationId="p105.gpio_mode"/>
-      <configSetting altId="p208.jtag_fslash_swd.tdi" configurationId="p208"/>
-      <configSetting altId="p208.gpio_mode.gpio_mode_peripheral" configurationId="p208.gpio_mode"/>
-      <configSetting altId="p209.jtag_fslash_swd.tdo" configurationId="p209"/>
-      <configSetting altId="p209.gpio_mode.gpio_mode_peripheral" configurationId="p209.gpio_mode"/>
-      <configSetting altId="p210.jtag_fslash_swd.tms" configurationId="p210"/>
+      <configSetting altId="p201.system.md" configurationId="p201"/>
+      <configSetting altId="p201.gpio_mode.gpio_mode_peripheral" configurationId="p201.gpio_mode"/>
+      <configSetting altId="p210.jtag_fslash_swd.swdio" configurationId="p210"/>
       <configSetting altId="p210.gpio_mode.gpio_mode_peripheral" configurationId="p210.gpio_mode"/>
-      <configSetting altId="p211.jtag_fslash_swd.tck" configurationId="p211"/>
+      <configSetting altId="p211.jtag_fslash_swd.swclk" configurationId="p211"/>
       <configSetting altId="p211.gpio_mode.gpio_mode_peripheral" configurationId="p211.gpio_mode"/>
+      <configSetting altId="p212.cgc.extal" configurationId="p212"/>
+      <configSetting altId="p212.gpio_mode.gpio_mode_peripheral" configurationId="p212.gpio_mode"/>
+      <configSetting altId="p213.cgc.xtal" configurationId="p213"/>
+      <configSetting altId="p213.gpio_mode.gpio_mode_peripheral" configurationId="p213.gpio_mode"/>
       <configSetting altId="p301.sdhi0.sd0dat3" configurationId="p301"/>
       <configSetting altId="p301.gpio_mode.gpio_mode_peripheral" configurationId="p301.gpio_mode"/>
       <configSetting altId="p302.sdhi0.sd0dat2" configurationId="p302"/>
@@ -1065,10 +1074,14 @@
       <configSetting altId="sdhi0.sd0wp.p305" configurationId="sdhi0.sd0wp"/>
       <configSetting altId="sdhi1.mode.custom.free" configurationId="sdhi1.mode"/>
       <configSetting altId="spi1.mode.custom.free" configurationId="spi1.mode"/>
+      <configSetting altId="system.md.p201" configurationId="system.md"/>
+      <configSetting altId="system.mode.custom.free" configurationId="system.mode"/>
       <lockSetting id="canfd0.crx0" lock="true"/>
       <lockSetting id="canfd0.ctx0" lock="true"/>
       <lockSetting id="canfd1.crx1" lock="true"/>
       <lockSetting id="canfd1.ctx1" lock="true"/>
+      <lockSetting id="cgc.extal" lock="true"/>
+      <lockSetting id="cgc.xtal" lock="true"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

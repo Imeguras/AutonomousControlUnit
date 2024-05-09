@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <raConfiguration version="8">
   <generalSettings>
-    <option key="#Board#" value="board.custom"/>
+    <option key="#Board#" value="board.board_ra8t1_acuity_bsp"/>
     <option key="CPU" value="RA8T1"/>
     <option key="Core" value="CM85"/>
-    <option key="#TargetName#" value="R7FA8T1AHECFB"/>
+    <option key="#TargetName#" value="R7FA8T1AHECFC"/>
     <option key="#TargetARCHITECTURE#" value="cortex-m85"/>
     <option key="#DeviceCommand#" value="R7FA8T1AH"/>
     <option key="#RTOS#" value="rtos.threadx"/>
-    <option key="#pinconfiguration#" value="R7FA8T1AHECFB.pincfg"/>
+    <option key="#pinconfiguration#" value="R7FA8T1AHECFC.pincfg"/>
     <option key="#FSPVersion#" value="5.1.0"/>
+    <option key="#ConfigurationFragments#" value="LART##BSP##Board##BOARD_RA8T1_ACUITY_BSP##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
   </generalSettings>
@@ -30,8 +31,8 @@
     <node id="board.clock.pll1q.display" option="board.clock.pll1q.display.value"/>
     <node id="board.clock.pll1r.div" option="board.clock.pll1r.div.2"/>
     <node id="board.clock.pll1r.display" option="board.clock.pll1r.display.value"/>
-    <node id="board.clock.pll2.source" option="board.clock.pll2.source.xtal"/>
-    <node id="board.clock.pll2.div" option="board.clock.pll2.div.3"/>
+    <node id="board.clock.pll2.source" option="board.clock.pll2.source.disabled"/>
+    <node id="board.clock.pll2.div" option="board.clock.pll2.div.1"/>
     <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.48_00"/>
     <node id="board.clock.pll2.display" option="board.clock.pll2.display.value"/>
     <node id="board.clock.pll2p.div" option="board.clock.pll2p.div.2"/>
@@ -44,13 +45,13 @@
     <node id="board.clock.clkout.source" option="board.clock.clkout.source.disabled"/>
     <node id="board.clock.sciclk.source" option="board.clock.sciclk.source.disabled"/>
     <node id="board.clock.spiclk.source" option="board.clock.spiclk.source.disabled"/>
-    <node id="board.clock.canfdclk.source" option="board.clock.canfdclk.source.pll2r"/>
+    <node id="board.clock.canfdclk.source" option="board.clock.canfdclk.source.pll1p"/>
     <node id="board.clock.lcdclk.source" option="board.clock.lcdclk.source.disabled"/>
     <node id="board.clock.i3cclk.source" option="board.clock.i3cclk.source.disabled"/>
     <node id="board.clock.uck.source" option="board.clock.uck.source.disabled"/>
     <node id="board.clock.u60ck.source" option="board.clock.u60ck.source.disabled"/>
     <node id="board.clock.octaspiclk.source" option="board.clock.octaspiclk.source.disabled"/>
-    <node id="board.clock.cpuclk.div" option="board.clock.cpuclk.div.2"/>
+    <node id="board.clock.cpuclk.div" option="board.clock.cpuclk.div.1"/>
     <node id="board.clock.iclk.div" option="board.clock.iclk.div.2"/>
     <node id="board.clock.pclka.div" option="board.clock.pclka.div.4"/>
     <node id="board.clock.pclkb.div" option="board.clock.pclkb.div.8"/>
@@ -64,7 +65,7 @@
     <node id="board.clock.clkout.div" option="board.clock.clkout.div.1"/>
     <node id="board.clock.sciclk.div" option="board.clock.sciclk.div.4"/>
     <node id="board.clock.spiclk.div" option="board.clock.spiclk.div.4"/>
-    <node id="board.clock.canfdclk.div" option="board.clock.canfdclk.div.4"/>
+    <node id="board.clock.canfdclk.div" option="board.clock.canfdclk.div.8"/>
     <node id="board.clock.lcdclk.div" option="board.clock.lcdclk.div.2"/>
     <node id="board.clock.i3cclk.div" option="board.clock.i3cclk.div.3"/>
     <node id="board.clock.uck.div" option="board.clock.uck.div.5"/>
@@ -93,10 +94,56 @@
   </raClockConfiguration>
   <raPinConfiguration>
     <pincfg active="true" name="" symbol="">
-      <configSetting altId="jtag_fslash_swd.tck.p211" configurationId="jtag_fslash_swd.tck"/>
-      <configSetting altId="jtag_fslash_swd.tdi.p208" configurationId="jtag_fslash_swd.tdi"/>
-      <configSetting altId="jtag_fslash_swd.tdo.p209" configurationId="jtag_fslash_swd.tdo"/>
-      <configSetting altId="jtag_fslash_swd.tms.p210" configurationId="jtag_fslash_swd.tms"/>
+      <configSetting altId="canfd0.crx0.p102" configurationId="canfd0.crx0" isUsedByDriver="true"/>
+      <configSetting altId="canfd0.ctx0.p103" configurationId="canfd0.ctx0" isUsedByDriver="true"/>
+      <configSetting altId="canfd1.crx1.p610" configurationId="canfd1.crx1"/>
+      <configSetting altId="canfd1.ctx1.p609" configurationId="canfd1.ctx1"/>
+      <configSetting altId="cgc.extal.p212" configurationId="cgc.extal"/>
+      <configSetting altId="cgc.xtal.p213" configurationId="cgc.xtal"/>
+      <configSetting altId="ether_rmii.et0_exout.p404" configurationId="ether_rmii.et0_exout" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.et0_linksta.p403" configurationId="ether_rmii.et0_linksta" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.et0_mdc.p401" configurationId="ether_rmii.et0_mdc" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.et0_mdio.p402" configurationId="ether_rmii.et0_mdio" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.et0_wol.p400" configurationId="ether_rmii.et0_wol" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.ref50ck0.p701" configurationId="ether_rmii.ref50ck0" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_crs_dv.p705" configurationId="ether_rmii.rmii0_crs_dv" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_rx_er.p704" configurationId="ether_rmii.rmii0_rx_er" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_rxd0.p702" configurationId="ether_rmii.rmii0_rxd0" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_rxd1.p703" configurationId="ether_rmii.rmii0_rxd1" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_txd0.p700" configurationId="ether_rmii.rmii0_txd0" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_txd1.p406" configurationId="ether_rmii.rmii0_txd1" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_txd_en.p405" configurationId="ether_rmii.rmii0_txd_en" isUsedByDriver="true"/>
+      <configSetting altId="irq0.irq0.p105" configurationId="irq0.irq0"/>
+      <configSetting altId="irq1.irq1.p101" configurationId="irq1.irq1"/>
+      <configSetting altId="irq2.irq2.p100" configurationId="irq2.irq2"/>
+      <configSetting altId="jtag_fslash_swd.swclk.p211" configurationId="jtag_fslash_swd.swclk"/>
+      <configSetting altId="jtag_fslash_swd.swdio.p210" configurationId="jtag_fslash_swd.swdio"/>
+      <configSetting altId="p000.input" configurationId="p000"/>
+      <configSetting altId="p001.input" configurationId="p001"/>
+      <configSetting altId="p002.output.high" configurationId="p002"/>
+      <configSetting altId="p003.output.high" configurationId="p003"/>
+      <configSetting altId="p004.output.high" configurationId="p004"/>
+      <configSetting altId="p005.output.high" configurationId="p005"/>
+      <configSetting altId="p006.output.high" configurationId="p006"/>
+      <configSetting altId="p007.output.high" configurationId="p007"/>
+      <configSetting altId="p008.output.high" configurationId="p008"/>
+      <configSetting altId="p009.output.high" configurationId="p009"/>
+      <configSetting altId="p010.output.high" configurationId="p010"/>
+      <configSetting altId="sci0.cts_rts0.p604" configurationId="sci0.cts_rts0"/>
+      <configSetting altId="sci0.rxd0.p602" configurationId="sci0.rxd0"/>
+      <configSetting altId="sci0.sck0.p601" configurationId="sci0.sck0"/>
+      <configSetting altId="sci0.txd0.p603" configurationId="sci0.txd0"/>
+      <configSetting altId="sci4.rxd4.p414" configurationId="sci4.rxd4"/>
+      <configSetting altId="sci4.txd4.p415" configurationId="sci4.txd4"/>
+      <configSetting altId="sdhi0.sd0cd.p306" configurationId="sdhi0.sd0cd"/>
+      <configSetting altId="sdhi0.sd0clk.p308" configurationId="sdhi0.sd0clk"/>
+      <configSetting altId="sdhi0.sd0cmd.p307" configurationId="sdhi0.sd0cmd"/>
+      <configSetting altId="sdhi0.sd0dat0.p304" configurationId="sdhi0.sd0dat0"/>
+      <configSetting altId="sdhi0.sd0dat1.p303" configurationId="sdhi0.sd0dat1"/>
+      <configSetting altId="sdhi0.sd0dat2.p302" configurationId="sdhi0.sd0dat2"/>
+      <configSetting altId="sdhi0.sd0dat3.p301" configurationId="sdhi0.sd0dat3"/>
+      <configSetting altId="sdhi0.sd0wp.p305" configurationId="sdhi0.sd0wp"/>
+      <configSetting altId="system.md.p201" configurationId="system.md"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>

@@ -4,8 +4,10 @@
  *  Created on: 07/10/2023
  *      Author: micron
  */
-#include "interfaces/EthDuo.h"
+#include "Drivers/EthDuo.h"
 #include "HighSpeedAbsL.h"
+
+#include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
 
 template<typename APL>
 APL*  HighSpeed_AbsL<APL>::operator->(){
@@ -27,7 +29,7 @@ HighSpeed_AbsL<APL>::HighSpeed_AbsL() {
 
 	    } else {
 	    	//TODO define a better screaming protocol
-	        led_update(red, BSP_IO_LEVEL_HIGH);
+	        //led_update(red, BSP_IO_LEVEL_HIGH);
 
 	        //std::cout << "Object has been destroyed." << std::endl;
 	    }
