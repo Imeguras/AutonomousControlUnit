@@ -1,3 +1,6 @@
 [submodule "micro_ros_renesas2estudio_component"]
 	path = micro_ros_renesas2estudio_component
 	url = https://github.com/micro-ROS/micro_ros_renesas2estudio_component
+[submodule "src/Data_structs/Can-Header-Map"]
+	path = src/Data_structs/Can-Header-Map
+	url = https://github.com/FSLART/Can-Header-Map
