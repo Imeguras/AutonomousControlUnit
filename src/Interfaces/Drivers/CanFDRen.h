@@ -32,8 +32,8 @@ public:
 private:
 	std::list<uint32_t> fbuffers_rx;
 	//TODO: make channel 0 "non mandatory"
-	canfd_instance_ctrl_t& g_canfd_ctrl = g_canfd0_ctrl;
-	const can_cfg_t& g_canfd_cfg = g_canfd0_cfg;
+	canfd_instance_ctrl_t& g_canfd_ctrl = (canfd_instance_ctrl_t&)g_canfd0_ctrl;
+	can_cfg_t& g_canfd_cfg = (can_cfg_t&)g_canfd0_cfg;
 
 };
 

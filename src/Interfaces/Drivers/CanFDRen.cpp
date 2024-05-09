@@ -46,6 +46,7 @@ int CanFDRen::initialization(canfd_instance_ctrl_t& _g_canfd_ctrl, can_cfg_t& _g
  * @param stream_size @b HERE stream_size means how many messages are going to be sent over data default is @b one
  */
 void* CanFDRen::recv(void * data, uint32_t stream_size=1){
+    FSP_PARAMETER_NOT_USED(stream_size);
 	auto index = this->fbuffers_rx.front();
 	this->fbuffers_rx.pop_front();
 	//TODO: read more than one?
