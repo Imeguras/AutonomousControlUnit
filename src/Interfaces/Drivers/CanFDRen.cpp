@@ -1,14 +1,14 @@
 /*
  * CanRen.cpp
+
  *
  *  Created on: 09/10/2023
  *      Author: micron
  */
-
-
 #include "CanFDRen.h"
 
-#if BSP_FEATURE_CANFD_FD_SUPPORT
+//#if defined(BSP_FEATURE_CANFD_FD_SUPPORT) || defined(BSP_FEATURE_CANFD_LITE)
+
 
 
 CanFDRen::CanFDRen()  {
@@ -18,16 +18,27 @@ CanFDRen::CanFDRen()  {
 CanFDRen::~CanFDRen() {
 
 }
-
+//By default go to channel 0
 int CanFDRen::initialization(){
-    UINT status=-1;
+    //this->g_canfd_ctrl = g_canfd0_ctrl;
+    //this->g_canfd_cfg = g_canfd0_cfg;
 
-	status = R_CANFD_Open(&g_canfd1_ctrl, &g_canfd1_cfg);
+    UINT status = R_CANFD_Open(&g_canfd0_ctrl, &g_canfd0_cfg);
+    if(status== FSP_SUCCESS){
+        tx_ready=true;
+        rx_ready= true;
+    }
+    return (int)status;
+}
+
+int CanFDRen::initialization(canfd_instance_ctrl_t& _g_canfd_ctrl, can_cfg_t& _g_canfd_cfg){
+    this->g_canfd_ctrl = _g_canfd_ctrl;
+    this->g_canfd_cfg = _g_canfd_cfg;
+	UINT status = R_CANFD_Open(&g_canfd_ctrl, &g_canfd_cfg);
 	if(status== FSP_SUCCESS){
 		tx_ready=true;
 		rx_ready= true;
 	}
-
 	return (int)status;
 }
 /**
@@ -41,7 +52,7 @@ void* CanFDRen::recv(void * data, uint32_t stream_size=1){
 	this->fbuffers_rx.pop_front();
 	//TODO: read more than one?
 
-	R_CANFD_Read(&g_canfd1_ctrl,index,  (can_frame_t *)&data);
+	R_CANFD_Read(&this->g_canfd_ctrl,index,  (can_frame_t *)&data);
 	return ((void *)data);
 }
 /**
@@ -51,60 +62,55 @@ void* CanFDRen::recv(void * data, uint32_t stream_size=1){
  * @return
  */
 uint32_t CanFDRen::write(void *data, uint32_t stream_size){
-	//TODO buffers??!
     FSP_PARAMETER_NOT_USED(stream_size);
+	//TODO buffers??!
+	/*while(this->tx_ready != true) {
 
+	}*/
 
-    tx_ready=false;
-    UINT status = R_CANFD_Write(&g_canfd1_ctrl, 0, (can_frame_t *)data);
-    while(tx_ready != true) {
-        R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MICROSECONDS);
-    }
+ 	UINT status = R_CANFD_Write(&this->g_canfd_ctrl, 0, (can_frame_t *)data);
 
-
+	//TODO: multiple tx
+	this->tx_ready=false;
 
 	return status;
 }
 
 void CanFDRen::callbackHandle(can_callback_args_t *p_args){
-
-    switch (p_args->event){
-
+    led_update(lime, BSP_IO_LEVEL_HIGH);
+	switch (p_args->event){
         case CAN_EVENT_TX_COMPLETE:
-            tx_ready=true;
+            led_update(ambar, BSP_IO_LEVEL_HIGH);
+            this->tx_ready=true;
+            R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
+            led_update(ambar, BSP_IO_LEVEL_LOW);
             break;
         case CAN_EVENT_RX_COMPLETE:
             //TODO validations?
             this->fbuffers_rx.push_back(p_args->buffer);
-            rx_ready=true;
+            this->rx_ready=true;
             break;
-        case CAN_EVENT_TX_FIFO_EMPTY:       /* Transmit FIFO is empty. */
-            break;
-
         case CAN_EVENT_ERR_WARNING:          /* error warning event */
         case CAN_EVENT_ERR_PASSIVE:          /* error passive event */
-            //TODO: these must be logged
-            break;
+        case CAN_EVENT_ERR_BUS_OFF:          /* error bus off event */
         case CAN_EVENT_BUS_RECOVERY:         /* Bus recovery error event */
-            break;
-        case CAN_EVENT_FIFO_MESSAGE_LOST:
         case CAN_EVENT_MAILBOX_MESSAGE_LOST: /* overwrite/overrun error event */
-            break;
-
-
+        case CAN_EVENT_ERR_BUS_LOCK:         /* Bus lock detected (32 consecutive dominant bits). */
         case CAN_EVENT_ERR_CHANNEL:          /* Channel error has occurred. */
         case CAN_EVENT_TX_ABORTED:           /* Transmit abort event. */
         case CAN_EVENT_ERR_GLOBAL:           /* Global error has occurred. */
-        case CAN_EVENT_ERR_BUS_OFF:          /* error bus off event */
-        case CAN_EVENT_ERR_BUS_LOCK:{         /* Bus lock detected (32 consecutive dominant bits). */
-            tx_ready=false;
-            rx_ready=false;
-            break;
+        case CAN_EVENT_TX_FIFO_EMPTY:       /* Transmit FIFO is empty. */
+        case CAN_EVENT_FIFO_MESSAGE_LOST:
+        {
+            this->tx_ready=false;
+            this->rx_ready=false;
+          break;
         }
-        default:
-            break;
-
 
 	}
+
+	R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
+    led_update(lime, BSP_IO_LEVEL_LOW);
 }
-#endif
+
+//#endif

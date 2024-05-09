@@ -6,7 +6,9 @@
  */
 
 #include "MicroRosDuo.h"
-#include "MicroRosHumble/microros_allocators.c"
+
+//TODO: The linker as usual has this boogaloo behaviour, study nmore on how to do it the hardway
+#include "../MicroRosBoylerplate/microros_allocators.c"
 #include "bsp_api.h"
 #include "common_data.h"
 //TODO: THIS IS INCREDIBLY DANGEROUS AND WILL FUCK UP AT SOME POINT
@@ -46,7 +48,7 @@ MicroRosDuo::MicroRosDuo() {
 	RosIntanceSingleton::getInstance().setHandle(this);
 	this->remote_addr =  custom_transport_args{
 
-							   .agent_ip_address=IP_ADDRESS(192,168,0,100),
+							   .agent_ip_address=IP_ADDRESS(192,168,0,102),
 							   .agent_port=8888
 							};
 	rmw_uros_set_custom_transport(

@@ -5,7 +5,7 @@
  *      Author: micron
  */
 
-#include "interfaces/EthDuo.h"
+#include "EthDuo.h"
 
 #include <rcl/rcl.h>
 #include <rcl/error_handling.h>
@@ -14,7 +14,7 @@
 #include <rcutils/allocator.h>
 #include <rmw_microros/rmw_microros.h>
 #include <rmw_microxrcedds_c/config.h>
-#include "MicroRosHumble/microros_transports.h"
+#include "../MicroRosBoylerplate/microros_transports.h"
 /*
 #include "rmw_microros/rmw_microros.h"
 #include "microros_transports.h"*/
