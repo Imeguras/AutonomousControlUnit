@@ -4,7 +4,7 @@
  *  Created on: 07/10/2023
  *      Author: micron
  */
-#include "Drivers/EthDuo.h"
+#include "Drivers/HardwareBased/EthDuo.h"
 #include "HighSpeedAbsL.h"
 
 #include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
@@ -21,6 +21,7 @@ APL*  HighSpeed_AbsL<APL>::operator->(){
 
 template<typename APL>
 HighSpeed_AbsL<APL>::HighSpeed_AbsL() {
+    //TODO : maybe we should first force initialization and only after everything goes according to plan the apl_handle is filled
 	this->apl_handle = std::make_shared<APL>();
 	std::weak_ptr<APL> weak = this->apl_handle;
 	    // Access the object using weak_ptr

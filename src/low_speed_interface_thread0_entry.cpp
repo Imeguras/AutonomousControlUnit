@@ -4,7 +4,7 @@
 #include <low_speed_interface_thread0.h>
 
 #include "Interfaces/HighSpeedAbsL.cpp"
-#include "Interfaces/Drivers/CanFDRen.h"
+#include "Interfaces/Drivers/HardwareBased/CanFDRen.h"
 #include "utils.h"
 #include "Data_structs/AutomataStructs.hpp"
 #include "Data_structs/Can-Header-Map/CAN_asdb.h"
@@ -12,7 +12,8 @@
 volatile can_frame_t frame;
 can_info_t info;
 
-void * interface_callback_t;
+void * interface_callback0_t;
+void * interface_callback1_t;
 /* CANFD Channel 1 Acceptance Filter List (AFL) rule array */
 extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
       {
@@ -101,12 +102,13 @@ extern "C" const canfd_afl_entry_t p_canfd1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
 
 extern "C" void canfd0_callback(can_callback_args_t * p_args);
 void low_speed_interface_thread0_entry(void) {
-  //R_CANFD_Open(&g_canfd1_ctrl, &g_canfd1_cfg);
+    HighSpeed_AbsL<CanFDRen> canfd0;
+    HighSpeed_AbsL<CanFDRen> canfd1;
+    canfd1->channelInjection((canfd_instance_ctrl_t&)g_canfd1_ctrl, (can_cfg_t&)g_canfd1_cfg);
+    interface_callback0_t=(void *)&canfd0;
+    interface_callback1_t=(void *)&canfd1;
 
-  HighSpeed_AbsL<CanFDRen> canfd;
 
-  interface_callback_t=(void *)&canfd;
-  //void (*canfdCBHandle)(can_callback_args_t *)= callbackWrapper(can_callback_args_t *,canfd);
     frame.id = CAN_AS_STATUS;
     frame.id_mode = CAN_ID_MODE_STANDARD;
     frame.type = CAN_FRAME_TYPE_DATA;
@@ -125,9 +127,9 @@ void low_speed_interface_thread0_entry(void) {
 
     MAP_ENCODE_AS_STATE(frame.data,0xFF);
 
-///* Update transmit frame data with message */
 
-    canfd->write((void *)&frame,0);
+    canfd0->write((void *)&frame,0);
+    canfd1->write((void *)&frame,0);
     R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
     while(1){
         R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
@@ -138,7 +140,13 @@ void low_speed_interface_thread0_entry(void) {
 
 /* Callback function */
 extern "C" void canfd0_callback(can_callback_args_t *p_args){
-  if(interface_callback_t != NULL){
-      ((CanFDRen *)interface_callback_t)->callbackHandle(p_args);
+  if(interface_callback0_t != NULL){
+      ((CanFDRen *)interface_callback0_t)->callbackHandle(p_args);
+  }
+}
+
+extern "C" void canfd1_callback(can_callback_args_t *p_args){
+  if(interface_callback1_t != NULL){
+      ((CanFDRen *)interface_callback1_t)->callbackHandle(p_args);
   }
 }

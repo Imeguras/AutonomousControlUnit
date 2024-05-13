@@ -7,40 +7,58 @@
  */
 #include "CanFDRen.h"
 
-//#if defined(BSP_FEATURE_CANFD_FD_SUPPORT) || defined(BSP_FEATURE_CANFD_LITE)
-
+#if defined(BSP_FEATURE_CANFD_FD_SUPPORT) || defined(BSP_FEATURE_CANFD_LITE)
 
 
 CanFDRen::CanFDRen()  {
+
 
 }
 
 CanFDRen::~CanFDRen() {
 
 }
-//By default go to channel 0
-int CanFDRen::initialization(){
-    //this->g_canfd_ctrl = g_canfd0_ctrl;
-    //this->g_canfd_cfg = g_canfd0_cfg;
 
-    UINT status = R_CANFD_Open(&g_canfd0_ctrl, &g_canfd0_cfg);
+int CanFDRen::initialization(){
+    #ifdef VECTOR_NUMBER_CAN0_TX
+               this->g_canfd_ctrl = &g_canfd0_ctrl;
+               this->g_canfd_cfg = &g_canfd0_cfg;
+    #elif VECTOR_NUMBER_CAN1_TX
+           this->g_canfd_ctrl = g_canfd1_ctrl;
+           this->g_canfd_cfg = g_canfd1_cfg;
+    #endif
+
+    return 0;
+}
+int CanFDRen::initialization(canfd_instance_ctrl_t& _g_canfd_ctrl, can_cfg_t& _g_canfd_cfg){
+    this->g_canfd_ctrl = _g_canfd_ctrl;
+    this->g_canfd_cfg = _g_canfd_cfg;
+    UINT status = R_CANFD_Open(this->g_canfd_ctrl, this->g_canfd_cfg);
     if(status== FSP_SUCCESS){
         tx_ready=true;
         rx_ready= true;
     }
     return (int)status;
 }
+/***
+ *
+ * @param _g_canfd_ctrl
+ * @param _g_canfd_cfg
+ * @return the status of the result
+ */
+int CanFDRen::channelInjection(canfd_instance_ctrl_t& _g_canfd_ctrl, can_cfg_t& _g_canfd_cfg){
+    int status;
+    try{
+        this->g_canfd_ctrl = _g_canfd_ctrl;
+        this->g_canfd_cfg = _g_canfd_cfg;
+    }catch(...){
+        status = FSP_ERR_ABORTED;
+        return status;
 
-int CanFDRen::initialization(canfd_instance_ctrl_t& _g_canfd_ctrl, can_cfg_t& _g_canfd_cfg){
-    this->g_canfd_ctrl = _g_canfd_ctrl;
-    this->g_canfd_cfg = _g_canfd_cfg;
-	UINT status = R_CANFD_Open(&g_canfd_ctrl, &g_canfd_cfg);
-	if(status== FSP_SUCCESS){
-		tx_ready=true;
-		rx_ready= true;
-	}
-	return (int)status;
+    }
+    return FSP_SUCCESS;
 }
+
 /**
  *
  * @param data @b MUST be already allocated...
@@ -113,4 +131,4 @@ void CanFDRen::callbackHandle(can_callback_args_t *p_args){
     led_update(lime, BSP_IO_LEVEL_LOW);
 }
 
-//#endif
+#endif

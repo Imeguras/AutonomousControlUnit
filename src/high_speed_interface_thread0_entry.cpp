@@ -10,7 +10,7 @@
 #include "rmw_microros/rmw_microros.h"
 
 #include "Interfaces/HighSpeedAbsL.cpp"
-#include "Interfaces/Drivers/EthDuo.h"
+#include "Interfaces/Drivers/HardwareBased/EthDuo.h"
 #include "Interfaces/Drivers/MicroRosDuo.h"
 #include "Interfaces/MicroRosBoylerplate/microros_transports.h"
 //TODO fix this mess

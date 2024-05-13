@@ -14,18 +14,6 @@
 #ifndef HIGHSPEEDABSL_H_
 #define HIGHSPEEDABSL_H_
 
-/*template<typename APL> class HighSpeed_AbsL {
-public:
-	HighSpeed_AbsL();
-	virtual ~HighSpeed_AbsL();
-	HighSpeed_AbsL(const HighSpeed_AbsL &&other);
-	HighSpeed_AbsL& operator=(const HighSpeed_AbsL&& other);
-	APL* g_AplHandle();
-private:
-	std::shared_ptr<APL> apl_handle;
-
-};*/
-
 template<typename APL> class HighSpeed_AbsL {
 public:
 	HighSpeed_AbsL();

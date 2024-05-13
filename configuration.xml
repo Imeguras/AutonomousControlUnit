@@ -360,7 +360,7 @@
       <property id="module.driver.canfdlite.name" value="g_canfd0"/>
       <property id="module.driver.canfdlite.channel" value="0"/>
       <property id="module.driver.canfdlite.bitrate.automatic.nominal_rate" value="1000000"/>
-      <property id="module.driver.canfdlite.bitrate.automatic.data_rate" value="2000000"/>
+      <property id="module.driver.canfdlite.bitrate.automatic.data_rate" value="8000000"/>
       <property id="module.driver.canfdlite.bitrate.automatic.sample_point" value="75"/>
       <property id="module.driver.canfdlite.bitrate.automatic.delay_compensation" value="module.driver.canfdlite.bitrate.automatic.delay_compensation.enabled"/>
       <property id="module.driver.canfdlite.manual.nominal.prescaler" value="1"/>

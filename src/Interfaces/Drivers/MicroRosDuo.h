@@ -5,7 +5,7 @@
  *      Author: micron
  */
 
-#include "EthDuo.h"
+#include "HardwareBased/EthDuo.h"
 
 #include <rcl/rcl.h>
 #include <rcl/error_handling.h>
