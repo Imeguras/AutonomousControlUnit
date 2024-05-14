@@ -21,19 +21,27 @@ APL*  HighSpeed_AbsL<APL>::operator->(){
 
 template<typename APL>
 HighSpeed_AbsL<APL>::HighSpeed_AbsL() {
-    //TODO : maybe we should first force initialization and only after everything goes according to plan the apl_handle is filled
-	this->apl_handle = std::make_shared<APL>();
-	std::weak_ptr<APL> weak = this->apl_handle;
-	    // Access the object using weak_ptr
-	    if (auto locked = weak.lock()) {
-            locked->initialization();
+    std::shared_ptr<APL> _temp = std::make_shared<APL>();
+    //TODO check if above can ever fail?
 
-	    } else {
-	    	//TODO define a better screaming protocol
-	        //led_update(red, BSP_IO_LEVEL_HIGH);
 
-	        //std::cout << "Object has been destroyed." << std::endl;
-	    }
+	std::weak_ptr<APL> weak = _temp;
+    // Access the object using weak_ptr
+	// Lock it
+    if (auto locked = weak.lock()){
+
+        int init_ret = locked->initialization();
+        //Init is OK?
+        if(FSP_SUCCESS == (fsp_err_t)init_ret){
+            this->apl_handle = _temp;
+        }else{
+            //TODO define a screaming protocol
+        }
+
+    } else {
+        //TODO define a better screaming protocol
+        //led_update(red, BSP_IO_LEVEL_HIGH);
+    }
 }
 
 template<typename APL> HighSpeed_AbsL<APL>::~HighSpeed_AbsL() {

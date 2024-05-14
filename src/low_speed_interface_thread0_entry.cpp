@@ -104,7 +104,7 @@ extern "C" void canfd0_callback(can_callback_args_t * p_args);
 void low_speed_interface_thread0_entry(void) {
     HighSpeed_AbsL<CanFDRen> canfd0;
     HighSpeed_AbsL<CanFDRen> canfd1;
-    canfd1->channelInjection((canfd_instance_ctrl_t&)g_canfd1_ctrl, (can_cfg_t&)g_canfd1_cfg);
+    //canfd1->channelInjection((canfd_instance_ctrl_t&)g_canfd1_ctrl, (can_cfg_t&)g_canfd1_cfg);
     interface_callback0_t=(void *)&canfd0;
     interface_callback1_t=(void *)&canfd1;
 

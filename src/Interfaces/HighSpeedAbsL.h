@@ -22,8 +22,11 @@ public:
 	HighSpeed_AbsL& operator=(const HighSpeed_AbsL&& other);
 	std::weak_ptr<APL> g_AplHandle();
 	APL*  operator->();
+
+
 private:
 	std::shared_ptr<APL> apl_handle;
+
 
 };
 

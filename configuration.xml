@@ -244,7 +244,7 @@
       <description>Board support package for RA8T1 - FSP Data</description>
       <originalPack>Renesas.RA_mcu_ra8t1.5.1.0.pack</originalPack>
     </component>
-    <component apiversion="1.5.0" class="BSP" condition="" group="Board" subgroup="BOARD_RA8T1_ACUITY_BSP" variant="" vendor="LART" version="5.1.0">
+    <component apiversion="1.6.0" class="BSP" condition="" group="Board" subgroup="BOARD_RA8T1_ACUITY_BSP" variant="" vendor="LART" version="5.1.0">
       <description/>
       <originalPack>LART.BOARD_RA8T1_ACUITY_BSP.5.1.0.pack</originalPack>
     </component>

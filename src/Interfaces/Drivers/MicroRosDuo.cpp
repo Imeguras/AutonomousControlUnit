@@ -31,8 +31,8 @@ class RosIntanceSingleton {
 			static RosIntanceSingleton instance;
 			return instance;
 		}
-		void setHandle(MicroRosDuo * handle){
-			this->handle=handle;
+		void setHandle(MicroRosDuo * _handle){
+			this->handle=_handle;
 		}
 
 	private:
@@ -42,9 +42,15 @@ class RosIntanceSingleton {
 		MicroRosDuo * handle;
 
 };
+int  MicroRosDuo::initialization(){
+    //TODO REEEE
+    int ret_base = EthDuo::initialization();
+
+    return ret_base;
+}
 
 MicroRosDuo::MicroRosDuo() {
-
+    //TODO welp i have to rewrite this entirely... lmao
 	RosIntanceSingleton::getInstance().setHandle(this);
 	this->remote_addr =  custom_transport_args{
 
@@ -207,10 +213,5 @@ size_t MicroRosDuo::_transport_write(struct uxrCustomTransport* transport, const
 
 uint32_t	MicroRosDuo::write(void *data, uint32_t stream_size){
 	return this->EthDuo::write(data, stream_size);
-}
-int  MicroRosDuo::initialization(){
-	int ret_base = EthDuo::initialization();
-
-	return ret_base;
 }
 

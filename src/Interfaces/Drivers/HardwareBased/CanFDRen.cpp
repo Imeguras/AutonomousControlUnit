@@ -6,37 +6,66 @@
  *      Author: micron
  */
 #include "CanFDRen.h"
-
+#include "../../ra/board/ra8t1_acuity_bsp/board.h"
+#include "../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
+#include "../../ra/board/ra8t1_acuity_bsp/board_init.hpp"
 #if defined(BSP_FEATURE_CANFD_FD_SUPPORT) || defined(BSP_FEATURE_CANFD_LITE)
 
 
 CanFDRen::CanFDRen()  {
-
+    this->g_canfd_ctrl= NULL;
+    this->g_canfd_cfg= NULL;
 
 }
 
 CanFDRen::~CanFDRen() {
-
+    this->g_canfd_ctrl= NULL;
+    this->g_canfd_cfg= NULL;
 }
-
+/**
+ * First stage of the CanFDRen Initialization
+ * @param _g_canfd_ctrl
+ * @param _g_canfd_cfg
+ * @return
+ */
 int CanFDRen::initialization(){
-    #ifdef VECTOR_NUMBER_CAN0_TX
-               this->g_canfd_ctrl = &g_canfd0_ctrl;
-               this->g_canfd_cfg = &g_canfd0_cfg;
-    #elif VECTOR_NUMBER_CAN1_TX
-           this->g_canfd_ctrl = g_canfd1_ctrl;
-           this->g_canfd_cfg = g_canfd1_cfg;
-    #endif
+    if(this->initialized){
+        //TODO Evaluate risk
+        return FSP_ERR_ALREADY_OPEN;
 
-    return 0;
+    }
+    uint8_t channel_free=-1;
+    if(checkCanChannelAnyUsed(channel_free)){
+        //TODO Implement multiple can selection
+    }else{
+        #ifdef VECTOR_NUMBER_CAN0_TX
+
+                   this->g_canfd_ctrl = &g_canfd0_ctrl;
+                   this->g_canfd_cfg = &g_canfd0_cfg;
+        #elif VECTOR_NUMBER_CAN1_TX
+               this->g_canfd_ctrl = g_canfd1_ctrl;
+               this->g_canfd_cfg = g_canfd1_cfg;
+        #endif
+
+    }
+
+    return this->initialization();
 }
-int CanFDRen::initialization(canfd_instance_ctrl_t& _g_canfd_ctrl, can_cfg_t& _g_canfd_cfg){
+
+/**
+ * Second stage of the CanFDRen Initialization
+ * @param _g_canfd_ctrl
+ * @param _g_canfd_cfg
+ * @return
+ */
+int CanFDRen::initialization(canfd_instance_ctrl_t * _g_canfd_ctrl, const can_cfg_t * _g_canfd_cfg){
     this->g_canfd_ctrl = _g_canfd_ctrl;
     this->g_canfd_cfg = _g_canfd_cfg;
     UINT status = R_CANFD_Open(this->g_canfd_ctrl, this->g_canfd_cfg);
     if(status== FSP_SUCCESS){
         tx_ready=true;
         rx_ready= true;
+        this->initialized = true;
     }
     return (int)status;
 }
@@ -46,7 +75,7 @@ int CanFDRen::initialization(canfd_instance_ctrl_t& _g_canfd_ctrl, can_cfg_t& _g
  * @param _g_canfd_cfg
  * @return the status of the result
  */
-int CanFDRen::channelInjection(canfd_instance_ctrl_t& _g_canfd_ctrl, can_cfg_t& _g_canfd_cfg){
+int CanFDRen::channelInjection(canfd_instance_ctrl_t * _g_canfd_ctrl, const can_cfg_t * _g_canfd_cfg){
     int status;
     try{
         this->g_canfd_ctrl = _g_canfd_ctrl;
@@ -58,7 +87,9 @@ int CanFDRen::channelInjection(canfd_instance_ctrl_t& _g_canfd_ctrl, can_cfg_t& 
     }
     return FSP_SUCCESS;
 }
-
+bool CanFDRen::checkCanChannelAnyUsed(uint8_t& fetch_channelId){
+    return false;
+}
 /**
  *
  * @param data @b MUST be already allocated...
