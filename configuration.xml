@@ -244,7 +244,7 @@
       <description>Board support package for RA8T1 - FSP Data</description>
       <originalPack>Renesas.RA_mcu_ra8t1.5.1.0.pack</originalPack>
     </component>
-    <component apiversion="1.6.0" class="BSP" condition="" group="Board" subgroup="BOARD_RA8T1_ACUITY_BSP" variant="" vendor="LART" version="5.1.0">
+    <component apiversion="1.9.0" class="BSP" condition="" group="Board" subgroup="BOARD_RA8T1_ACUITY_BSP" variant="" vendor="LART" version="5.1.0">
       <description/>
       <originalPack>LART.BOARD_RA8T1_ACUITY_BSP.5.1.0.pack</originalPack>
     </component>
@@ -287,9 +287,9 @@
     <module id="module.middleware.rm_threadx_port.0"/>
     <module id="module.azure.nxd.ip.1012628965">
       <property id="module.azure.nxd.ip.name" value="g_ip0"/>
-      <property id="module.azure.nxd.ip.address" value="192.168.0.2"/>
+      <property id="module.azure.nxd.ip.address" value="192.168.1.128"/>
       <property id="module.azure.nxd.ip.subnet_mask" value="255.255.255.0"/>
-      <property id="module.azure.nxd.ip.gateway_address" value="0.0.0.0"/>
+      <property id="module.azure.nxd.ip.gateway_address" value="192.168.1.1"/>
       <property id="module.azure.nxd.ipv6.address_global" value="2001:0:0:0:0:0:0:1"/>
       <property id="module.azure.nxd.ipv6.address_local" value="0:0:0:0:0:0:0:0"/>
       <property id="module.azure.nxd.ip.stack_size" value="2048"/>
@@ -309,7 +309,7 @@
     <module id="module.driver.ether_on_ether.1621446083">
       <property id="module.driver.ether.name" value="g_ether0"/>
       <property id="module.driver.ether.channel" value="module.driver.ether.channel.0"/>
-      <property id="module.driver.ether.mac_address" value="00:11:22:33:44:55"/>
+      <property id="module.driver.ether.mac_address" value="74:90:50:B0:ED:10"/>
       <property id="module.driver.ether.zerocopy" value="module.driver.ether.zerocopy.0"/>
       <property id="module.driver.ether.flow_control" value="module.driver.ether.flow_control.0"/>
       <property id="module.driver.ether.multicast" value="module.driver.ether.multicast.1"/>
@@ -327,7 +327,7 @@
     <module id="module.driver.ether_phy_on_ether_phy.246884112">
       <property id="module.driver.ether_phy.name" value="g_ether_phy0"/>
       <property id="module.driver.ether_phy.channel" value="module.driver.ether_phy.channel.0"/>
-      <property id="module.driver.ether_phy.phy_lsi_address" value="0"/>
+      <property id="module.driver.ether_phy.phy_lsi_address" value="5"/>
       <property id="module.driver.ether_phy.phy_reset_wait_time" value="0x00020000"/>
       <property id="module.driver.ether_phy.mii_type" value="module.driver.mii_type.rmii"/>
       <property id="module.driver.ether_phy.phy_lsi_type" value="module.driver.ether_phy.phy_lsi_type.kit_component"/>
@@ -466,9 +466,9 @@
     <context id="rtos.threadx.thread.314982813">
       <property id="_symbol" value="high_speed_interface_thread0"/>
       <property id="rtos.threadx.thread.name" value="High Speed Interface"/>
-      <property id="rtos.threadx.thread.stack" value="1024"/>
+      <property id="rtos.threadx.thread.stack" value="0x2000"/>
       <property id="rtos.threadx.thread.priority" value="1"/>
-      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
       <stack module="module.azure.nxd.ip.1012628965">
         <stack module="module.azure.nxd.packet_pool.869584768" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
@@ -485,7 +485,7 @@
       <property id="rtos.threadx.thread.name" value="Low Speed Interface"/>
       <property id="rtos.threadx.thread.stack" value="1024"/>
       <property id="rtos.threadx.thread.priority" value="1"/>
-      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
       <stack module="module.driver.canfd_on_canfdlite.912504583"/>
       <stack module="module.driver.canfd_on_canfdlite.571619379"/>

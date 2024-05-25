@@ -9,8 +9,12 @@
 #include "../../ra/board/ra8t1_acuity_bsp/board.h"
 #include "../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
 #include "../../ra/board/ra8t1_acuity_bsp/board_init.hpp"
-#if defined(BSP_FEATURE_CANFD_FD_SUPPORT) || defined(BSP_FEATURE_CANFD_LITE)
+#include <unordered_map>
+#include "utils.h"
+//TODO: Remove 
+#define BSP_FEATURE_CANFD_FD_SUPPORT
 
+#if defined(BSP_FEATURE_CANFD_FD_SUPPORT) || defined(BSP_FEATURE_CANFD_LITE)
 
 CanFDRen::CanFDRen()  {
     this->g_canfd_ctrl= NULL;
@@ -34,22 +38,45 @@ int CanFDRen::initialization(){
         return FSP_ERR_ALREADY_OPEN;
 
     }
-    uint8_t channel_free=-1;
-    if(checkCanChannelAnyUsed(channel_free)){
-        //TODO Implement multiple can selection
+    uint16_t channel_selected =-1;
+
+    canfd_instance_ctrl_t  * tmp_canfd_ctrl;
+    const can_cfg_t * tmp_canfd_cfg;
+    if(checkCanChannelAnyUsed(channel_selected)){
+        switch(channel_selected){
+            case 0:
+                this->g_canfd_ctrl= &g_canfd0_ctrl;
+                this->g_canfd_cfg= &g_canfd0_cfg;
+                break;
+            case 1:
+            default:
+                this->g_canfd_ctrl= &g_canfd1_ctrl;
+                this->g_canfd_cfg= &g_canfd1_cfg;
+            break;
+
+        }
     }else{
         #ifdef VECTOR_NUMBER_CAN0_TX
 
-                   this->g_canfd_ctrl = &g_canfd0_ctrl;
-                   this->g_canfd_cfg = &g_canfd0_cfg;
+            tmp_canfd_ctrl = &g_canfd0_ctrl;
+            tmp_canfd_cfg = &g_canfd0_cfg;
+
+            channel_selected = CANFD_LITE_UNIT0_CHANNEL0;
         #elif VECTOR_NUMBER_CAN1_TX
-               this->g_canfd_ctrl = g_canfd1_ctrl;
-               this->g_canfd_cfg = g_canfd1_cfg;
+                s_canStateKernel(CANFD_LITE_UNIT0_CHANNEL0,UNAVAILABLE);
+                tmp_canfd_ctrl = g_canfd1_ctrl;
+                tmp_canfd_cfg = g_canfd1_cfg;
+                channel_selected = CANFD_LITE_UNIT0_CHANNEL1;
         #endif
 
     }
+    int ret_init = this->initialization(tmp_canfd_ctrl, tmp_canfd_cfg);
+        if(FSP_SUCCESS == ret_init){
+                //g_bsp_prv_can_t[channel_selected] = OCCUPIED;
+            s_canStateKernel(channel_selected, OCCUPIED);
 
-    return this->initialization();
+        }
+    return ret_init;
 }
 
 /**
@@ -62,7 +89,7 @@ int CanFDRen::initialization(canfd_instance_ctrl_t * _g_canfd_ctrl, const can_cf
     this->g_canfd_ctrl = _g_canfd_ctrl;
     this->g_canfd_cfg = _g_canfd_cfg;
     UINT status = R_CANFD_Open(this->g_canfd_ctrl, this->g_canfd_cfg);
-    if(status== FSP_SUCCESS){
+    if(FSP_SUCCESS == status){
         tx_ready=true;
         rx_ready= true;
         this->initialized = true;
@@ -87,8 +114,23 @@ int CanFDRen::channelInjection(canfd_instance_ctrl_t * _g_canfd_ctrl, const can_
     }
     return FSP_SUCCESS;
 }
-bool CanFDRen::checkCanChannelAnyUsed(uint8_t& fetch_channelId){
-    return false;
+//TODO: This function should be probs split or its focus should be rethinked
+bool CanFDRen::checkCanChannelAnyUsed(uint16_t& fetch_channelId){
+    std::unordered_map<uint16_t, e_acuity_can_status> kernel_map = g_canStateKernelMap();
+	bool ret = false; 
+    //TODO: maybbe this should be changed to a list or something that lets me lookup for values.
+	for(int z = 0; z > kernel_map.size(); z++){
+		if(kernel_map[z] == AVAILABLE){
+			fetch_channelId = z;
+			continue;
+		}else{
+			
+			ret = true;
+
+		}
+		
+	}
+    return ret;
 }
 /**
  *
@@ -99,9 +141,8 @@ void* CanFDRen::recv(void * data, uint32_t stream_size=1){
     FSP_PARAMETER_NOT_USED(stream_size);
 	auto index = this->fbuffers_rx.front();
 	this->fbuffers_rx.pop_front();
-	//TODO: read more than one?
 
-	R_CANFD_Read(&this->g_canfd_ctrl,index,  (can_frame_t *)&data);
+	R_CANFD_Read(this->g_canfd_ctrl,index,  (can_frame_t *)&data);
 	return ((void *)data);
 }
 /**
@@ -117,9 +158,8 @@ uint32_t CanFDRen::write(void *data, uint32_t stream_size){
 
 	}*/
 
- 	UINT status = R_CANFD_Write(&this->g_canfd_ctrl, 0, (can_frame_t *)data);
+ 	UINT status = R_CANFD_Write(g_canfd_ctrl, 0, (can_frame_t *)data);
 
-	//TODO: multiple tx
 	this->tx_ready=false;
 
 	return status;
@@ -131,8 +171,6 @@ void CanFDRen::callbackHandle(can_callback_args_t *p_args){
         case CAN_EVENT_TX_COMPLETE:
             led_update(ambar, BSP_IO_LEVEL_HIGH);
             this->tx_ready=true;
-            R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
-            led_update(ambar, BSP_IO_LEVEL_LOW);
             break;
         case CAN_EVENT_RX_COMPLETE:
             //TODO validations?
@@ -149,8 +187,7 @@ void CanFDRen::callbackHandle(can_callback_args_t *p_args){
         case CAN_EVENT_TX_ABORTED:           /* Transmit abort event. */
         case CAN_EVENT_ERR_GLOBAL:           /* Global error has occurred. */
         case CAN_EVENT_TX_FIFO_EMPTY:       /* Transmit FIFO is empty. */
-        case CAN_EVENT_FIFO_MESSAGE_LOST:
-        {
+        case CAN_EVENT_FIFO_MESSAGE_LOST:{
             this->tx_ready=false;
             this->rx_ready=false;
           break;
@@ -158,7 +195,7 @@ void CanFDRen::callbackHandle(can_callback_args_t *p_args){
 
 	}
 
-	R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
+	R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
     led_update(lime, BSP_IO_LEVEL_LOW);
 }
 

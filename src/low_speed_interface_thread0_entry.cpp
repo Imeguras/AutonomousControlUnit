@@ -125,10 +125,11 @@ void low_speed_interface_thread0_entry(void) {
           temp_data = store::critical_autonomous_system_status;
       tx_semaphore_put(&css);*/
 
-    MAP_ENCODE_AS_STATE(frame.data,0xFF);
+
 
 
     canfd0->write((void *)&frame,0);
+    MAP_ENCODE_AS_STATE(frame.data,0xFF);
     canfd1->write((void *)&frame,0);
     R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
     while(1){

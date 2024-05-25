@@ -1541,16 +1541,16 @@ FSP Configuration
   Thread "High Speed Interface"
     Symbol: high_speed_interface_thread0
     Name: High Speed Interface
-    Stack size (bytes): 1024
+    Stack size (bytes): 0x2000
     Priority: 1
-    Auto start: Disabled
+    Auto start: Enabled
     Time slicing interval (ticks): 1
     
     Instance "g_ip0 Azure RTOS NetX Duo IP Instance"
       Name: g_ip0
-      IPv4 Address: 192.168.0.2
+      IPv4 Address: 192.168.1.50
       Subnet Mask: 255.255.255.0
-      Default Gateway Address: 0.0.0.0
+      Default Gateway Address: 192.168.1.1
       IPv6 Global Address: 2001:0:0:0:0:0:0:1
       IPv6 Link Local Address (All zeros means use MAC address): 0:0:0:0:0:0:0:0
       IP Helper Thread Stack Size (bytes): 2048
@@ -1588,7 +1588,7 @@ FSP Configuration
           Instance "g_ether_phy0 Ethernet (r_ether_phy)"
             Name: g_ether_phy0
             Channel: 0
-            PHY-LSI Address: 0
+            PHY-LSI Address: 5
             PHY-LSI Reset Completion Timeout: 0x00020000
             Select MII type: RMII
             Phy LSI type: Kit Component
@@ -1603,7 +1603,7 @@ FSP Configuration
     Name: Low Speed Interface
     Stack size (bytes): 1024
     Priority: 1
-    Auto start: Enabled
+    Auto start: Disabled
     Time slicing interval (ticks): 1
     
     Instance "g_canfd0 CAN FD Lite (r_canfdlite)"

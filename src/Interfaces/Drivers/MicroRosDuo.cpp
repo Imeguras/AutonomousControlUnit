@@ -39,7 +39,7 @@ class RosIntanceSingleton {
 		RosIntanceSingleton(RosIntanceSingleton const&);
 				void operator=(RosIntanceSingleton const&);
 		RosIntanceSingleton(){}
-		MicroRosDuo * handle;
+		MicroRosDuo * handle = NULL;
 
 };
 int  MicroRosDuo::initialization(){

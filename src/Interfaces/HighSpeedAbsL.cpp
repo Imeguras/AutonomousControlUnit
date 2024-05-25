@@ -4,7 +4,7 @@
  *  Created on: 07/10/2023
  *      Author: micron
  */
-#include "Drivers/HardwareBased/EthDuo.h"
+
 #include "HighSpeedAbsL.h"
 
 #include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
@@ -21,27 +21,30 @@ APL*  HighSpeed_AbsL<APL>::operator->(){
 
 template<typename APL>
 HighSpeed_AbsL<APL>::HighSpeed_AbsL() {
-    std::shared_ptr<APL> _temp = std::make_shared<APL>();
-    //TODO check if above can ever fail?
+    try{
+        std::shared_ptr<APL> _temp = std::make_shared<APL>();
+        std::weak_ptr<APL> weak = _temp;
+            // Access the object using weak_ptr
+            // Lock it
+            if (auto locked = weak.lock()){
 
+                int init_ret = locked->initialization();
+                //Init is OK?
+                if(FSP_SUCCESS == (fsp_err_t)init_ret){
+                    this->apl_handle = _temp;
+                }else{
+                    //TODO define a screaming protocol
+                }
 
-	std::weak_ptr<APL> weak = _temp;
-    // Access the object using weak_ptr
-	// Lock it
-    if (auto locked = weak.lock()){
-
-        int init_ret = locked->initialization();
-        //Init is OK?
-        if(FSP_SUCCESS == (fsp_err_t)init_ret){
-            this->apl_handle = _temp;
-        }else{
-            //TODO define a screaming protocol
+        } else {
+            //TODO define a better screaming protocol
+            //led_update(red, BSP_IO_LEVEL_HIGH);
         }
-
-    } else {
-        //TODO define a better screaming protocol
-        //led_update(red, BSP_IO_LEVEL_HIGH);
+    }catch(...){
+        led_blink(0,5);
+        return;
     }
+
 }
 
 template<typename APL> HighSpeed_AbsL<APL>::~HighSpeed_AbsL() {
