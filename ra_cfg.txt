@@ -81,8 +81,8 @@ FSP Configuration
     Cache settings: Data cache: Disabled
     
   RA Common
-    Main stack size (bytes): 0x1000
-    Heap size (bytes): 0x400
+    Main stack size (bytes): 0x1388
+    Heap size (bytes): 0x5000
     MCU Vcc (mV): 3300
     Parameter checking: Disabled
     Assert Failures: Return FSP_ERR_ASSERTION
@@ -1541,14 +1541,14 @@ FSP Configuration
   Thread "High Speed Interface"
     Symbol: high_speed_interface_thread0
     Name: High Speed Interface
-    Stack size (bytes): 0x2000
+    Stack size (bytes): 5000
     Priority: 1
     Auto start: Enabled
     Time slicing interval (ticks): 1
     
     Instance "g_ip0 Azure RTOS NetX Duo IP Instance"
       Name: g_ip0
-      IPv4 Address: 192.168.1.50
+      IPv4 Address: 192.168.1.128
       Subnet Mask: 255.255.255.0
       Default Gateway Address: 192.168.1.1
       IPv6 Global Address: 2001:0:0:0:0:0:0:1
@@ -1570,7 +1570,7 @@ FSP Configuration
         Instance "g_ether0 Ethernet (r_ether)"
           General: Name: g_ether0
           General: Channel: 0
-          General: MAC address: 00:11:22:33:44:55
+          General: MAC address: 74:90:50:B0:ED:10
           General: Zero-copy Mode: Enable
           General: Flow control functionality: Disable
           Filters: Multicast Mode: Enable
