@@ -38,9 +38,10 @@ void high_speed_interface_thread0_entry(void) {
 
     led_update(0, BSP_IO_LEVEL_HIGH);
 
-    HighSpeed_AbsL<EthDuo> eth;
+    //HighSpeed_AbsL<MicroRosDuo> eth;
 
     led_update(0, BSP_IO_LEVEL_LOW);
+
     led_blink(7, 3);
     while(1){
         R_BSP_SoftwareDelay(1,BSP_DELAY_UNITS_MILLISECONDS );

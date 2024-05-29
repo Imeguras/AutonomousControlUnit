@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include "utils.h"
 //TODO: Remove 
-#define BSP_FEATURE_CANFD_FD_SUPPORT
+
 
 #if defined(BSP_FEATURE_CANFD_FD_SUPPORT) || defined(BSP_FEATURE_CANFD_LITE)
 
@@ -42,17 +42,19 @@ int CanFDRen::initialization(){
 
     canfd_instance_ctrl_t  * tmp_canfd_ctrl;
     const can_cfg_t * tmp_canfd_cfg;
-    if(checkCanChannelAnyUsed(channel_selected)){
+    if(checkCanChannelAnyUsed(&channel_selected)){
+        led_update(5, BSP_IO_LEVEL_HIGH);
         switch(channel_selected){
             case 0:
-                this->g_canfd_ctrl= &g_canfd0_ctrl;
-                this->g_canfd_cfg= &g_canfd0_cfg;
+                tmp_canfd_ctrl = &g_canfd0_ctrl;
+                tmp_canfd_cfg = &g_canfd0_cfg;
                 break;
             case 1:
             default:
-                this->g_canfd_ctrl= &g_canfd1_ctrl;
-                this->g_canfd_cfg= &g_canfd1_cfg;
-            break;
+                tmp_canfd_ctrl= &g_canfd1_ctrl;
+                tmp_canfd_cfg= &g_canfd1_cfg;
+                led_update(6, BSP_IO_LEVEL_HIGH);
+                break;
 
         }
     }else{
@@ -62,17 +64,18 @@ int CanFDRen::initialization(){
             tmp_canfd_cfg = &g_canfd0_cfg;
 
             channel_selected = CANFD_LITE_UNIT0_CHANNEL0;
-        #elif VECTOR_NUMBER_CAN1_TX
+
+        #elif defined( VECTOR_NUMBER_CAN1_TX )
                 s_canStateKernel(CANFD_LITE_UNIT0_CHANNEL0,UNAVAILABLE);
-                tmp_canfd_ctrl = g_canfd1_ctrl;
-                tmp_canfd_cfg = g_canfd1_cfg;
+                tmp_canfd_ctrl = &g_canfd1_ctrl;
+                tmp_canfd_cfg = &g_canfd1_cfg;
                 channel_selected = CANFD_LITE_UNIT0_CHANNEL1;
         #endif
 
     }
     int ret_init = this->initialization(tmp_canfd_ctrl, tmp_canfd_cfg);
         if(FSP_SUCCESS == ret_init){
-                //g_bsp_prv_can_t[channel_selected] = OCCUPIED;
+
             s_canStateKernel(channel_selected, OCCUPIED);
 
         }
@@ -115,13 +118,14 @@ int CanFDRen::channelInjection(canfd_instance_ctrl_t * _g_canfd_ctrl, const can_
     return FSP_SUCCESS;
 }
 //TODO: This function should be probs split or its focus should be rethinked
-bool CanFDRen::checkCanChannelAnyUsed(uint16_t& fetch_channelId){
+bool CanFDRen::checkCanChannelAnyUsed(uint16_t * fetch_channelId){
     std::unordered_map<uint16_t, e_acuity_can_status> kernel_map = g_canStateKernelMap();
 	bool ret = false; 
     //TODO: maybbe this should be changed to a list or something that lets me lookup for values.
 	for(int z = 0; z > kernel_map.size(); z++){
 		if(kernel_map[z] == AVAILABLE){
-			fetch_channelId = z;
+		    uint16_t _z=z;
+			fetch_channelId = &_z;
 			continue;
 		}else{
 			
@@ -158,7 +162,7 @@ uint32_t CanFDRen::write(void *data, uint32_t stream_size){
 
 	}*/
 
- 	UINT status = R_CANFD_Write(g_canfd_ctrl, 0, (can_frame_t *)data);
+ 	UINT status = R_CANFD_Write(this->g_canfd_ctrl, 0, (can_frame_t *)data);
 
 	this->tx_ready=false;
 
@@ -166,10 +170,10 @@ uint32_t CanFDRen::write(void *data, uint32_t stream_size){
 }
 
 void CanFDRen::callbackHandle(can_callback_args_t *p_args){
-    led_update(lime, BSP_IO_LEVEL_HIGH);
+    //led_update(lime, BSP_IO_LEVEL_HIGH);
 	switch (p_args->event){
         case CAN_EVENT_TX_COMPLETE:
-            led_update(ambar, BSP_IO_LEVEL_HIGH);
+            leds_update(ambar, BSP_IO_LEVEL_HIGH);
             this->tx_ready=true;
             break;
         case CAN_EVENT_RX_COMPLETE:
@@ -196,7 +200,7 @@ void CanFDRen::callbackHandle(can_callback_args_t *p_args){
 	}
 
 	R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-    led_update(lime, BSP_IO_LEVEL_LOW);
+    //led_update(lime, BSP_IO_LEVEL_LOW);
 }
 
 #endif

@@ -411,7 +411,7 @@
       <property id="module.driver.canfdlite.name" value="g_canfd1"/>
       <property id="module.driver.canfdlite.channel" value="1"/>
       <property id="module.driver.canfdlite.bitrate.automatic.nominal_rate" value="1000000"/>
-      <property id="module.driver.canfdlite.bitrate.automatic.data_rate" value="2000000"/>
+      <property id="module.driver.canfdlite.bitrate.automatic.data_rate" value="8000000"/>
       <property id="module.driver.canfdlite.bitrate.automatic.sample_point" value="75"/>
       <property id="module.driver.canfdlite.bitrate.automatic.delay_compensation" value="module.driver.canfdlite.bitrate.automatic.delay_compensation.enabled"/>
       <property id="module.driver.canfdlite.manual.nominal.prescaler" value="1"/>
@@ -424,17 +424,17 @@
       <property id="module.driver.canfdlite.manual.data.sync_jump_width" value="1"/>
       <property id="module.driver.canfdlite.bitrate.manual.use_manual" value="module.driver.canfdlite.bitrate.manual.use_manual.disabled"/>
       <property id="module.driver.canfdlite.p_callback" value="canfd1_callback"/>
-      <property id="module.driver.canfdlite.txmb.int" value="module.driver.canfd.txmb.int.0"/>
+      <property id="module.driver.canfdlite.txmb.int" value="module.driver.canfd.txmb.int.0,module.driver.canfd.txmb.int.1,module.driver.canfd.txmb.int.2,module.driver.canfd.txmb.int.3"/>
       <property id="module.driver.canfdlite.ch_err.int" value="module.driver.canfdlite.ch_err.int.err_warning,module.driver.canfdlite.ch_err.int.err_passive,module.driver.canfdlite.ch_err.int.bus_off_entry,module.driver.canfdlite.ch_err.int.bus_off_recovery,module.driver.canfdlite.ch_err.int.overload"/>
-      <property id="module.driver.canfdlite.ipl" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.canfdlite.ipl" value="board.icu.common.irq.priority5"/>
       <property id="module.driver.canfdlite.afl_array" value="p_canfd1_afl"/>
       <property id="module.driver.canfdlite.buffer_ram_used" value=""/>
-      <property id="module.driver.canfdlite.global_err.sources" value=""/>
+      <property id="module.driver.canfdlite.global_err.sources" value="module.driver.canfdlite.global_err.sources.dlc_check,module.driver.canfdlite.global_err.sources.message_lost,module.driver.canfdlite.global_err.sources.overflow"/>
       <property id="module.driver.canfdlite.tx_priority" value="module.driver.canfdlite.tx_priority.buffer"/>
       <property id="module.driver.canfdlite.dlc_check" value="module.driver.canfdlite.dlc_check.disabled"/>
       <property id="module.driver.canfdlite.fd.overflow" value="module.driver.canfdlite.fd.overflow.reject"/>
-      <property id="module.driver.canfdlite.rxmb.number" value="0"/>
-      <property id="module.driver.canfdlite.rxmb.size" value="module.driver.canfdlite.rxmb.size.8"/>
+      <property id="module.driver.canfdlite.rxmb.number" value="1"/>
+      <property id="module.driver.canfdlite.rxmb.size" value="module.driver.canfdlite.rxmb.size.64"/>
       <property id="module.driver.canfdlite.rxfifo.0.enable" value="module.driver.canfdlite.rxfifo.0.enable.enabled"/>
       <property id="module.driver.canfdlite.rxfifo.0.int_mode" value="enum.driver.canfd.fifo.int_mode.every_frame"/>
       <property id="module.driver.canfdlite.rxfifo.0.int_threshold" value="enum.driver.canfd.fifo.int_threshold.1_2"/>
@@ -485,7 +485,7 @@
       <property id="rtos.threadx.thread.name" value="Low Speed Interface"/>
       <property id="rtos.threadx.thread.stack" value="1024"/>
       <property id="rtos.threadx.thread.priority" value="1"/>
-      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
       <stack module="module.driver.canfd_on_canfdlite.912504583"/>
       <stack module="module.driver.canfd_on_canfdlite.571619379"/>
@@ -940,7 +940,7 @@
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>
-    <symbolicName propertyId="p000.symbolic_name" value="SPI_CANFD_INT"/>
+    <symbolicName propertyId="p000.symbolic_name" value="ENET_RMII_INT"/>
     <symbolicName propertyId="p001.symbolic_name" value="WAKE_UP_ON_LAN"/>
     <symbolicName propertyId="p002.symbolic_name" value="MUX_ETH_SD"/>
     <symbolicName propertyId="p003.symbolic_name" value="LED0"/>
@@ -962,11 +962,8 @@
       <configSetting altId="cgc.extal.p212" configurationId="cgc.extal"/>
       <configSetting altId="cgc.mode.custom.free" configurationId="cgc.mode"/>
       <configSetting altId="cgc.xtal.p213" configurationId="cgc.xtal"/>
-      <configSetting altId="ether_rmii.et0_exout.p404" configurationId="ether_rmii.et0_exout"/>
-      <configSetting altId="ether_rmii.et0_linksta.p403" configurationId="ether_rmii.et0_linksta"/>
       <configSetting altId="ether_rmii.et0_mdc.p401" configurationId="ether_rmii.et0_mdc"/>
       <configSetting altId="ether_rmii.et0_mdio.p402" configurationId="ether_rmii.et0_mdio"/>
-      <configSetting altId="ether_rmii.et0_wol.p400" configurationId="ether_rmii.et0_wol"/>
       <configSetting altId="ether_rmii.mode.rmii.b" configurationId="ether_rmii.mode"/>
       <configSetting altId="ether_rmii.pairing.b" configurationId="ether_rmii.pairing"/>
       <configSetting altId="ether_rmii.ref50ck0.p701" configurationId="ether_rmii.ref50ck0"/>
@@ -1050,21 +1047,12 @@
       <configSetting altId="p307.gpio_mode.gpio_mode_peripheral" configurationId="p307.gpio_mode"/>
       <configSetting altId="p308.sdhi0.sd0clk" configurationId="p308"/>
       <configSetting altId="p308.gpio_mode.gpio_mode_peripheral" configurationId="p308.gpio_mode"/>
-      <configSetting altId="p400.ether_rmii.et0_wol" configurationId="p400"/>
-      <configSetting altId="p400.gpio_speed.gpio_speed_h" configurationId="p400.gpio_drivecapacity"/>
-      <configSetting altId="p400.gpio_mode.gpio_mode_peripheral" configurationId="p400.gpio_mode"/>
       <configSetting altId="p401.ether_rmii.et0_mdc" configurationId="p401"/>
       <configSetting altId="p401.gpio_speed.gpio_speed_m" configurationId="p401.gpio_drivecapacity"/>
       <configSetting altId="p401.gpio_mode.gpio_mode_peripheral" configurationId="p401.gpio_mode"/>
       <configSetting altId="p402.ether_rmii.et0_mdio" configurationId="p402"/>
       <configSetting altId="p402.gpio_speed.gpio_speed_m" configurationId="p402.gpio_drivecapacity"/>
       <configSetting altId="p402.gpio_mode.gpio_mode_peripheral" configurationId="p402.gpio_mode"/>
-      <configSetting altId="p403.ether_rmii.et0_linksta" configurationId="p403"/>
-      <configSetting altId="p403.gpio_speed.gpio_speed_h" configurationId="p403.gpio_drivecapacity"/>
-      <configSetting altId="p403.gpio_mode.gpio_mode_peripheral" configurationId="p403.gpio_mode"/>
-      <configSetting altId="p404.ether_rmii.et0_exout" configurationId="p404"/>
-      <configSetting altId="p404.gpio_speed.gpio_speed_h" configurationId="p404.gpio_drivecapacity"/>
-      <configSetting altId="p404.gpio_mode.gpio_mode_peripheral" configurationId="p404.gpio_mode"/>
       <configSetting altId="p405.ether_rmii.rmii0_txd_en" configurationId="p405"/>
       <configSetting altId="p405.gpio_speed.gpio_speed_h" configurationId="p405.gpio_drivecapacity"/>
       <configSetting altId="p405.gpio_mode.gpio_mode_peripheral" configurationId="p405.gpio_mode"/>

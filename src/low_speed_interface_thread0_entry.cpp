@@ -109,7 +109,7 @@ void low_speed_interface_thread0_entry(void) {
     interface_callback1_t=(void *)&canfd1;
 
 
-    frame.id = CAN_AS_STATUS;
+    frame.id = 0x69;
     frame.id_mode = CAN_ID_MODE_STANDARD;
     frame.type = CAN_FRAME_TYPE_DATA;
     frame.data[0]= 0x41;
@@ -128,7 +128,7 @@ void low_speed_interface_thread0_entry(void) {
 
 
 
-    canfd0->write((void *)&frame,0);
+    //canfd0->write((void *)&frame,0);
     MAP_ENCODE_AS_STATE(frame.data,0xFF);
     canfd1->write((void *)&frame,0);
     R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);

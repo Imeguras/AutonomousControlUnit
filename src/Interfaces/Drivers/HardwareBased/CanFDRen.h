@@ -45,7 +45,7 @@ class CanFDRen : AbstractPeripheralLayer{
         canfd_instance_ctrl_t * g_canfd_ctrl;
         const can_cfg_t * g_canfd_cfg;
 
-        bool checkCanChannelAnyUsed(uint16_t& fetch_channelId );
+        bool checkCanChannelAnyUsed(uint16_t * fetch_channelId );
 
    };
 

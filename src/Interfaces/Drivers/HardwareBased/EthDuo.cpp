@@ -111,7 +111,7 @@ void EthDuo::g_ip0_quick_setup() {
   this->error_counter += status;
   /* Wait for the link to be enabled. */
   ULONG current_state;
-  status =
+   status =
       nx_ip_status_check(&g_ip0, NX_IP_LINK_ENABLED, &current_state, 20000);
   this->error_counter += status;
 

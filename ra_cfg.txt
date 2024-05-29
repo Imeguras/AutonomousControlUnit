@@ -150,7 +150,7 @@ FSP Configuration
       NC 27 SYSTEM_NC - - - - - - - - IO "Read only" - 
       NC 29 SYSTEM_NC - - - - - - - - IO "Read only" - 
       NC 30 SYSTEM_NC - - - - - - - - IO "Read only" - 
-      P000 169 GPIO SPI_CANFD_INT - IRQ6-DS "Input mode" - - "ACMPHS1: IVCMP1_2; ADC1: AN100; IRQ6: IRQ6-DS" - IO - - 
+      P000 169 GPIO ENET_RMII_INT - IRQ6-DS "Input mode" - - "ACMPHS1: IVCMP1_2; ADC1: AN100; IRQ6: IRQ6-DS" - IO - - 
       P001 168 GPIO WAKE_UP_ON_LAN - IRQ7-DS "Input mode" - - "ACMPHS0: IVREF_0; ADC1: AN101; IRQ7: IRQ7-DS" - IO - - 
       P002 167 GPIO MUX_ETH_SD L None "Output mode (Initial High)" - - "ACMPHS1: IVCMP1_3; ADC1: AN102; IRQ8: IRQ8-DS" - IO - - 
       P003 166 GPIO LED0 L - "Output mode (Initial High)" - - "ACMPHS1: IVREF_1; ADC1: AN104" - IO - - 
@@ -204,11 +204,11 @@ FSP Configuration
       P313 54 - - - - Disabled - - "SCI3: CTS3; SDHI0: SD0DAT7; SPI0: MISO0" - None - - 
       P314 55 - - - - Disabled - - "ADC(Digital): ADTRG0; SCI3: CTS_RTS3; SCI3: DE3" - None - - 
       P315 56 - - - - Disabled - - "SCI3: DE3; SCI3: SCK3" - None - - 
-      P400 1 ETHER_RMII_ET0_WOL - H None "Peripheral mode" - - "ADC(Digital): ADTRG1; AGT1: AGTIO1; ETHER_MII: ET0_WOL; ETHER_RMII: ET0_WOL; GPT6: GTIOC6A; I3C0: I3C_SCL0; IRQ0: IRQ0; SCI1: TXD1; SDHI1: SD1CLK" - IO - - 
+      P400 1 - - - - Disabled - - "ADC(Digital): ADTRG1; AGT1: AGTIO1; ETHER_MII: ET0_WOL; ETHER_RMII: ET0_WOL; GPT6: GTIOC6A; I3C0: I3C_SCL0; IRQ0: IRQ0; SCI1: TXD1; SDHI1: SD1CLK" - None - - 
       P401 2 ETHER_RMII_ET0_MDC - M None "Peripheral mode" - - "CANFD0: CTX0; ETHER_MII: ET0_MDC; ETHER_RMII: ET0_MDC; GPT6: GTIOC6B; GPT_POEGA: GTETRGA; I3C0: I3C_SDA0; IRQ5: IRQ5-DS; SCI1: RXD1; SDHI1: SD1CMD" - IO - - 
       P402 3 ETHER_RMII_ET0_MDIO - M None "Peripheral mode" - - "CAC: CACREF; CANFD0: CRX0; ETHER_MII: ET0_MDIO; ETHER_RMII: ET0_MDIO; IRQ4: IRQ4-DS; SCI1: DE1; SCI1: SCK1; SDHI1: SD1DAT0" - IO - - 
-      P403 4 ETHER_RMII_ET0_LINKSTA - H None "Peripheral mode" - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1" - IO - - 
-      P404 5 ETHER_RMII_ET0_EXOUT - H None "Peripheral mode" - - "ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; SCI1: CTS1; SDHI1: SD1DAT2" - IO - - 
+      P403 4 - - - - Disabled - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1" - None - - 
+      P404 5 - - - - Disabled - - "ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; SCI1: CTS1; SDHI1: SD1DAT2" - None - - 
       P405 6 ETHER_RMII_RMII0_TXD_EN - H - "Peripheral mode" - - "AGT1: AGTIO1; ETHER_MII: ET0_TX_EN; ETHER_RMII: RMII0_TXD_EN; GPT1: GTIOC1A; SCI2: DE2; SCI2: SCK2; SDHI1: SD1DAT3" - IO - - 
       P406 7 ETHER_RMII_RMII0_TXD1 - H - "Peripheral mode" - - "CGC: EXCIN; ETHER_MII: ET0_RX_ER; ETHER_RMII: RMII0_TXD1; GPT1: GTIOC1B; SCI2: TXD2; SDHI1: SD1CD; SPI0: SSLA3" - IO - - 
       P407 44 - - - - Disabled - - "ADC(Digital): ADTRG0; AGT0: AGTIO0; BUS: CS6#; GPT10: GTIOC10B; IIC0: SDA0; SCI4: CTS_RTS4; SCI4: DE4; SPI0: SSLA3; USB FS: USB_VBUS" - None - - 
@@ -1603,7 +1603,7 @@ FSP Configuration
     Name: Low Speed Interface
     Stack size (bytes): 1024
     Priority: 1
-    Auto start: Disabled
+    Auto start: Enabled
     Time slicing interval (ticks): 1
     
     Instance "g_canfd0 CAN FD Lite (r_canfdlite)"
@@ -1661,7 +1661,7 @@ FSP Configuration
       General: Name: g_canfd1
       General: Channel: 1
       Bitrate: Automatic: Nominal Rate (bps): 1000000
-      Bitrate: Automatic: FD Data Rate (bps): 2000000
+      Bitrate: Automatic: FD Data Rate (bps): 8000000
       Bitrate: Automatic: Sample Point (%): 75
       Bitrate: Delay Compensation: Enable
       Bitrate: Manual: Nominal: Prescaler (divisor): 1
@@ -1674,17 +1674,17 @@ FSP Configuration
       Bitrate: Manual: Data: Sync Jump Width (Tq): 1
       Bitrate: Manual: Use manual settings: No
       Interrupts: Callback: canfd1_callback
-      Transmit Interrupts: TXMB 0
+      Transmit Interrupts: TXMB 0, TXMB 1, TXMB 2, TXMB 3
       Channel Error Interrupts: Error Warning, Error Passive, Bus-Off Entry, Bus-Off Recovery, Overload
-      Interrupts: Channel Interrupt Priority Level: Priority 12
+      Interrupts: Channel Interrupt Priority Level: Priority 5
       Filter List Array: p_canfd1_afl
       Buffer RAM Usage: 
-      Global Error Interrupt: Sources: 
+      Global Error Interrupt: Sources: DLC Check, Message Lost, FD Payload Overflow
       Transmission Priority: Buffer Number
       DLC Check: Disabled
       Flexible Data (FD): Payload Overflow: Reject
-      Reception: Message Buffers: Number of Buffers: 0
-      Reception: Message Buffers: Payload Size: 8 bytes
+      Reception: Message Buffers: Number of Buffers: 1
+      Reception: Message Buffers: Payload Size: 64 bytes
       Reception: FIFOs: FIFO 0: Enable: Enabled
       Reception: FIFOs: FIFO 0: Interrupt Mode: Every Frame
       Reception: FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
