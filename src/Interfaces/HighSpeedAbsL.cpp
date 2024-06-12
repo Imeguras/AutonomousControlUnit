@@ -41,8 +41,8 @@ HighSpeed_AbsL<APL>::HighSpeed_AbsL() {
             //led_update(red, BSP_IO_LEVEL_HIGH);
         }
     }catch(...){
-        led_blink(0,5);
-        return;
+//        led_blink(0,5);
+//        return;
     }
 
 }

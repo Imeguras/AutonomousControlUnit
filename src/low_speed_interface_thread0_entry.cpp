@@ -22,6 +22,7 @@ extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
               .id = 0x1FFFFFFF,
               .frame_type = CAN_FRAME_TYPE_DATA,
               .id_mode    = CAN_ID_MODE_EXTENDED,
+
             },
           .mask =
             {
@@ -101,6 +102,8 @@ extern "C" const canfd_afl_entry_t p_canfd1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
 };
 
 extern "C" void canfd0_callback(can_callback_args_t * p_args);
+extern "C" void canfd1_callback(can_callback_args_t * p_args);
+
 void low_speed_interface_thread0_entry(void) {
     HighSpeed_AbsL<CanFDRen> canfd0;
     HighSpeed_AbsL<CanFDRen> canfd1;
@@ -118,7 +121,7 @@ void low_speed_interface_thread0_entry(void) {
     frame.data[3]= 0x41;
     frame.data[4]= 0x41;
     frame.data_length_code = 8U;
-    frame.options = 0;
+    frame.options = CANFD_FRAME_OPTION_BRS | CANFD_FRAME_OPTION_FD;
     /*critical_as temp_data;
      *
       tx_semaphore_get(&css, 32);
@@ -128,8 +131,9 @@ void low_speed_interface_thread0_entry(void) {
 
 
 
-    //canfd0->write((void *)&frame,0);
+    canfd0->write((void *)&frame,0);
     MAP_ENCODE_AS_STATE(frame.data,0xFF);
+    frame.options = 0   ;
     canfd1->write((void *)&frame,0);
     R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
     while(1){

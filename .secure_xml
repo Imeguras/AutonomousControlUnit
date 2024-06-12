@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="8">
+<raConfiguration version="9">
   <generalSettings>
     <option key="#Board#" value="board.board_ra8t1_acuity_bsp"/>
     <option key="CPU" value="RA8T1"/>
@@ -9,8 +9,8 @@
     <option key="#DeviceCommand#" value="R7FA8T1AH"/>
     <option key="#RTOS#" value="rtos.threadx"/>
     <option key="#pinconfiguration#" value="R7FA8T1AHECFC.pincfg"/>
-    <option key="#FSPVersion#" value="5.1.0"/>
-    <option key="#ConfigurationFragments#" value="LART##BSP##Board##BOARD_RA8T1_ACUITY_BSP##"/>
+    <option key="#FSPVersion#" value="5.3.0"/>
+    <option key="#ConfigurationFragments#" value="LART##BSP##Board##BOARD_RA8T1_ACUITY_BSP##|LART##BSP##Board##BOARD_RA8T1_ACUITY_BSP##BOARD_RA8T1_ACUITY_BSP|Renesas##BSP##Board##ra4e1_aik##"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="13.2.1.arm-13-7"/>
   </generalSettings>
@@ -22,8 +22,8 @@
     <node id="board.clock.moco.freq" option="board.clock.moco.freq.8m"/>
     <node id="board.clock.subclk.freq" option="board.clock.subclk.freq.32768"/>
     <node id="board.clock.pll.source" option="board.clock.pll.source.xtal"/>
-    <node id="board.clock.pll.div" option="board.clock.pll.div.1"/>
-    <node id="board.clock.pll.mul" option="board.clock.pll.mul.48_00"/>
+    <node id="board.clock.pll.div" option="board.clock.pll.div.2"/>
+    <node id="board.clock.pll.mul" option="board.clock.pll.mul.96_00"/>
     <node id="board.clock.pll.display" option="board.clock.pll.display.value"/>
     <node id="board.clock.pll1p.div" option="board.clock.pll1p.div.2"/>
     <node id="board.clock.pll1p.display" option="board.clock.pll1p.display.value"/>
@@ -32,8 +32,8 @@
     <node id="board.clock.pll1r.div" option="board.clock.pll1r.div.2"/>
     <node id="board.clock.pll1r.display" option="board.clock.pll1r.display.value"/>
     <node id="board.clock.pll2.source" option="board.clock.pll2.source.disabled"/>
-    <node id="board.clock.pll2.div" option="board.clock.pll2.div.1"/>
-    <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.48_00"/>
+    <node id="board.clock.pll2.div" option="board.clock.pll2.div.2"/>
+    <node id="board.clock.pll2.mul" option="board.clock.pll2.mul.96_00"/>
     <node id="board.clock.pll2.display" option="board.clock.pll2.display.value"/>
     <node id="board.clock.pll2p.div" option="board.clock.pll2p.div.2"/>
     <node id="board.clock.pll2p.display" option="board.clock.pll2p.display.value"/>
@@ -51,7 +51,7 @@
     <node id="board.clock.uck.source" option="board.clock.uck.source.disabled"/>
     <node id="board.clock.u60ck.source" option="board.clock.u60ck.source.disabled"/>
     <node id="board.clock.octaspiclk.source" option="board.clock.octaspiclk.source.disabled"/>
-    <node id="board.clock.cpuclk.div" option="board.clock.cpuclk.div.1"/>
+    <node id="board.clock.cpuclk.div" option="board.clock.cpuclk.div.2"/>
     <node id="board.clock.iclk.div" option="board.clock.iclk.div.2"/>
     <node id="board.clock.pclka.div" option="board.clock.pclka.div.4"/>
     <node id="board.clock.pclkb.div" option="board.clock.pclkb.div.8"/>
@@ -100,8 +100,11 @@
       <configSetting altId="canfd1.ctx1.p609" configurationId="canfd1.ctx1" isUsedByDriver="true"/>
       <configSetting altId="cgc.extal.p212" configurationId="cgc.extal"/>
       <configSetting altId="cgc.xtal.p213" configurationId="cgc.xtal"/>
+      <configSetting altId="ether_rmii.et0_exout.p404" configurationId="ether_rmii.et0_exout" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.et0_linksta.p403" configurationId="ether_rmii.et0_linksta" isUsedByDriver="true"/>
       <configSetting altId="ether_rmii.et0_mdc.p401" configurationId="ether_rmii.et0_mdc" isUsedByDriver="true"/>
       <configSetting altId="ether_rmii.et0_mdio.p402" configurationId="ether_rmii.et0_mdio" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.et0_wol.p400" configurationId="ether_rmii.et0_wol" isUsedByDriver="true"/>
       <configSetting altId="ether_rmii.ref50ck0.p701" configurationId="ether_rmii.ref50ck0" isUsedByDriver="true"/>
       <configSetting altId="ether_rmii.rmii0_crs_dv.p705" configurationId="ether_rmii.rmii0_crs_dv" isUsedByDriver="true"/>
       <configSetting altId="ether_rmii.rmii0_rx_er.p704" configurationId="ether_rmii.rmii0_rx_er" isUsedByDriver="true"/>
@@ -117,7 +120,7 @@
       <configSetting altId="jtag_fslash_swd.swdio.p210" configurationId="jtag_fslash_swd.swdio"/>
       <configSetting altId="p000.input" configurationId="p000"/>
       <configSetting altId="p001.input" configurationId="p001"/>
-      <configSetting altId="p002.output.high" configurationId="p002"/>
+      <configSetting altId="p002.input" configurationId="p002"/>
       <configSetting altId="p003.output.high" configurationId="p003"/>
       <configSetting altId="p004.output.high" configurationId="p004"/>
       <configSetting altId="p005.output.high" configurationId="p005"/>

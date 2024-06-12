@@ -12,6 +12,7 @@ FSP Configuration
     series: 8
     
   RA8T1 Family
+    Enable inline BSP IRQ functions: Enabled
     Security: Exceptions: Exception Response: Non-Maskable Interrupt
     Security: Exceptions: BusFault, HardFault, and NMI Target: Secure State
     Security: System Reset Request Accessibility: Secure State
@@ -80,11 +81,12 @@ FSP Configuration
     Main Oscillator Wait Time: 8163 cycles
     Cache settings: Data cache: Disabled
     
+  RA8T1 event data
   RA Common
-    Main stack size (bytes): 0x1388
+    Main stack size (bytes): 0x1688
     Heap size (bytes): 0x5000
     MCU Vcc (mV): 3300
-    Parameter checking: Disabled
+    Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
     Error Log: No Error Log
     Clock Registers not Reset Values during Startup: Disabled
@@ -101,14 +103,14 @@ FSP Configuration
     XTAL 20000000Hz
     HOCO 48MHz
     PLL Src: XTAL
-    PLL Div /1
-    PLL Mul x40-59|Mul x48|PLL Mul x48.00
+    PLL Div /2
+    PLL Mul x80-99|Mul x96|PLL Mul x96.00
     PLL1P Div /2
     PLL1Q Div /2
     PLL1R Div /2
     PLL2 Disabled
-    PLL2 Div /1
-    PLL2 Mul x40-59|Mul x48|PLL2 Mul x48.00
+    PLL2 Div /2
+    PLL2 Mul x80-99|Mul x96|PLL2 Mul x96.00
     PLL2P Div /2
     PLL2Q Div /2
     PLL2R Div /2
@@ -122,7 +124,7 @@ FSP Configuration
     UCK Disabled
     U60CK Disabled
     OCTASPICLK Disabled
-    CPUCLK Div /1
+    CPUCLK Div /2
     ICLK Div /2
     PCLKA Div /4
     PCLKB Div /8
@@ -150,9 +152,9 @@ FSP Configuration
       NC 27 SYSTEM_NC - - - - - - - - IO "Read only" - 
       NC 29 SYSTEM_NC - - - - - - - - IO "Read only" - 
       NC 30 SYSTEM_NC - - - - - - - - IO "Read only" - 
-      P000 169 GPIO ENET_RMII_INT - IRQ6-DS "Input mode" - - "ACMPHS1: IVCMP1_2; ADC1: AN100; IRQ6: IRQ6-DS" - IO - - 
+      P000 169 GPIO SPI_CANFD_INT - IRQ6-DS "Input mode" - - "ACMPHS1: IVCMP1_2; ADC1: AN100; IRQ6: IRQ6-DS" - IO - - 
       P001 168 GPIO WAKE_UP_ON_LAN - IRQ7-DS "Input mode" - - "ACMPHS0: IVREF_0; ADC1: AN101; IRQ7: IRQ7-DS" - IO - - 
-      P002 167 GPIO MUX_ETH_SD L None "Output mode (Initial High)" - - "ACMPHS1: IVCMP1_3; ADC1: AN102; IRQ8: IRQ8-DS" - IO - - 
+      P002 167 GPIO MUX_ETH_SD - IRQ8-DS "Input mode" - - "ACMPHS1: IVCMP1_3; ADC1: AN102; IRQ8: IRQ8-DS" - IO - - 
       P003 166 GPIO LED0 L - "Output mode (Initial High)" - - "ACMPHS1: IVREF_1; ADC1: AN104" - IO - - 
       P004 165 GPIO LED1 L None "Output mode (Initial High)" - - "ACMPHS0: IVCMP0_2; ADC0: AN000; IRQ9: IRQ9-DS" - IO - - 
       P005 164 GPIO LED2 L None "Output mode (Initial High)" - - "ADC0: AN001; IRQ10: IRQ10-DS" - IO - - 
@@ -204,11 +206,11 @@ FSP Configuration
       P313 54 - - - - Disabled - - "SCI3: CTS3; SDHI0: SD0DAT7; SPI0: MISO0" - None - - 
       P314 55 - - - - Disabled - - "ADC(Digital): ADTRG0; SCI3: CTS_RTS3; SCI3: DE3" - None - - 
       P315 56 - - - - Disabled - - "SCI3: DE3; SCI3: SCK3" - None - - 
-      P400 1 - - - - Disabled - - "ADC(Digital): ADTRG1; AGT1: AGTIO1; ETHER_MII: ET0_WOL; ETHER_RMII: ET0_WOL; GPT6: GTIOC6A; I3C0: I3C_SCL0; IRQ0: IRQ0; SCI1: TXD1; SDHI1: SD1CLK" - None - - 
+      P400 1 ETHER_RMII_ET0_WOL - H None "Peripheral mode" - - "ADC(Digital): ADTRG1; AGT1: AGTIO1; ETHER_MII: ET0_WOL; ETHER_RMII: ET0_WOL; GPT6: GTIOC6A; I3C0: I3C_SCL0; IRQ0: IRQ0; SCI1: TXD1; SDHI1: SD1CLK" - IO - - 
       P401 2 ETHER_RMII_ET0_MDC - M None "Peripheral mode" - - "CANFD0: CTX0; ETHER_MII: ET0_MDC; ETHER_RMII: ET0_MDC; GPT6: GTIOC6B; GPT_POEGA: GTETRGA; I3C0: I3C_SDA0; IRQ5: IRQ5-DS; SCI1: RXD1; SDHI1: SD1CMD" - IO - - 
       P402 3 ETHER_RMII_ET0_MDIO - M None "Peripheral mode" - - "CAC: CACREF; CANFD0: CRX0; ETHER_MII: ET0_MDIO; ETHER_RMII: ET0_MDIO; IRQ4: IRQ4-DS; SCI1: DE1; SCI1: SCK1; SDHI1: SD1DAT0" - IO - - 
-      P403 4 - - - - Disabled - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1" - None - - 
-      P404 5 - - - - Disabled - - "ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; SCI1: CTS1; SDHI1: SD1DAT2" - None - - 
+      P403 4 ETHER_RMII_ET0_LINKSTA - H None "Peripheral mode" - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1" - IO - - 
+      P404 5 ETHER_RMII_ET0_EXOUT - H None "Peripheral mode" - - "ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; SCI1: CTS1; SDHI1: SD1DAT2" - IO - - 
       P405 6 ETHER_RMII_RMII0_TXD_EN - H - "Peripheral mode" - - "AGT1: AGTIO1; ETHER_MII: ET0_TX_EN; ETHER_RMII: RMII0_TXD_EN; GPT1: GTIOC1A; SCI2: DE2; SCI2: SCK2; SDHI1: SD1DAT3" - IO - - 
       P406 7 ETHER_RMII_RMII0_TXD1 - H - "Peripheral mode" - - "CGC: EXCIN; ETHER_MII: ET0_RX_ER; ETHER_RMII: RMII0_TXD1; GPT1: GTIOC1B; SCI2: TXD2; SDHI1: SD1CD; SPI0: SSLA3" - IO - - 
       P407 44 - - - - Disabled - - "ADC(Digital): ADTRG0; AGT0: AGTIO0; BUS: CS6#; GPT10: GTIOC10B; IIC0: SDA0; SCI4: CTS_RTS4; SCI4: DE4; SPI0: SSLA3; USB FS: USB_VBUS" - None - - 
@@ -1083,9 +1085,9 @@ FSP Configuration
     KSZ8091RNB Target: Disabled
     KSZ8041 Target: Disabled
     DP83620 Target: Disabled
-    ICS1894 Target: Disabled
+    ICS1894 Target: Enabled
     User Own Target: Disabled
-    Reference Clock: Default
+    Reference Clock: Enabled
     Automatic Phy LSI Initialization: Enabled
     
   Module "Azure RTOS NetX Duo Common"
@@ -1467,7 +1469,7 @@ FSP Configuration
   Module "CAN FD Lite (r_canfdlite)"
     Parameter Checking: Default (BSP)
     Global Error Interrupt: Callback Channel: Both
-    Global Error Interrupt: Priority: Priority 12
+    Global Error Interrupt: Priority: Priority 6
     Reception: FIFOs: Interrupt Priority: Priority 12
     Flexible Data (FD): Protocol Exceptions: Enabled (ISO 11898-1)
     Reception: Acceptance Filtering: Channel 0 Rule Count: 16
@@ -1550,7 +1552,7 @@ FSP Configuration
       Name: g_ip0
       IPv4 Address: 192.168.1.128
       Subnet Mask: 255.255.255.0
-      Default Gateway Address: 192.168.1.1
+      Default Gateway Address: 192.168.1.100
       IPv6 Global Address: 2001:0:0:0:0:0:0:1
       IPv6 Link Local Address (All zeros means use MAC address): 0:0:0:0:0:0:0:0
       IP Helper Thread Stack Size (bytes): 2048
@@ -1574,7 +1576,7 @@ FSP Configuration
           General: Zero-copy Mode: Enable
           General: Flow control functionality: Disable
           Filters: Multicast Mode: Enable
-          Filters: Promiscuous Mode: Disable
+          Filters: Promiscuous Mode: Enable
           Filters: Broadcast filter: 0
           Buffers: Number of TX buffer: 4
           Buffers: Number of RX buffer: 4
@@ -1591,7 +1593,7 @@ FSP Configuration
             PHY-LSI Address: 5
             PHY-LSI Reset Completion Timeout: 0x00020000
             Select MII type: RMII
-            Phy LSI type: Kit Component
+            Phy LSI type: ICS1894
             Port Custom Init Function: NULL
             Port Custom Link Partner Ability Get Function: NULL
             MII/RMII Register Access Wait-time: 8
@@ -1603,14 +1605,14 @@ FSP Configuration
     Name: Low Speed Interface
     Stack size (bytes): 1024
     Priority: 1
-    Auto start: Enabled
+    Auto start: Disabled
     Time slicing interval (ticks): 1
     
     Instance "g_canfd0 CAN FD Lite (r_canfdlite)"
       General: Name: g_canfd0
       General: Channel: 0
       Bitrate: Automatic: Nominal Rate (bps): 1000000
-      Bitrate: Automatic: FD Data Rate (bps): 8000000
+      Bitrate: Automatic: FD Data Rate (bps): 5000000
       Bitrate: Automatic: Sample Point (%): 75
       Bitrate: Delay Compensation: Enable
       Bitrate: Manual: Nominal: Prescaler (divisor): 1
@@ -1623,11 +1625,10 @@ FSP Configuration
       Bitrate: Manual: Data: Sync Jump Width (Tq): 1
       Bitrate: Manual: Use manual settings: No
       Interrupts: Callback: canfd0_callback
-      Transmit Interrupts: TXMB 0, TXMB 1, TXMB 2, TXMB 3
+      Transmit Interrupts: 
       Channel Error Interrupts: Error Warning, Error Passive, Bus-Off Entry, Bus-Off Recovery, Overload
       Interrupts: Channel Interrupt Priority Level: Priority 5
       Filter List Array: p_canfd0_afl
-      Buffer RAM Usage: 
       Global Error Interrupt: Sources: DLC Check, Message Lost, FD Payload Overflow
       Transmission Priority: Buffer Number
       DLC Check: Disabled
@@ -1635,14 +1636,14 @@ FSP Configuration
       Reception: Message Buffers: Number of Buffers: 1
       Reception: Message Buffers: Payload Size: 64 bytes
       Reception: FIFOs: FIFO 0: Enable: Enabled
-      Reception: FIFOs: FIFO 0: Interrupt Mode: Every Frame
-      Reception: FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
-      Reception: FIFOs: FIFO 0: Payload Size: 32 bytes
-      Reception: FIFOs: FIFO 0: Depth: 16 stages
-      Reception: FIFOs: FIFO 1: Enable: Disabled
-      Reception: FIFOs: FIFO 1: Interrupt Mode: Every Frame
-      Reception: FIFOs: FIFO 1: Interrupt Threshold: 1/2 full
-      Reception: FIFOs: FIFO 1: Payload Size: 32 bytes
+      Reception: FIFOs: FIFO 0: Interrupt Mode: At Threshold Value
+      Reception: FIFOs: FIFO 0: Interrupt Threshold: 7/8 full
+      Reception: FIFOs: FIFO 0: Payload Size: 64 bytes
+      Reception: FIFOs: FIFO 0: Depth: 8 stages
+      Reception: FIFOs: FIFO 1: Enable: Enabled
+      Reception: FIFOs: FIFO 1: Interrupt Mode: At Threshold Value
+      Reception: FIFOs: FIFO 1: Interrupt Threshold: 7/8 full
+      Reception: FIFOs: FIFO 1: Payload Size: 8 bytes
       Reception: FIFOs: FIFO 1: Depth: 16 stages
       Common FIFOs: FIFO 0: Enable: Disabled
       Common FIFOs: FIFO 0: Mode: Receive
@@ -1661,7 +1662,7 @@ FSP Configuration
       General: Name: g_canfd1
       General: Channel: 1
       Bitrate: Automatic: Nominal Rate (bps): 1000000
-      Bitrate: Automatic: FD Data Rate (bps): 8000000
+      Bitrate: Automatic: FD Data Rate (bps): 5000000
       Bitrate: Automatic: Sample Point (%): 75
       Bitrate: Delay Compensation: Enable
       Bitrate: Manual: Nominal: Prescaler (divisor): 1
@@ -1674,34 +1675,33 @@ FSP Configuration
       Bitrate: Manual: Data: Sync Jump Width (Tq): 1
       Bitrate: Manual: Use manual settings: No
       Interrupts: Callback: canfd1_callback
-      Transmit Interrupts: TXMB 0, TXMB 1, TXMB 2, TXMB 3
+      Transmit Interrupts: 
       Channel Error Interrupts: Error Warning, Error Passive, Bus-Off Entry, Bus-Off Recovery, Overload
       Interrupts: Channel Interrupt Priority Level: Priority 5
       Filter List Array: p_canfd1_afl
-      Buffer RAM Usage: 
       Global Error Interrupt: Sources: DLC Check, Message Lost, FD Payload Overflow
       Transmission Priority: Buffer Number
       DLC Check: Disabled
-      Flexible Data (FD): Payload Overflow: Reject
+      Flexible Data (FD): Payload Overflow: Truncate
       Reception: Message Buffers: Number of Buffers: 1
       Reception: Message Buffers: Payload Size: 64 bytes
       Reception: FIFOs: FIFO 0: Enable: Enabled
-      Reception: FIFOs: FIFO 0: Interrupt Mode: Every Frame
-      Reception: FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
-      Reception: FIFOs: FIFO 0: Payload Size: 8 bytes
-      Reception: FIFOs: FIFO 0: Depth: 16 stages
-      Reception: FIFOs: FIFO 1: Enable: Disabled
-      Reception: FIFOs: FIFO 1: Interrupt Mode: Every Frame
-      Reception: FIFOs: FIFO 1: Interrupt Threshold: 1/2 full
+      Reception: FIFOs: FIFO 0: Interrupt Mode: At Threshold Value
+      Reception: FIFOs: FIFO 0: Interrupt Threshold: 7/8 full
+      Reception: FIFOs: FIFO 0: Payload Size: 64 bytes
+      Reception: FIFOs: FIFO 0: Depth: 8 stages
+      Reception: FIFOs: FIFO 1: Enable: Enabled
+      Reception: FIFOs: FIFO 1: Interrupt Mode: At Threshold Value
+      Reception: FIFOs: FIFO 1: Interrupt Threshold: 7/8 full
       Reception: FIFOs: FIFO 1: Payload Size: 8 bytes
       Reception: FIFOs: FIFO 1: Depth: 16 stages
       Common FIFOs: FIFO 0: Enable: Disabled
       Common FIFOs: FIFO 0: Mode: Receive
-      Common FIFOs: FIFO 0: RX Interrupt Enable: Disabled
-      Common FIFOs: FIFO 0: TX Interrupt Enable: Disabled
-      Common FIFOs: FIFO 0: Interrupt Mode: At Threshold Value
+      Common FIFOs: FIFO 0: RX Interrupt Enable: Enabled
+      Common FIFOs: FIFO 0: TX Interrupt Enable: Enabled
+      Common FIFOs: FIFO 0: Interrupt Mode: Every Frame
       Common FIFOs: FIFO 0: Interrupt Threshold: 1/2 full
-      Common FIFOs: FIFO 0: Payload Size: 8 bytes
+      Common FIFOs: FIFO 0: Payload Size: 32 bytes
       Common FIFOs: FIFO 0: Depth: 16 stages
       Common FIFOs: FIFO 0: TX Message Buffer: 0
       Common FIFOs: FIFO 0: Interval TX Delay: 0

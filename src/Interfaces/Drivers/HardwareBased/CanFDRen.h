@@ -12,12 +12,13 @@
 #if defined(BSP_FEATURE_CANFD_FD_SUPPORT) || defined(BSP_FEATURE_CANFD_LITE)
 #include <list>
 #include "../../AbstractPeripheralLayer.cpp"
-#include "../../ra/board/ra8t1_acuity_bsp/board.h"
-#include "../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
-#include "../../ra/board/ra8t1_acuity_bsp/board_init.hpp"
+#include "../../../../ra/board/board_ra8t1_acuity_bsp/board.h"
+#include "../../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
+#include "../../../../ra/board/ra8t1_acuity_bsp/board_init.hpp"
 #define CANFDREN_LOOPBACK_TIMEOUT 200
-    #ifndef CANFDREN_H_
-    #define CANFDREN_H_
+#ifndef CANFDREN_H_
+#define CANFDREN_H_
+static bool ja_usado;
 class CanFDRen : AbstractPeripheralLayer{
     public:
         /**
