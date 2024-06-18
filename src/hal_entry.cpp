@@ -1,6 +1,5 @@
 #include "hal_data.h"
 #include "../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
-
 FSP_CPP_HEADER
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
 FSP_CPP_FOOTER

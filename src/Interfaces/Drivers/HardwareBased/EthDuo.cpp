@@ -7,22 +7,6 @@
 
 #include "EthDuo.h"
 
-
-
-  /* ARP cache memory for g_ip0. */
-
-// Stack memory for g_ip0.
-/*uint8_t g_ip0_stack_memory[G_IP0_TASK_STACK_SIZE] BSP_PLACE_IN_SECTION(".stack.g_ip0") BSP_ALIGN_VARIABLE(BSP_STACK_ALIGNMENT);
-
-// ARP cache memory for g_ip0.
-uint8_t g_ip0_arp_cache_memory[G_IP0_ARP_CACHE_SIZE] BSP_ALIGN_VARIABLE(4);
-
-// Packet pool instance (If this is a Trustzone part, the memory must be placed in Non-secure memory).
-
-uint8_t g_packet_pool0_pool_memory[G_PACKET_POOL0_PACKET_NUM * (G_PACKET_POOL0_PACKET_SIZE + sizeof(NX_PACKET))] BSP_ALIGN_VARIABLE(4) ETHER_BUFFER_PLACE_IN_SECTION;
-*/
-
-
   uint8_t g_ip0_arp_cache_memory [G_IP0_ARP_CACHE_SIZE] __attribute__((aligned(4)));
   uint8_t g_ip0_stack_memory  [G_IP0_TASK_STACK_SIZE]  __attribute__ ((aligned(8), section(".stack.g_ip0")));
 #ifdef ETHER_BUFFER_PLACE_IN_SECTION
@@ -107,18 +91,18 @@ void EthDuo::g_ip0_quick_setup() {
 
   status = nx_udp_enable(&g_ip0);
   this->error_counter += status;
-  /*status = nx_tcp_enable(&g_ip0);
-  this->error_counter += status;
+
 
   status = nx_icmp_enable(&g_ip0);
   this->error_counter += status;
-
+  status = nx_tcp_enable(&g_ip0);
+  this->error_counter += status;
   status = nx_ip_fragment_enable(&g_ip0);
   this->error_counter += status;
 
   status = nx_igmp_enable(&g_ip0);
   this->error_counter += status;
-
+  /*
   status = nx_dhcp_create(&g_dhcp_client0, &g_ip0, (char *)"g_dhcp_client0");
 
   nx_dhcp_packet_pool_set(&g_dhcp_client0, &g_packet_pool0);
@@ -127,7 +111,7 @@ void EthDuo::g_ip0_quick_setup() {
   this->error_counter += status;
   /* Wait for the link to be enabled. */
   ULONG current_state;
-  status =
+   status =
       nx_ip_status_check(&g_ip0, NX_IP_LINK_ENABLED, &current_state, 20000);
   this->error_counter += status;
 

@@ -7,7 +7,7 @@
 
 #include "bsp_api.h"
 #include "common_data.h"
-#include "../AbstractPeripheralLayer.cpp"
+#include "../../AbstractPeripheralLayer.cpp"
 #include <stdint.h>
 //#include "nxd_dhcp_client.h"
 #ifndef ETHDUO_H_

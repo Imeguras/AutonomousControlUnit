@@ -5,5 +5,5 @@
  *      Author: micron
  */
 
-#include "../Interfaces/Drivers/EthDuo.h"
+#include "../Interfaces/Drivers/HardwareBased/EthDuo.h"
 

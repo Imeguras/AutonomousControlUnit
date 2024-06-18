@@ -10,7 +10,7 @@
 #include "rmw_microros/rmw_microros.h"
 
 #include "Interfaces/HighSpeedAbsL.cpp"
-#include "Interfaces/Drivers/EthDuo.h"
+#include "Interfaces/Drivers/HardwareBased/EthDuo.h"
 #include "Interfaces/Drivers/MicroRosDuo.h"
 #include "Interfaces/MicroRosBoylerplate/microros_transports.h"
 //TODO fix this mess
@@ -25,8 +25,8 @@
 #define ROS2_EXECUTOR_MAX_HANDLES 2
 
 std_msgs__msg__Int8 msg_incoming;
-static std_msgs__msg__Int8 msg_status;
-static std_msgs__msg__Int8 msg_mission;
+//static std_msgs__msg__Int8 msg_status;
+//static std_msgs__msg__Int8 msg_mission;
 /* New Thread entry function */
 void (* sub_callback)(const void *);
 void thread_setup(void);
@@ -34,19 +34,26 @@ void subscription_callback_status(const void * msgin);
 void subscription_callback_mission(const void * msgin);
 
 void high_speed_interface_thread0_entry(void) {
-}
-//    //led_update(red, BSP_IO_LEVEL_HIGH);
 
-//    //HighSpeed_AbsL<MicroRosDuo> ros;
+
+    led_update(0, BSP_IO_LEVEL_HIGH);
+
+    //HighSpeed_AbsL<MicroRosDuo> eth;
+    HighSpeed_AbsL<EthDuo> eth;
+    if(eth->error_counter > 0){
+        //TODO: retry?
+        return;
+    }
+    led_update(0, BSP_IO_LEVEL_LOW);
 //
-//    for(int i = 3; i > 0; i--){
-//        led_update(lime,BSP_IO_LEVEL_HIGH );
-//        R_BSP_SoftwareDelay(500,BSP_DELAY_UNITS_MILLISECONDS );
-//        led_update(lime,BSP_IO_LEVEL_LOW );
-//        R_BSP_SoftwareDelay(500,BSP_DELAY_UNITS_MILLISECONDS );
-//    }
-//
-//
+    led_blink(7, 3);
+    while(1){
+        R_BSP_SoftwareDelay(1,BSP_DELAY_UNITS_MILLISECONDS );
+
+    }
+
+}
+
 //    rcl_allocator_t allocator = rcl_get_default_allocator();
 //    rclc_support_t support;
 //    rclc_support_init_with_options(&support, 0, NULL, &init_options, &allocator);
@@ -57,7 +64,7 @@ void high_speed_interface_thread0_entry(void) {
 //    rclc_executor_init(&executor, &support.context, ROS2_EXECUTOR_MAX_HANDLES, &allocator);
 //
 //    rcl_publisher_t publisher_critical_status;
-//    rcl_subscription_t subscriber_critical_status;#include "../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
+//    rcl_subscription_t subscriber_critical_status;//#include "../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
 //
 //
 //    rcl_ret_t rc = RCL_RET_OK;
@@ -87,7 +94,7 @@ void high_speed_interface_thread0_entry(void) {
 //
 //    }
 //
-//         payload= msg_status;
+//        payload= msg_status;
 //        payload_mission= msg_mission;
 //
 //
@@ -124,9 +131,9 @@ void high_speed_interface_thread0_entry(void) {
 //    const std_msgs__msg__Int8 * msg_cast = (const std_msgs__msg__Int8 *)msgin;
 //    msg_status= *msg_cast;
 //
-//    /*led_update(blue, BSP_IO_LEVEL_LOW);
+//    led_update(blue, BSP_IO_LEVEL_LOW);
 //    R_BSP_SoftwareDelay(200, BSP_DELAY_UNITS_MILLISECONDS);
-//    led_update(blue, BSP_IO_LEVEL_HIGH);*/
+//    led_update(blue, BSP_IO_LEVEL_HIGH);
 //}
 //void subscription_callback_mission(const void * msgin){
 //    const std_msgs__msg__Int8 * msg_cast = (const std_msgs__msg__Int8 *)msgin;
@@ -145,4 +152,4 @@ void high_speed_interface_thread0_entry(void) {
 //
 //    tx_semaphore_put(&css);
 //}
-
+//

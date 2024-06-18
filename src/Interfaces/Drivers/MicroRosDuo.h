@@ -5,7 +5,7 @@
  *      Author: micron
  */
 
-#include "EthDuo.h"
+#include "HardwareBased/EthDuo.h"
 
 #include <rcl/rcl.h>
 #include <rcl/error_handling.h>
@@ -31,7 +31,7 @@
 #define SOCKET_FIFO_SIZE G_PACKET_POOL0_PACKET_NUM
 #define TX_MS_TO_TICKS(milliseconds) ((ULONG) ((milliseconds / 1000.0) * TX_TIMER_TICKS_PER_SECOND))
 
-class MicroRosDuo: public EthDuo {
+class MicroRosDuo : public EthDuo {
 public:
 	MicroRosDuo();
 	virtual ~MicroRosDuo();
