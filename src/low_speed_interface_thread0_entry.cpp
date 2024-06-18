@@ -107,8 +107,10 @@ extern "C" void canfd1_callback(can_callback_args_t * p_args);
 void low_speed_interface_thread0_entry(void) {
     HighSpeed_AbsL<CanFDRen> canfd0;
     HighSpeed_AbsL<CanFDRen> canfd1;
+
     //canfd1->channelInjection((canfd_instance_ctrl_t&)g_canfd1_ctrl, (can_cfg_t&)g_canfd1_cfg);
     interface_callback0_t=(void *)&canfd0;
+
     interface_callback1_t=(void *)&canfd1;
 
 
@@ -121,7 +123,8 @@ void low_speed_interface_thread0_entry(void) {
     frame.data[3]= 0x41;
     frame.data[4]= 0x41;
     frame.data_length_code = 8U;
-    frame.options = CANFD_FRAME_OPTION_BRS | CANFD_FRAME_OPTION_FD;
+    frame.options = 0;
+    //frame.options = CANFD_FRAME_OPTION_BRS | CANFD_FRAME_OPTION_FD;
     /*critical_as temp_data;
      *
       tx_semaphore_get(&css, 32);
@@ -131,13 +134,18 @@ void low_speed_interface_thread0_entry(void) {
 
 
 
-    canfd0->write((void *)&frame,0);
-    MAP_ENCODE_AS_STATE(frame.data,0xFF);
-    frame.options = 0   ;
-    canfd1->write((void *)&frame,0);
+
     R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
     while(1){
-        R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+
+        led_blink(1, 1);
+        canfd1->write((void *)&frame,0);
+        //R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
+        //MAP_ENCODE_AS_STATE(frame.data,0xFF);
+        //led_blink(6, 1);
+        //canfd0->write((void *)&frame,0);
+        R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
+
     }
 
 

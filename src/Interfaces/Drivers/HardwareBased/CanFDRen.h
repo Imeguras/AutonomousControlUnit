@@ -30,6 +30,7 @@ class CanFDRen : AbstractPeripheralLayer{
          * A Destructor for the CanFDRen Object
          */
         virtual ~CanFDRen();
+
         int initialization() override;
         int initialization(canfd_instance_ctrl_t * _g_canfd_ctrl, const can_cfg_t * _g_canfd_cfg);
 

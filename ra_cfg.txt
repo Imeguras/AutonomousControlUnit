@@ -1478,7 +1478,7 @@ FSP Configuration
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
     General: Error Checking: Enabled
-    Timer: Timer Ticks Per Second: 100
+    Timer: Timer Ticks Per Second: 1000
     General: Max Priorities: 32
     General: Minimum Stack: 200
     Timer: Timer Thread Stack Size: 1024
@@ -1544,15 +1544,15 @@ FSP Configuration
     Symbol: high_speed_interface_thread0
     Name: High Speed Interface
     Stack size (bytes): 5000
-    Priority: 1
-    Auto start: Enabled
+    Priority: 2
+    Auto start: Disabled
     Time slicing interval (ticks): 1
     
     Instance "g_ip0 Azure RTOS NetX Duo IP Instance"
       Name: g_ip0
       IPv4 Address: 192.168.1.128
       Subnet Mask: 255.255.255.0
-      Default Gateway Address: 192.168.1.100
+      Default Gateway Address: 192.168.1.1
       IPv6 Global Address: 2001:0:0:0:0:0:0:1
       IPv6 Link Local Address (All zeros means use MAC address): 0:0:0:0:0:0:0:0
       IP Helper Thread Stack Size (bytes): 2048
@@ -1605,7 +1605,7 @@ FSP Configuration
     Name: Low Speed Interface
     Stack size (bytes): 1024
     Priority: 1
-    Auto start: Disabled
+    Auto start: Enabled
     Time slicing interval (ticks): 1
     
     Instance "g_canfd0 CAN FD Lite (r_canfdlite)"
