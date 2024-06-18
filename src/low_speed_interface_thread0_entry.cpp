@@ -22,6 +22,7 @@ extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
               .id = 0x1FFFFFFF,
               .frame_type = CAN_FRAME_TYPE_DATA,
               .id_mode    = CAN_ID_MODE_EXTENDED,
+
             },
           .mask =
             {
@@ -101,15 +102,19 @@ extern "C" const canfd_afl_entry_t p_canfd1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
 };
 
 extern "C" void canfd0_callback(can_callback_args_t * p_args);
+extern "C" void canfd1_callback(can_callback_args_t * p_args);
+
 void low_speed_interface_thread0_entry(void) {
     HighSpeed_AbsL<CanFDRen> canfd0;
     HighSpeed_AbsL<CanFDRen> canfd1;
-    canfd1->channelInjection((canfd_instance_ctrl_t&)g_canfd1_ctrl, (can_cfg_t&)g_canfd1_cfg);
+
+    //canfd1->channelInjection((canfd_instance_ctrl_t&)g_canfd1_ctrl, (can_cfg_t&)g_canfd1_cfg);
     interface_callback0_t=(void *)&canfd0;
+
     interface_callback1_t=(void *)&canfd1;
 
 
-    frame.id = CAN_AS_STATUS;
+    frame.id = 0x69;
     frame.id_mode = CAN_ID_MODE_STANDARD;
     frame.type = CAN_FRAME_TYPE_DATA;
     frame.data[0]= 0x41;
@@ -119,20 +124,28 @@ void low_speed_interface_thread0_entry(void) {
     frame.data[4]= 0x41;
     frame.data_length_code = 8U;
     frame.options = 0;
+    //frame.options = CANFD_FRAME_OPTION_BRS | CANFD_FRAME_OPTION_FD;
     /*critical_as temp_data;
      *
       tx_semaphore_get(&css, 32);
           temp_data = store::critical_autonomous_system_status;
       tx_semaphore_put(&css);*/
 
-    MAP_ENCODE_AS_STATE(frame.data,0xFF);
 
 
-    canfd0->write((void *)&frame,0);
-    canfd1->write((void *)&frame,0);
+
+
     R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
     while(1){
-        R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+
+        led_blink(1, 1);
+        canfd1->write((void *)&frame,0);
+        //R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
+        //MAP_ENCODE_AS_STATE(frame.data,0xFF);
+        //led_blink(6, 1);
+        //canfd0->write((void *)&frame,0);
+        R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
+
     }
 
 

@@ -4,7 +4,7 @@
  *  Created on: 07/10/2023
  *      Author: micron
  */
-#include "Drivers/HardwareBased/EthDuo.h"
+
 #include "HighSpeedAbsL.h"
 
 #include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
@@ -21,19 +21,30 @@ APL*  HighSpeed_AbsL<APL>::operator->(){
 
 template<typename APL>
 HighSpeed_AbsL<APL>::HighSpeed_AbsL() {
-    //TODO : maybe we should first force initialization and only after everything goes according to plan the apl_handle is filled
-	this->apl_handle = std::make_shared<APL>();
-	std::weak_ptr<APL> weak = this->apl_handle;
-	    // Access the object using weak_ptr
-	    if (auto locked = weak.lock()) {
-            locked->initialization();
+    try{
+        std::shared_ptr<APL> _temp = std::make_shared<APL>();
+        std::weak_ptr<APL> weak = _temp;
+            // Access the object using weak_ptr
+            // Lock it
+            if (auto locked = weak.lock()){
 
-	    } else {
-	    	//TODO define a better screaming protocol
-	        //led_update(red, BSP_IO_LEVEL_HIGH);
+                int init_ret = locked->initialization();
+                //Init is OK?
+                if(FSP_SUCCESS == (fsp_err_t)init_ret){
+                    this->apl_handle = _temp;
+                }else{
+                    //TODO define a screaming protocol
+                }
 
-	        //std::cout << "Object has been destroyed." << std::endl;
-	    }
+        } else {
+            //TODO define a better screaming protocol
+            //led_update(red, BSP_IO_LEVEL_HIGH);
+        }
+    }catch(...){
+//        led_blink(0,5);
+//        return;
+    }
+
 }
 
 template<typename APL> HighSpeed_AbsL<APL>::~HighSpeed_AbsL() {
