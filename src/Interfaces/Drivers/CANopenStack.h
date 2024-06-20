@@ -45,7 +45,8 @@ enum NMT_COMMANDS
         Operation_enabled       = 0b00100111,
         Quick_stop_active       = 0b00000111,
         Fault_reaction_active   = 0b00001111,
-        Fault                   = 0b00001000
+        Fault                   = 0b00001000,
+        UNKNOWN
     };
 
     /**
@@ -71,11 +72,16 @@ public:
     CANopenStack(CANopenStack &&other);
     CANopenStack& operator=(const CANopenStack &other);
     CANopenStack& operator=(CANopenStack &&other);
-    uint16_t get_node_id();
+
+    uint16_t g_nodeId() const;
+    StateMachine_StatusWord g_currentState() const;
+
 
     can_frame_stream nmt_message(NMT_COMMANDS command, uint16_t target_id);
-    can_frame_stream requestStatusWordMessage();
+    can_frame_stream requestStatusWordMessage() const;
+    can_frame_stream requestControlWordMessage(unsigned char highByte, unsigned char lowByte) const;
     StateMachine_StatusWord readStatusword_message(can_frame_stream);
+
 protected:
     uint16_t node_id;
     //TODO: this is a future implementation

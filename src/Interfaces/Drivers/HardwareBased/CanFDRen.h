@@ -15,6 +15,7 @@
 #include "../../../../ra/board/board_ra8t1_acuity_bsp/board.h"
 #include "../../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
 #include "../../../../ra/board/ra8t1_acuity_bsp/board_init.hpp"
+#include "../CANopenStack.h"
 #define CANFDREN_LOOPBACK_TIMEOUT 200
 #ifndef CANFDREN_H_
 #define CANFDREN_H_
@@ -46,6 +47,7 @@ class CanFDRen : AbstractPeripheralLayer{
         void callbackHandle(can_callback_args_t *p_args);
         uint32_t decode();
         uint32_t decodeImmediate(can_frame_t frame);
+        CANopenStack * currentCanOpenStack;
     protected:
         uint8_t channel=-1;
     private:

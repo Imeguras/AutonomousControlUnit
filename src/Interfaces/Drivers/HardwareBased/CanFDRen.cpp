@@ -46,11 +46,12 @@ int CanFDRen::initialization(){
     if(!ja_usado){
         tmp_canfd_ctrl = &g_canfd0_ctrl;
         tmp_canfd_cfg = &g_canfd0_cfg;
+        this->channel=0;
         ja_usado = true;
     }else{
         tmp_canfd_ctrl = &g_canfd1_ctrl;
         tmp_canfd_cfg = &g_canfd1_cfg;
-        led_update(2, BSP_IO_LEVEL_HIGH);
+        this->channel=1;
     }
 
     int ret_init = this->initialization(tmp_canfd_ctrl, tmp_canfd_cfg);
@@ -73,10 +74,16 @@ int CanFDRen::initialization(canfd_instance_ctrl_t * _g_canfd_ctrl, const can_cf
     this->g_canfd_ctrl = _g_canfd_ctrl;
     this->g_canfd_cfg = _g_canfd_cfg;
     volatile UINT status = R_CANFD_Open(this->g_canfd_ctrl, this->g_canfd_cfg);
+
     if(FSP_SUCCESS == status){
+
         tx_ready=true;
         rx_ready= true;
         this->initialized = true;
+
+        if(this->channel ==1){
+
+        }
     }
     return (int)status;
 
