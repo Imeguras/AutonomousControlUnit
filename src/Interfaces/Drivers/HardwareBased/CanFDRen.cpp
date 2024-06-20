@@ -125,15 +125,19 @@ bool CanFDRen::checkCanChannelAnyUsed(uint16_t * fetch_channelId){
  * @param data @b MUST be already allocated...
  * @param stream_size @b HERE stream_size means how many messages are going to be sent over data default is @b one
  */
-void* CanFDRen::recv(void * data, uint32_t stream_size=1){
-//    FSP_PARAMETER_NOT_USED(stream_size);
-//	auto index = this->fbuffers_rx.front();
-//	this->fbuffers_rx.pop_front();
-//
-//	R_CANFD_Read(this->g_canfd_ctrl,index,  (can_frame_t *)&data);
-//	return ((void *)data);
+uint32_t CanFDRen::recv(void * data, uint32_t stream_size=0){
 
-return (void *)0;
+    return recv(data, CANFD_RX_BUFFER_MB_0, stream_size);
+}
+uint32_t CanFDRen::recv(void* data, uint32_t buffer=CANFD_RX_BUFFER_MB_0, uint32_t stream_size=0){
+    FSP_PARAMETER_NOT_USED(stream_size);
+    if (this->rx_ready != true)
+    {
+        return (uint32_t)FSP_ERR_CAN_DATA_UNAVAILABLE;
+    }
+    uint32_t status = (uint32_t)R_CANFD_Read(this->g_canfd_ctrl, buffer, (can_frame_t *)data);
+
+    return status;
 }
 /**
  * @
@@ -154,41 +158,63 @@ uint32_t CanFDRen::write(void *data, uint32_t stream_size){
 
 	return status;
 }
+void CanFDRen::decode(){
+    //itterate over the fbuffers_rx iterator
+    for (auto it = this->fbuffers_rx.begin (); it != this->fbuffers_rx.end (); it++){
+        can_frame_t frame;
+        this->recv((void *)&frame, *it,0);
+        //decode the messagecan_frame_t
 
+    }
+}
+void CanFDRen::decodeImmediate(){
+
+}
 void CanFDRen::callbackHandle(can_callback_args_t *p_args){
-    //led_update(lime, BSP_IO_LEVEL_HIGH);
-	switch (p_args->event){
+  	switch (p_args->event){
         case CAN_EVENT_TX_COMPLETE:
             leds_update(ambar, BSP_IO_LEVEL_HIGH);
             this->tx_ready=true;
             break;
         case CAN_EVENT_RX_COMPLETE:
-            //TODO validations?
+
             this->fbuffers_rx.push_back(p_args->buffer);
             this->rx_ready=true;
             break;
+        case CAN_EVENT_TX_ABORTED:           /* Transmit abort event. */
+        case CAN_EVENT_TX_FIFO_EMPTY:       /* Transmit FIFO is empty. */
+            //TODO this should be treated as a weird glitch
+            this->tx_ready = true;
+            break;
+
         case CAN_EVENT_BUS_RECOVERY:         /* Bus recovery error event */
             this->tx_ready = true;
             this->rx_ready = true;
+            break;
         case CAN_EVENT_ERR_WARNING:          /* error warning event */
+
         case CAN_EVENT_ERR_PASSIVE:          /* error passive event */
-        case CAN_EVENT_ERR_BUS_OFF:          /* error bus off event */
+            //TODO: log
+           break;
         case CAN_EVENT_MAILBOX_MESSAGE_LOST: /* overwrite/overrun error event */
-        case CAN_EVENT_ERR_BUS_LOCK:         /* Bus lock detected (32 consecutive dominant bits). */
+        case CAN_EVENT_FIFO_MESSAGE_LOST:
+            //TODO welp we're loosing messages clear the buffer by force!!!
+            break;
         case CAN_EVENT_ERR_CHANNEL:          /* Channel error has occurred. */
-        case CAN_EVENT_TX_ABORTED:           /* Transmit abort event. */
-        case CAN_EVENT_ERR_GLOBAL:           /* Global error has occurred. */
-        case CAN_EVENT_TX_FIFO_EMPTY:       /* Transmit FIFO is empty. */
-        case CAN_EVENT_FIFO_MESSAGE_LOST:{
+        case CAN_EVENT_ERR_BUS_OFF:          /* error bus off event */
+        case CAN_EVENT_ERR_BUS_LOCK:         /* Bus lock detected (32 consecutive dominant bits). */
+        case CAN_EVENT_ERR_GLOBAL:  /* Global error has occurred. */
+        {
             this->tx_ready=false;
             this->rx_ready=false;
           break;
-        }
+        };
+
+
+
 
 	}
 
-	R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-    //led_update(lime, BSP_IO_LEVEL_LOW);
 }
 
 #endif

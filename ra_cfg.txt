@@ -1085,9 +1085,9 @@ FSP Configuration
     KSZ8091RNB Target: Disabled
     KSZ8041 Target: Disabled
     DP83620 Target: Disabled
-    ICS1894 Target: Enabled
+    ICS1894 Target: Disabled
     User Own Target: Disabled
-    Reference Clock: Enabled
+    Reference Clock: Default
     Automatic Phy LSI Initialization: Enabled
     
   Module "Azure RTOS NetX Duo Common"
@@ -1545,7 +1545,7 @@ FSP Configuration
     Name: High Speed Interface
     Stack size (bytes): 5000
     Priority: 2
-    Auto start: Disabled
+    Auto start: Enabled
     Time slicing interval (ticks): 1
     
     Instance "g_ip0 Azure RTOS NetX Duo IP Instance"
@@ -1593,7 +1593,7 @@ FSP Configuration
             PHY-LSI Address: 5
             PHY-LSI Reset Completion Timeout: 0x00020000
             Select MII type: RMII
-            Phy LSI type: ICS1894
+            Phy LSI type: Kit Component
             Port Custom Init Function: NULL
             Port Custom Link Partner Ability Get Function: NULL
             MII/RMII Register Access Wait-time: 8
@@ -1605,7 +1605,7 @@ FSP Configuration
     Name: Low Speed Interface
     Stack size (bytes): 1024
     Priority: 1
-    Auto start: Enabled
+    Auto start: Disabled
     Time slicing interval (ticks): 1
     
     Instance "g_canfd0 CAN FD Lite (r_canfdlite)"
@@ -1637,14 +1637,14 @@ FSP Configuration
       Reception: Message Buffers: Payload Size: 64 bytes
       Reception: FIFOs: FIFO 0: Enable: Enabled
       Reception: FIFOs: FIFO 0: Interrupt Mode: At Threshold Value
-      Reception: FIFOs: FIFO 0: Interrupt Threshold: 7/8 full
+      Reception: FIFOs: FIFO 0: Interrupt Threshold: 3/4 full
       Reception: FIFOs: FIFO 0: Payload Size: 64 bytes
       Reception: FIFOs: FIFO 0: Depth: 8 stages
       Reception: FIFOs: FIFO 1: Enable: Enabled
-      Reception: FIFOs: FIFO 1: Interrupt Mode: At Threshold Value
-      Reception: FIFOs: FIFO 1: Interrupt Threshold: 7/8 full
-      Reception: FIFOs: FIFO 1: Payload Size: 8 bytes
-      Reception: FIFOs: FIFO 1: Depth: 16 stages
+      Reception: FIFOs: FIFO 1: Interrupt Mode: Every Frame
+      Reception: FIFOs: FIFO 1: Interrupt Threshold: 1/8 full
+      Reception: FIFOs: FIFO 1: Payload Size: 64 bytes
+      Reception: FIFOs: FIFO 1: Depth: 4 stages
       Common FIFOs: FIFO 0: Enable: Disabled
       Common FIFOs: FIFO 0: Mode: Receive
       Common FIFOs: FIFO 0: RX Interrupt Enable: Enabled
@@ -1687,14 +1687,14 @@ FSP Configuration
       Reception: Message Buffers: Payload Size: 64 bytes
       Reception: FIFOs: FIFO 0: Enable: Enabled
       Reception: FIFOs: FIFO 0: Interrupt Mode: At Threshold Value
-      Reception: FIFOs: FIFO 0: Interrupt Threshold: 7/8 full
-      Reception: FIFOs: FIFO 0: Payload Size: 64 bytes
-      Reception: FIFOs: FIFO 0: Depth: 8 stages
+      Reception: FIFOs: FIFO 0: Interrupt Threshold: 3/4 full
+      Reception: FIFOs: FIFO 0: Payload Size: 8 bytes
+      Reception: FIFOs: FIFO 0: Depth: 48 stages
       Reception: FIFOs: FIFO 1: Enable: Enabled
-      Reception: FIFOs: FIFO 1: Interrupt Mode: At Threshold Value
-      Reception: FIFOs: FIFO 1: Interrupt Threshold: 7/8 full
+      Reception: FIFOs: FIFO 1: Interrupt Mode: Every Frame
+      Reception: FIFOs: FIFO 1: Interrupt Threshold: 1/8 full
       Reception: FIFOs: FIFO 1: Payload Size: 8 bytes
-      Reception: FIFOs: FIFO 1: Depth: 16 stages
+      Reception: FIFOs: FIFO 1: Depth: 4 stages
       Common FIFOs: FIFO 0: Enable: Disabled
       Common FIFOs: FIFO 0: Mode: Receive
       Common FIFOs: FIFO 0: RX Interrupt Enable: Enabled

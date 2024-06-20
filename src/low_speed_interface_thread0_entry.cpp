@@ -9,8 +9,8 @@
 #include "Data_structs/AutomataStructs.hpp"
 #include "Data_structs/Can-Header-Map/CAN_asdb.h"
 #include "Data_structs/Store.h"
-volatile can_frame_t frame;
-can_info_t info;
+
+
 
 void * interface_callback0_t;
 void * interface_callback1_t;
@@ -33,7 +33,7 @@ extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
           .destination =
             {
               .minimum_dlc = CANFD_MINIMUM_DLC_0,
-              .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_0,
+              .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_NONE,
               .fifo_select_flags = CANFD_RX_FIFO_0,
             }
       },{
@@ -52,7 +52,7 @@ extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
           .destination =
             {
               .minimum_dlc = CANFD_MINIMUM_DLC_0,
-              .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_1,
+              .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_NONE,
               .fifo_select_flags = CANFD_RX_FIFO_1,
             }
         }
@@ -60,44 +60,45 @@ extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
 };
 extern "C" const canfd_afl_entry_t p_canfd1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
       {
-          .id =
-            {
-              .id = 0x1FFFFFFF,
-              .frame_type = CAN_FRAME_TYPE_DATA,
-              .id_mode    = CAN_ID_MODE_EXTENDED,
-            },
-          .mask =
-            {
-              .mask_id         = 0,
-              .mask_frame_type = 1,
-              .mask_id_mode    = 1,
-            },
-          .destination =
-            {
-              .minimum_dlc = CANFD_MINIMUM_DLC_0,
-              .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_0,
-              .fifo_select_flags = CANFD_RX_FIFO_0,
-            }
-      },{
-          .id =
-            {
-              .id = 0x1FFFFFFF,
-              .frame_type = CAN_FRAME_TYPE_DATA,
-              .id_mode    = CAN_ID_MODE_STANDARD,
-            },
-          .mask =
-            {
-              .mask_id         = 0,
-              .mask_frame_type = 1,
-              .mask_id_mode    = 1,
-            },
-          .destination =
-            {
-              .minimum_dlc = CANFD_MINIMUM_DLC_0,
-              .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_1,
-              .fifo_select_flags = CANFD_RX_FIFO_1,
-            }
-        }
+               .id =
+                 {
+                   .id = 0x1FFFFFFF,
+                   .frame_type = CAN_FRAME_TYPE_DATA,
+                   .id_mode    = CAN_ID_MODE_EXTENDED,
+
+                 },
+               .mask =
+                 {
+                   .mask_id         = 0,
+                   .mask_frame_type = 1,
+                   .mask_id_mode    = 1,
+                 },
+               .destination =
+                 {
+                   .minimum_dlc = CANFD_MINIMUM_DLC_0,
+                   .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_NONE,
+                   .fifo_select_flags = CANFD_RX_FIFO_0,
+                 }
+           },{
+               .id =
+                 {
+                   .id = 0x1FFFFFFF,
+                   .frame_type = CAN_FRAME_TYPE_DATA,
+                   .id_mode    = CAN_ID_MODE_STANDARD,
+                 },
+               .mask =
+                 {
+                   .mask_id         = 0,
+                   .mask_frame_type = 1,
+                   .mask_id_mode    = 1,
+                 },
+               .destination =
+                 {
+                   .minimum_dlc = CANFD_MINIMUM_DLC_0,
+                   .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_NONE,
+                   .fifo_select_flags = CANFD_RX_FIFO_1,
+                 }
+             }
 
 };
 
@@ -113,7 +114,7 @@ void low_speed_interface_thread0_entry(void) {
 
     interface_callback1_t=(void *)&canfd1;
 
-
+    can_frame_t frame;
     frame.id = 0x69;
     frame.id_mode = CAN_ID_MODE_STANDARD;
     frame.type = CAN_FRAME_TYPE_DATA;
@@ -140,10 +141,7 @@ void low_speed_interface_thread0_entry(void) {
 
         led_blink(1, 1);
         canfd1->write((void *)&frame,0);
-        //R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
-        //MAP_ENCODE_AS_STATE(frame.data,0xFF);
-        //led_blink(6, 1);
-        //canfd0->write((void *)&frame,0);
+
         R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
 
     }
@@ -153,6 +151,7 @@ void low_speed_interface_thread0_entry(void) {
 
 /* Callback function */
 extern "C" void canfd0_callback(can_callback_args_t *p_args){
+
   if(interface_callback0_t != NULL){
       ((CanFDRen *)interface_callback0_t)->callbackHandle(p_args);
   }
@@ -163,3 +162,4 @@ extern "C" void canfd1_callback(can_callback_args_t *p_args){
       ((CanFDRen *)interface_callback1_t)->callbackHandle(p_args);
   }
 }
+

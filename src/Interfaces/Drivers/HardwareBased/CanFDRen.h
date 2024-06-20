@@ -36,12 +36,16 @@ class CanFDRen : AbstractPeripheralLayer{
 
         int channelInjection(canfd_instance_ctrl_t * _g_canfd_ctrl, const can_cfg_t * _g_canfd_cfg);
 
-        void* recv(void * data, uint32_t stream_size) override;
-        uint32_t	write(void *data, uint32_t stream_size) override;
+        uint32_t recv(void * data, uint32_t stream_size) override;
+        uint32_t recv(void* data, uint32_t buffer, uint32_t stream_size);
+
+        uint32_t	write(void *data, uint32_t stream_size=0) override;
         volatile bool rx_ready;
         volatile bool tx_ready;
 
         void callbackHandle(can_callback_args_t *p_args);
+        void decode();
+        void decodeImmediate();
     private:
         std::list<uint32_t> fbuffers_rx;
         canfd_instance_ctrl_t * g_canfd_ctrl;

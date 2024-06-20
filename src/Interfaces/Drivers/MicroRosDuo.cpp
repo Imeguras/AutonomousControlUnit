@@ -81,7 +81,7 @@ MicroRosDuo::MicroRosDuo() {
 MicroRosDuo::~MicroRosDuo() {
 	// TODO Auto-generated destructor stub
 }
-void* MicroRosDuo::recv(void * data, uint32_t stream_size){
+uint32_t MicroRosDuo::recv(void * data, uint32_t stream_size){
 	return this->EthDuo::recv(data, stream_size);
 }
 bool MicroRosDuo::_transport_open(struct uxrCustomTransport * transport){
