@@ -11,7 +11,7 @@ CANopenStack::CANopenStack(uint16_t node_id = 0){
     this->node_id = node_id;
     this->sdo_request_id = SDO_REQUEST_ADDRESS_COBID + node_id;
     this->sdo_response_id = SDO_RESPONSE_ADDRESS_COBID + node_id;
-    this->current_state = UNKNOWN;
+    this->current_state = STATUSWORD_UNKNOWN;
     this->target_reached = false;
     this->acuity_node_id = 6;
 
@@ -50,7 +50,7 @@ can_frame_stream CANopenStack::requestControlWordMessage(unsigned char highByte,
     return message;
 
 }
-can_frame_stream requestStatusWordMessage() const{
+can_frame_stream CANopenStack::requestStatusWordMessage() const{
     //TODO: wtf does the 0x41 mean??
     can_frame_stream message{
         0x40, 0x41, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00

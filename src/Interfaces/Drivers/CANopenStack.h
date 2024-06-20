@@ -46,7 +46,7 @@ enum NMT_COMMANDS
         Quick_stop_active       = 0b00000111,
         Fault_reaction_active   = 0b00001111,
         Fault                   = 0b00001000,
-        UNKNOWN
+        STATUSWORD_UNKNOWN
     };
 
     /**
