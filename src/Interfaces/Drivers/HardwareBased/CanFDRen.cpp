@@ -158,17 +158,38 @@ uint32_t CanFDRen::write(void *data, uint32_t stream_size){
 
 	return status;
 }
-void CanFDRen::decode(){
+uint32_t CanFDRen::decode(){
     //itterate over the fbuffers_rx iterator
     for (auto it = this->fbuffers_rx.begin (); it != this->fbuffers_rx.end (); it++){
         can_frame_t frame;
         this->recv((void *)&frame, *it,0);
-        //decode the messagecan_frame_t
+        //this->decodeImmediate(frame);
+        this->decodeImmediate(frame);
+
 
     }
+    return FSP_SUCCESS;
 }
-void CanFDRen::decodeImmediate(){
+uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
+    if(channel<0 || channel >1){
+        //TODO its probs not opened
+       return FSP_ERR_CAN_INIT_FAILED;
+    }
+    if (channel == 0){
+        //CANFD
+    }
+    else if (channel == 1){
+        //CAN
+        switch(frame.id){
+            case 0x585:
+                break;
+            default:
+                break;
+        };
 
+    }
+
+    return FSP_SUCCESS;
 }
 void CanFDRen::callbackHandle(can_callback_args_t *p_args){
   	switch (p_args->event){

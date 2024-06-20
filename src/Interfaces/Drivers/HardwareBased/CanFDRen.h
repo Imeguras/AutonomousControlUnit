@@ -44,8 +44,10 @@ class CanFDRen : AbstractPeripheralLayer{
         volatile bool tx_ready;
 
         void callbackHandle(can_callback_args_t *p_args);
-        void decode();
-        void decodeImmediate();
+        uint32_t decode();
+        uint32_t decodeImmediate(can_frame_t frame);
+    protected:
+        uint8_t channel=-1;
     private:
         std::list<uint32_t> fbuffers_rx;
         canfd_instance_ctrl_t * g_canfd_ctrl;
