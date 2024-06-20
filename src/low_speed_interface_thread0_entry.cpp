@@ -115,16 +115,27 @@ void low_speed_interface_thread0_entry(void) {
     interface_callback1_t=(void *)&canfd1;
 
     can_frame_t frame;
-    frame.id = 0x69;
-    frame.id_mode = CAN_ID_MODE_STANDARD;
-    frame.type = CAN_FRAME_TYPE_DATA;
-    frame.data[0]= 0x41;
-    frame.data[1]= 0x41;
-    frame.data[2]= 0x41;
-    frame.data[3]= 0x41;
-    frame.data[4]= 0x41;
+    can_frame_stream data = canfd1->currentCanOpenStack->nmt_message(NMT_START_REMOTE_NODE, 0);
+    memcpy(frame.data, &data, 8);
     frame.data_length_code = 8U;
     frame.options = 0;
+    frame.id_mode  = CAN_ID_MODE_STANDARD;
+    frame.type = CAN_FRAME_TYPE_DATA;
+
+    frame.id = canfd1->currentCanOpenStack->g_sdoRequestId();
+    canfd1->currentCanOpenStack->callback = std::bind(&CANopenStack::readStatusWordMessage, canfd1->currentCanOpenStack, std::placeholders::_1);
+    canfd1->write((void *)&frame,0);
+
+
+    //initialize the frame
+    while (canfd1->currentCanOpenStack->g_currentState () != Switch_on_disabled ){
+        R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+        //canfd1->decodeImmediate (frame);
+    }
+
+
+
+
     //frame.options = CANFD_FRAME_OPTION_BRS | CANFD_FRAME_OPTION_FD;
     /*critical_as temp_data;
      *
@@ -148,7 +159,6 @@ void low_speed_interface_thread0_entry(void) {
 
 
 }
-
 /* Callback function */
 extern "C" void canfd0_callback(can_callback_args_t *p_args){
 

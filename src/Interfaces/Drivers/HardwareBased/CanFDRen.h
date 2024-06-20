@@ -48,6 +48,7 @@ class CanFDRen : AbstractPeripheralLayer{
         uint32_t decode();
         uint32_t decodeImmediate(can_frame_t frame);
         CANopenStack * currentCanOpenStack;
+
     protected:
         uint8_t channel=-1;
     private:

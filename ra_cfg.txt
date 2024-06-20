@@ -1684,7 +1684,7 @@ FSP Configuration
       DLC Check: Disabled
       Flexible Data (FD): Payload Overflow: Truncate
       Reception: Message Buffers: Number of Buffers: 1
-      Reception: Message Buffers: Payload Size: 64 bytes
+      Reception: Message Buffers: Payload Size: 8 bytes
       Reception: FIFOs: FIFO 0: Enable: Enabled
       Reception: FIFOs: FIFO 0: Interrupt Mode: At Threshold Value
       Reception: FIFOs: FIFO 0: Interrupt Threshold: 3/4 full

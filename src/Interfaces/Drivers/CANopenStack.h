@@ -8,6 +8,7 @@
  */
 //
 #include <stdint.h>
+#include <functional>
 #ifndef INTERFACES_DRIVERS_CANOPENSTACK_H_
 #define INTERFACES_DRIVERS_CANOPENSTACK_H_
 typedef union{
@@ -75,12 +76,16 @@ public:
 
     uint16_t g_nodeId() const;
     StateMachine_StatusWord g_currentState() const;
-
-
+    uint16_t g_acuityNodeId() const;
+    uint16_t g_sdoRequestId() const;
+    uint16_t g_sdoResponseId() const;
     can_frame_stream nmt_message(NMT_COMMANDS command, uint16_t target_id);
     can_frame_stream requestStatusWordMessage() const;
+    StateMachine_StatusWord readStatusWordMessage(can_frame_stream);
+
     can_frame_stream requestControlWordMessage(unsigned char highByte, unsigned char lowByte) const;
-    StateMachine_StatusWord readStatusword_message(can_frame_stream);
+    //callback function for service
+    std::function<void (can_frame_stream frame)> callback;
 
 protected:
     uint16_t node_id;

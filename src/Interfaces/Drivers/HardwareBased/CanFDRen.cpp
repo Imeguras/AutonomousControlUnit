@@ -82,6 +82,8 @@ int CanFDRen::initialization(canfd_instance_ctrl_t * _g_canfd_ctrl, const can_cf
         this->initialized = true;
 
         if(this->channel ==1){
+            //Instantiate the CANopenStack
+            this->currentCanOpenStack = new CANopenStack(5);
 
         }
     }
@@ -189,6 +191,9 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
         //CAN
         switch(frame.id){
             case 0x585:
+                can_frame_stream _data;
+                memcpy(&_data, frame.data, 8);
+                this->currentCanOpenStack->callback(_data);
                 break;
             default:
                 break;
@@ -205,6 +210,8 @@ void CanFDRen::callbackHandle(can_callback_args_t *p_args){
             this->tx_ready=true;
             break;
         case CAN_EVENT_RX_COMPLETE:
+            //Check which fifo did we get the message from
+            p_args->buffer;
 
             this->fbuffers_rx.push_back(p_args->buffer);
             this->rx_ready=true;

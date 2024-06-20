@@ -17,7 +17,7 @@ CANopenStack::CANopenStack(uint16_t node_id = 0){
 
 
 }
-StateMachine_StatusWord CANopenStack::readStatusword_message(can_frame_stream can_frame_stream){
+StateMachine_StatusWord CANopenStack::readStatusWordMessage(can_frame_stream can_frame_stream){
     if( can_frame_stream.data1 == 0x41 || can_frame_stream.data2 == 0x60 ){
             uint16_t statusword = ( can_frame_stream.data5 << 8 ) | ( can_frame_stream.data4 );
             this->target_reached = statusword & 0b0000010000000000;
@@ -60,6 +60,15 @@ can_frame_stream CANopenStack::requestStatusWordMessage() const{
 
     return message;
 
+}
+uint16_t CANopenStack::g_acuityNodeId() const{
+    return this->acuity_node_id;
+}
+uint16_t CANopenStack::g_sdoRequestId() const{
+    return this->sdo_request_id;
+}
+uint16_t CANopenStack::g_sdoResponseId() const{
+    return this->sdo_response_id;
 }
 //TODO: Implementar
 CANopenStack::~CANopenStack(){
