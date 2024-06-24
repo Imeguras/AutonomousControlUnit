@@ -1545,7 +1545,7 @@ FSP Configuration
     Name: High Speed Interface
     Stack size (bytes): 5000
     Priority: 2
-    Auto start: Enabled
+    Auto start: Disabled
     Time slicing interval (ticks): 1
     
     Instance "g_ip0 Azure RTOS NetX Duo IP Instance"
@@ -1605,7 +1605,7 @@ FSP Configuration
     Name: Low Speed Interface
     Stack size (bytes): 1024
     Priority: 1
-    Auto start: Disabled
+    Auto start: Enabled
     Time slicing interval (ticks): 1
     
     Instance "g_canfd0 CAN FD Lite (r_canfdlite)"
@@ -1625,7 +1625,7 @@ FSP Configuration
       Bitrate: Manual: Data: Sync Jump Width (Tq): 1
       Bitrate: Manual: Use manual settings: No
       Interrupts: Callback: canfd0_callback
-      Transmit Interrupts: 
+      Transmit Interrupts: TXMB 0, TXMB 1, TXMB 2, TXMB 3
       Channel Error Interrupts: Error Warning, Error Passive, Bus-Off Entry, Bus-Off Recovery, Overload
       Interrupts: Channel Interrupt Priority Level: Priority 5
       Filter List Array: p_canfd0_afl
@@ -1675,7 +1675,7 @@ FSP Configuration
       Bitrate: Manual: Data: Sync Jump Width (Tq): 1
       Bitrate: Manual: Use manual settings: No
       Interrupts: Callback: canfd1_callback
-      Transmit Interrupts: 
+      Transmit Interrupts: TXMB 0, TXMB 1, TXMB 2, TXMB 3
       Channel Error Interrupts: Error Warning, Error Passive, Bus-Off Entry, Bus-Off Recovery, Overload
       Interrupts: Channel Interrupt Priority Level: Priority 5
       Filter List Array: p_canfd1_afl
@@ -1683,7 +1683,7 @@ FSP Configuration
       Transmission Priority: Buffer Number
       DLC Check: Disabled
       Flexible Data (FD): Payload Overflow: Truncate
-      Reception: Message Buffers: Number of Buffers: 1
+      Reception: Message Buffers: Number of Buffers: 0
       Reception: Message Buffers: Payload Size: 8 bytes
       Reception: FIFOs: FIFO 0: Enable: Enabled
       Reception: FIFOs: FIFO 0: Interrupt Mode: At Threshold Value
@@ -1713,6 +1713,14 @@ FSP Configuration
     Name: KickStart_Rainbow
     Stack size (bytes): 512
     Priority: 0
+    Auto start: Enabled
+    Time slicing interval (ticks): 1
+    
+  Thread "New Thread"
+    Symbol: new_thread0
+    Name: New Thread
+    Stack size (bytes): 1024
+    Priority: 1
     Auto start: Enabled
     Time slicing interval (ticks): 1
     

@@ -378,7 +378,7 @@
       <property id="module.driver.canfdlite.manual.data.sync_jump_width" value="1"/>
       <property id="module.driver.canfdlite.bitrate.manual.use_manual" value="module.driver.canfdlite.bitrate.manual.use_manual.disabled"/>
       <property id="module.driver.canfdlite.p_callback" value="canfd0_callback"/>
-      <property id="module.driver.canfdlite.txmb.int" value=""/>
+      <property id="module.driver.canfdlite.txmb.int" value="module.driver.canfd.txmb.int.0,module.driver.canfd.txmb.int.1,module.driver.canfd.txmb.int.2,module.driver.canfd.txmb.int.3"/>
       <property id="module.driver.canfdlite.ch_err.int" value="module.driver.canfdlite.ch_err.int.err_warning,module.driver.canfdlite.ch_err.int.err_passive,module.driver.canfdlite.ch_err.int.bus_off_entry,module.driver.canfdlite.ch_err.int.bus_off_recovery,module.driver.canfdlite.ch_err.int.overload"/>
       <property id="module.driver.canfdlite.ipl" value="board.icu.common.irq.priority5"/>
       <property id="module.driver.canfdlite.afl_array" value="p_canfd0_afl"/>
@@ -428,7 +428,7 @@
       <property id="module.driver.canfdlite.manual.data.sync_jump_width" value="1"/>
       <property id="module.driver.canfdlite.bitrate.manual.use_manual" value="module.driver.canfdlite.bitrate.manual.use_manual.disabled"/>
       <property id="module.driver.canfdlite.p_callback" value="canfd1_callback"/>
-      <property id="module.driver.canfdlite.txmb.int" value=""/>
+      <property id="module.driver.canfdlite.txmb.int" value="module.driver.canfd.txmb.int.0,module.driver.canfd.txmb.int.1,module.driver.canfd.txmb.int.2,module.driver.canfd.txmb.int.3"/>
       <property id="module.driver.canfdlite.ch_err.int" value="module.driver.canfdlite.ch_err.int.err_warning,module.driver.canfdlite.ch_err.int.err_passive,module.driver.canfdlite.ch_err.int.bus_off_entry,module.driver.canfdlite.ch_err.int.bus_off_recovery,module.driver.canfdlite.ch_err.int.overload"/>
       <property id="module.driver.canfdlite.ipl" value="board.icu.common.irq.priority5"/>
       <property id="module.driver.canfdlite.afl_array" value="p_canfd1_afl"/>
@@ -436,7 +436,7 @@
       <property id="module.driver.canfdlite.tx_priority" value="module.driver.canfdlite.tx_priority.buffer"/>
       <property id="module.driver.canfdlite.dlc_check" value="module.driver.canfdlite.dlc_check.disabled"/>
       <property id="module.driver.canfdlite.fd.overflow" value="module.driver.canfdlite.fd.overflow.truncate"/>
-      <property id="module.driver.canfdlite.rxmb.number" value="1"/>
+      <property id="module.driver.canfdlite.rxmb.number" value="0"/>
       <property id="module.driver.canfdlite.rxmb.size" value="module.driver.canfdlite.rxmb.size.8"/>
       <property id="module.driver.canfdlite.rxfifo.0.enable" value="module.driver.canfdlite.rxfifo.0.enable.enabled"/>
       <property id="module.driver.canfdlite.rxfifo.0.int_mode" value="enum.driver.canfd.fifo.int_mode.threshold"/>
@@ -471,7 +471,7 @@
       <property id="rtos.threadx.thread.name" value="High Speed Interface"/>
       <property id="rtos.threadx.thread.stack" value="5000"/>
       <property id="rtos.threadx.thread.priority" value="2"/>
-      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
       <stack module="module.azure.nxd.ip.1012628965">
         <stack module="module.azure.nxd.packet_pool.869584768" requires="module.azure.nxd.ip.requires.nxd.packet_pool"/>
@@ -488,7 +488,7 @@
       <property id="rtos.threadx.thread.name" value="Low Speed Interface"/>
       <property id="rtos.threadx.thread.stack" value="1024"/>
       <property id="rtos.threadx.thread.priority" value="1"/>
-      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.disabled"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
       <stack module="module.driver.canfd_on_canfdlite.912504583"/>
       <stack module="module.driver.canfd_on_canfdlite.74538936"/>
@@ -498,6 +498,14 @@
       <property id="rtos.threadx.thread.name" value="KickStart_Rainbow"/>
       <property id="rtos.threadx.thread.stack" value="512"/>
       <property id="rtos.threadx.thread.priority" value="0"/>
+      <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
+      <property id="rtos.threadx.thread.timeslice" value="1"/>
+    </context>
+    <context id="rtos.threadx.thread.1090676163">
+      <property id="_symbol" value="new_thread0"/>
+      <property id="rtos.threadx.thread.name" value="New Thread"/>
+      <property id="rtos.threadx.thread.stack" value="1024"/>
+      <property id="rtos.threadx.thread.priority" value="1"/>
       <property id="rtos.threadx.thread.autostart" value="rtos.threadx.thread.autostart.enabled"/>
       <property id="rtos.threadx.thread.timeslice" value="1"/>
     </context>

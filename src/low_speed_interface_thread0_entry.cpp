@@ -106,6 +106,7 @@ extern "C" void canfd0_callback(can_callback_args_t * p_args);
 extern "C" void canfd1_callback(can_callback_args_t * p_args);
 
 void low_speed_interface_thread0_entry(void) {
+
     HighSpeed_AbsL<CanFDRen> canfd0;
     HighSpeed_AbsL<CanFDRen> canfd1;
 
@@ -114,17 +115,28 @@ void low_speed_interface_thread0_entry(void) {
 
     interface_callback1_t=(void *)&canfd1;
 
+
     can_frame_t frame;
     can_frame_stream data = canfd1->currentCanOpenStack->nmt_message(NMT_START_REMOTE_NODE, 0);
+
     memcpy(frame.data, &data, 8);
     frame.data_length_code = 8U;
     frame.options = 0;
     frame.id_mode  = CAN_ID_MODE_STANDARD;
     frame.type = CAN_FRAME_TYPE_DATA;
+    frame.id = NMT_ADDRESS_COBID;//NMT_ADDRESS_COBID;
+    //while(1){
+        canfd1->write((void *)&frame,0);
+    //    }
 
-    frame.id = canfd1->currentCanOpenStack->g_sdoRequestId();
-    canfd1->currentCanOpenStack->callback = std::bind(&CANopenStack::readStatusWordMessage, canfd1->currentCanOpenStack, std::placeholders::_1);
+    R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
     canfd1->write((void *)&frame,0);
+    frame.id = canfd1->currentCanOpenStack->g_sdoRequestId();
+
+    data = canfd1->currentCanOpenStack->requestStatusWordMessage();
+    memcpy(frame.data, &data, 8);
+    canfd1->write((void *)&frame,0);
+
 
 
     //initialize the frame
@@ -132,6 +144,7 @@ void low_speed_interface_thread0_entry(void) {
         R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
         //canfd1->decodeImmediate (frame);
     }
+
 
 
 

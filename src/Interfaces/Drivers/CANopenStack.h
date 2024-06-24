@@ -100,7 +100,7 @@ private:
 
 };
 //DEFINiTION STUFF
-
+//TODO Migrate this to the can Library
 #define SDO_REQUEST_ADDRESS_COBID 0x600
 #define SDO_RESPONSE_ADDRESS_COBID 0x580
 #define NMT_ADDRESS_COBID 0x000

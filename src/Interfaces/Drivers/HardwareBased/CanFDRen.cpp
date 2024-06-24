@@ -14,12 +14,13 @@
 #include "utils.h"
 
 
-
+bool ja_usado = false;
 #if defined(BSP_FEATURE_CANFD_FD_SUPPORT) || defined(BSP_FEATURE_CANFD_LITE)
 
 CanFDRen::CanFDRen()  {
     this->g_canfd_ctrl= NULL;
     this->g_canfd_cfg= NULL;
+    this->currentCanOpenStack = NULL;
 
 }
 
@@ -108,6 +109,11 @@ int CanFDRen::channelInjection(canfd_instance_ctrl_t * _g_canfd_ctrl, const can_
     }
     return FSP_SUCCESS;
 }
+uint32_t CanFDRen::close(){
+    R_CANFD_Close(this->g_canfd_ctrl);
+    return 0;
+
+}
 //TODO: This function should be probs split or its focus should be rethinked
 bool CanFDRen::checkCanChannelAnyUsed(uint16_t * fetch_channelId){
 
@@ -167,20 +173,20 @@ uint32_t CanFDRen::write(void *data, uint32_t stream_size){
 
 	return status;
 }
-uint32_t CanFDRen::decode(){
-    //itterate over the fbuffers_rx iterator
-    for (auto it = this->fbuffers_rx.begin (); it != this->fbuffers_rx.end (); it++){
-        can_frame_t frame;
-        this->recv((void *)&frame, *it,0);
-        //this->decodeImmediate(frame);
-        this->decodeImmediate(frame);
+uint32_t CanFDRen::decode(uint32_t buffer){
+    //itterate over
+    can_info_t info;
 
-
-    }
+    do{
+        R_CANFD_InfoGet(this->g_canfd_ctrl, &info);
+        can_frame_t p_frame;
+        R_CANFD_Read(g_canfd_ctrl, buffer, &p_frame);
+        decodeImmediate(p_frame);
+    }while(info.rx_fifo_status != 1);
     return FSP_SUCCESS;
 }
 uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
-    if(channel<0 || channel >1){
+    if(channel >1){
         //TODO its probs not opened
        return FSP_ERR_CAN_INIT_FAILED;
     }
@@ -190,6 +196,12 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
     else if (channel == 1){
         //CAN
         switch(frame.id){
+            //TODO fix this shyte
+            case 0x580:
+            case 0x581:
+            case 0x582:
+            case 0x583:
+            case 0x584:
             case 0x585:
                 can_frame_stream _data;
                 memcpy(&_data, frame.data, 8);
@@ -206,15 +218,16 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
 void CanFDRen::callbackHandle(can_callback_args_t *p_args){
   	switch (p_args->event){
         case CAN_EVENT_TX_COMPLETE:
-            leds_update(ambar, BSP_IO_LEVEL_HIGH);
+
             this->tx_ready=true;
+            //led_flip(1);
             break;
         case CAN_EVENT_RX_COMPLETE:
-            //Check which fifo did we get the message from
-            p_args->buffer;
 
-            this->fbuffers_rx.push_back(p_args->buffer);
             this->rx_ready=true;
+            //led_flip(2);
+
+            decode(p_args->buffer);
             break;
         case CAN_EVENT_TX_ABORTED:           /* Transmit abort event. */
         case CAN_EVENT_TX_FIFO_EMPTY:       /* Transmit FIFO is empty. */

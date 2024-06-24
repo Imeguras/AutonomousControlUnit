@@ -40,9 +40,11 @@ StateMachine_StatusWord CANopenStack::g_currentState() const{
  */
 can_frame_stream CANopenStack::nmt_message(NMT_COMMANDS command, uint16_t target_id=0)
 {
-    can_frame_stream message;
+    can_frame_stream message = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
     message.data0 = command;
-    message.data1 = target_id;
+    message.data1 = (uint8_t)target_id;
+
     return message;
 }
 can_frame_stream CANopenStack::requestControlWordMessage(unsigned char highByte, unsigned char lowByte) const{
