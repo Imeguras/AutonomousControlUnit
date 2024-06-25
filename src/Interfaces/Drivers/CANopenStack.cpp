@@ -8,14 +8,9 @@
 #include <Interfaces/Drivers/CANopenStack.h>
 
 CANopenStack::CANopenStack(uint16_t node_id = 0){
-    this->node_id = node_id;
-    this->sdo_request_id = SDO_REQUEST_ADDRESS_COBID + node_id;
-    this->sdo_response_id = SDO_RESPONSE_ADDRESS_COBID + node_id;
     this->current_state = STATUSWORD_UNKNOWN;
     this->target_reached = false;
-    this->acuity_node_id = 6;
-
-
+    this->acuity_node_id = node_id;
 }
 StateMachine_StatusWord CANopenStack::readStatusWordMessage(can_frame_stream can_frame_stream){
     if( can_frame_stream.data1 == 0x41 || can_frame_stream.data2 == 0x60 ){
@@ -25,10 +20,15 @@ StateMachine_StatusWord CANopenStack::readStatusWordMessage(can_frame_stream can
         }
     return this->current_state;
 }
-
-uint16_t CANopenStack::g_nodeId() const{
-    return this->node_id;
+std::vector<int> CANopenStack::g_bootedNodes() const{
+    return this->booted_nodes;
 }
+void CANopenStack::a_bootedNodes(int node_id){
+    this->booted_nodes.push_back (node_id);
+
+}
+
+
 StateMachine_StatusWord CANopenStack::g_currentState() const{
     return this->current_state;
 }
@@ -66,12 +66,7 @@ can_frame_stream CANopenStack::requestStatusWordMessage() const{
 uint16_t CANopenStack::g_acuityNodeId() const{
     return this->acuity_node_id;
 }
-uint16_t CANopenStack::g_sdoRequestId() const{
-    return this->sdo_request_id;
-}
-uint16_t CANopenStack::g_sdoResponseId() const{
-    return this->sdo_response_id;
-}
+
 //TODO: Implementar
 CANopenStack::~CANopenStack(){
     // TODO Auto-generated destructor stub

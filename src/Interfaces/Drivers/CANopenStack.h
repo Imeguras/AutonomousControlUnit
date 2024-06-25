@@ -9,8 +9,10 @@
 //
 #include <stdint.h>
 #include <functional>
+#include <vector>
 #ifndef INTERFACES_DRIVERS_CANOPENSTACK_H_
 #define INTERFACES_DRIVERS_CANOPENSTACK_H_
+#define REMOTE_NODE_ID 0x05
 typedef union{
     uint8_t data[8];
     struct
@@ -74,25 +76,23 @@ public:
     CANopenStack& operator=(const CANopenStack &other);
     CANopenStack& operator=(CANopenStack &&other);
 
-    uint16_t g_nodeId() const;
     StateMachine_StatusWord g_currentState() const;
     uint16_t g_acuityNodeId() const;
-    uint16_t g_sdoRequestId() const;
-    uint16_t g_sdoResponseId() const;
     can_frame_stream nmt_message(NMT_COMMANDS command, uint16_t target_id);
     can_frame_stream requestStatusWordMessage() const;
     StateMachine_StatusWord readStatusWordMessage(can_frame_stream);
+    std::vector<int> g_bootedNodes() const;
+    void a_bootedNodes(int node_id);
+
 
     can_frame_stream requestControlWordMessage(unsigned char highByte, unsigned char lowByte) const;
     //callback function for service
     std::function<void (can_frame_stream frame)> callback;
 
 protected:
-    uint16_t node_id;
     //TODO: this is a future implementation
     uint16_t acuity_node_id;
-    uint16_t sdo_request_id;
-    uint16_t sdo_response_id;
+    std::vector<int> booted_nodes;
     StateMachine_StatusWord current_state;
 private:
     //TODO THE DUCK is this? is it a CiA thing or a CanOpen thing
@@ -101,8 +101,10 @@ private:
 };
 //DEFINiTION STUFF
 //TODO Migrate this to the can Library
-#define SDO_REQUEST_ADDRESS_COBID 0x600
-#define SDO_RESPONSE_ADDRESS_COBID 0x580
-#define NMT_ADDRESS_COBID 0x000
+#define SDO_REQUEST_ADDRESS_COBID() (0x600+REMOTE_NODE_ID)
+#define SDO_RESPONSE_ADDRESS_COBID() (0x580+REMOTE_NODE_ID)
+#define BOOTUP_ADDRESS_COBID() (0x700+REMOTE_NODE_ID)
+#define NMT_ADDRESS_COBID() (0x000)
+
 
 #endif /* INTERFACES_DRIVERS_CANOPENSTACK_H_ */

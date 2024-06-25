@@ -33,7 +33,7 @@ extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
           .destination =
             {
               .minimum_dlc = CANFD_MINIMUM_DLC_0,
-              .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_NONE,
+              .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_BUFFER_FIFO_0,
               .fifo_select_flags = CANFD_RX_FIFO_0,
             }
       },{
@@ -52,7 +52,7 @@ extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
           .destination =
             {
               .minimum_dlc = CANFD_MINIMUM_DLC_0,
-              .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_NONE,
+              .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_BUFFER_FIFO_1,
               .fifo_select_flags = CANFD_RX_FIFO_1,
             }
         }
@@ -64,7 +64,7 @@ extern "C" const canfd_afl_entry_t p_canfd1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
                  {
                    .id = 0x1FFFFFFF,
                    .frame_type = CAN_FRAME_TYPE_DATA,
-                   .id_mode    = CAN_ID_MODE_EXTENDED,
+                   .id_mode    = CAN_ID_MODE_STANDARD,
 
                  },
                .mask =
@@ -76,7 +76,7 @@ extern "C" const canfd_afl_entry_t p_canfd1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
                .destination =
                  {
                    .minimum_dlc = CANFD_MINIMUM_DLC_0,
-                   .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_NONE,
+                   .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_BUFFER_FIFO_0,
                    .fifo_select_flags = CANFD_RX_FIFO_0,
                  }
            },{
@@ -95,7 +95,7 @@ extern "C" const canfd_afl_entry_t p_canfd1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
                .destination =
                  {
                    .minimum_dlc = CANFD_MINIMUM_DLC_0,
-                   .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_MB_NONE,
+                   .rx_buffer   = (canfd_rx_mb_t) CANFD_RX_BUFFER_FIFO_1,
                    .fifo_select_flags = CANFD_RX_FIFO_1,
                  }
              }
@@ -110,32 +110,34 @@ void low_speed_interface_thread0_entry(void) {
     HighSpeed_AbsL<CanFDRen> canfd0;
     HighSpeed_AbsL<CanFDRen> canfd1;
 
-    //canfd1->channelInjection((canfd_instance_ctrl_t&)g_canfd1_ctrl, (can_cfg_t&)g_canfd1_cfg);
     interface_callback0_t=(void *)&canfd0;
 
     interface_callback1_t=(void *)&canfd1;
 
 
     can_frame_t frame;
-    can_frame_stream data = canfd1->currentCanOpenStack->nmt_message(NMT_START_REMOTE_NODE, 0);
-
-    memcpy(frame.data, &data, 8);
+    frame.id = NMT_ADDRESS_COBID();
     frame.data_length_code = 8U;
-    frame.options = 0;
+
     frame.id_mode  = CAN_ID_MODE_STANDARD;
     frame.type = CAN_FRAME_TYPE_DATA;
-    frame.id = NMT_ADDRESS_COBID;//NMT_ADDRESS_COBID;
-    //while(1){
-        canfd1->write((void *)&frame,0);
-    //    }
 
-    R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
-    canfd1->write((void *)&frame,0);
-    frame.id = canfd1->currentCanOpenStack->g_sdoRequestId();
+    frame.options = 0;
 
-    data = canfd1->currentCanOpenStack->requestStatusWordMessage();
-    memcpy(frame.data, &data, 8);
+    can_frame_stream _data = canfd1->currentCanOpenStack->nmt_message(NMT_ENTER_PRE_OPERATIONAL, 0);
+    memcpy(frame.data, &_data.data, 8);
     canfd1->write((void *)&frame,0);
+    R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+    _data = canfd1->currentCanOpenStack->nmt_message(NMT_START_REMOTE_NODE, 0);
+    memcpy(frame.data, &_data.data, 8);
+    canfd1->write((void *)&frame,0);
+    R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+
+    frame.id = SDO_REQUEST_ADDRESS_COBID();
+    can_frame_stream _data2 = canfd1->currentCanOpenStack->requestStatusWordMessage();
+    memcpy(frame.data, &_data2.data, 8);
+    canfd1->write((void *)&frame,0);
+
 
 
 
