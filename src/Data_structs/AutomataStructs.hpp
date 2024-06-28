@@ -16,7 +16,6 @@ enum critical_as_state {
 	UNKNOWN
 
 };
-
 template<typename T>
 class critical_as_int8{
 	public: 

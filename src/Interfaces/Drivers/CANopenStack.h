@@ -78,33 +78,32 @@ public:
 
     StateMachine_StatusWord g_currentState() const;
     uint16_t g_acuityNodeId() const;
-    can_frame_stream nmt_message(NMT_COMMANDS command, uint16_t target_id);
-    can_frame_stream requestStatusWordMessage() const;
+    can_frame_stream& nmt_message(NMT_COMMANDS command, uint16_t target_id);
+    can_frame_stream& requestStatusWordMessage();
+    can_frame_stream& requestControlWordMessage(unsigned char highByte, unsigned char lowByte);
     StateMachine_StatusWord readStatusWordMessage(can_frame_stream);
     std::vector<int> g_bootedNodes() const;
     void a_bootedNodes(int node_id);
 
 
-    can_frame_stream requestControlWordMessage(unsigned char highByte, unsigned char lowByte) const;
+
     //callback function for service
     std::function<void (can_frame_stream frame)> callback;
+    can_frame_stream _temp;
 
 protected:
     //TODO: this is a future implementation
     uint16_t acuity_node_id;
     std::vector<int> booted_nodes;
     StateMachine_StatusWord current_state;
+
 private:
     //TODO THE DUCK is this? is it a CiA thing or a CanOpen thing
     bool target_reached;
 
 };
 //DEFINiTION STUFF
-//TODO Migrate this to the can Library
-#define SDO_REQUEST_ADDRESS_COBID() (0x600+REMOTE_NODE_ID)
-#define SDO_RESPONSE_ADDRESS_COBID() (0x580+REMOTE_NODE_ID)
-#define BOOTUP_ADDRESS_COBID() (0x700+REMOTE_NODE_ID)
-#define NMT_ADDRESS_COBID() (0x000)
+
 
 
 #endif /* INTERFACES_DRIVERS_CANOPENSTACK_H_ */

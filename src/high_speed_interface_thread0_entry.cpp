@@ -1,3 +1,4 @@
+#include <Data_structs/Store.cpp>
 #include <high_speed_interface_thread0.h>
 #include <string.h>
 #include <functional>
@@ -18,7 +19,6 @@
 #include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
 
 #include "Data_structs/AutomataStructs.hpp"
-#include "Data_structs/Store.h"
 #include "utils.h"
 
 #define TX_DATA_HIGH_SPEED_TIMEOUT 32

@@ -14,6 +14,10 @@
 #include "utils.h"
 #include "../../../Data_structs/Can-Header-Map/CAN_asdb.h"
 
+#include "../../../Data_structs/Can-Header-Map/CANOPEN_maxondb.h"
+#include "../../../Data_structs/Store.cpp"
+
+
 bool ja_usado = false;
 #if defined(BSP_FEATURE_CANFD_FD_SUPPORT) || defined(BSP_FEATURE_CANFD_LITE)
 
@@ -193,21 +197,44 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
         //TODO its probs not opened
        return FSP_ERR_CAN_INIT_FAILED;
     }
+    store::Store * store = store::Store::getInstance();
+
     if (channel == 0){
         //CANFD
     }
     else if (channel == 1){
         //CAN
+        can_frame_stream _data={0,0,0,0,0,0,0,0};
+        int32_t position =0;
+        int16_t momentum = 0;
+        store::_Maxon_t maxon = __LART_STRUCTS__MAXON_T_RESET;
         switch(frame.id){
             //TODO fix this shyte
-
+            case CAN_AS_DATALOGGER:
+                break;
             case BOOTUP_ADDRESS_COBID():
                 this->currentCanOpenStack->a_bootedNodes(5);
                 break;
             case SDO_RESPONSE_ADDRESS_COBID():
-                can_frame_stream _data;
                 memcpy(&_data, frame.data, 8);
                 this->currentCanOpenStack->callback(_data);
+                break;
+            case PDO_TXONE_MAXON():
+                break;
+            case PDO_TXTWO_MAXON():
+                break;
+            case PDO_TXTHREE_MAXON():
+                //Decode
+                position = MAP_DECODE_PDO_TXTHREE_ACTUAL_POSITION(_data.data);
+                momentum= MAP_DECODE_PDO_TXTHREE_ACTUAL_MOMENT(_data.data);
+                //Mold the blank struct
+                maxon.actual_position = position;
+                maxon.actual_torque = momentum;
+                //Apply the struct to the store
+                store->maxon = maxon;
+                break;
+            case PDO_TXFOUR_MAXON():
+
                 break;
 
             default:
@@ -227,12 +254,10 @@ void CanFDRen::callbackHandle(can_callback_args_t *p_args){
             led_flip(1);
             break;
         case CAN_EVENT_RX_COMPLETE:
-
             this->rx_ready=true;
-            led_flip(2);
             buf=  p_args->buffer;
-
             decode(buf);
+            led_flip(2);
             break;
 
         case CAN_EVENT_TX_ABORTED:           /* Transmit abort event. */

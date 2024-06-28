@@ -11,6 +11,7 @@ CANopenStack::CANopenStack(uint16_t node_id = 0){
     this->current_state = STATUSWORD_UNKNOWN;
     this->target_reached = false;
     this->acuity_node_id = node_id;
+    this->_temp = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 }
 StateMachine_StatusWord CANopenStack::readStatusWordMessage(can_frame_stream can_frame_stream){
     if( can_frame_stream.data1 == 0x41 || can_frame_stream.data2 == 0x60 ){
@@ -38,30 +39,21 @@ StateMachine_StatusWord CANopenStack::g_currentState() const{
  * @param target_id default is 0 and it means that the command is for all nodes
  * @return
  */
-can_frame_stream CANopenStack::nmt_message(NMT_COMMANDS command, uint16_t target_id=0)
-{
-    can_frame_stream message = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-    message.data0 = command;
-    message.data1 = (uint8_t)target_id;
-
-    return message;
+can_frame_stream& CANopenStack::nmt_message(NMT_COMMANDS command, uint16_t target_id=0){
+    _temp = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    _temp.data0 = command;
+    _temp.data1 = (uint8_t)target_id;
+    return (can_frame_stream&)_temp;
 }
-can_frame_stream CANopenStack::requestControlWordMessage(unsigned char highByte, unsigned char lowByte) const{
-    can_frame_stream message{0x2B, 0x40, 0x60, 0x00, lowByte, highByte, 0x00, 0x00};
-    return message;
+can_frame_stream& CANopenStack::requestControlWordMessage(unsigned char highByte, unsigned char lowByte) {
+     _temp = {0x2B, 0x40, 0x60, 0x00, lowByte, highByte, 0x00, 0x00};
+    return (can_frame_stream&)_temp;
 
 }
-can_frame_stream CANopenStack::requestStatusWordMessage() const{
+can_frame_stream& CANopenStack::requestStatusWordMessage(){
     //TODO: wtf does the 0x41 mean??
-    can_frame_stream message{
-        0x40, 0x41, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00
-    };
-
-
-
-    return message;
-
+    _temp = {0x40, 0x41, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00};
+    return (can_frame_stream&)_temp;
 }
 uint16_t CANopenStack::g_acuityNodeId() const{
     return this->acuity_node_id;
