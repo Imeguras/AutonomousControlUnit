@@ -25,4 +25,5 @@ class AbstractPeripheralLayer {
         virtual uint32_t write(void *data, uint32_t stream_size) = 0;
     protected:
         bool initialized=false;
+
 };

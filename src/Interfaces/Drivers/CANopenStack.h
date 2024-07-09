@@ -12,7 +12,7 @@
 #include <vector>
 #ifndef INTERFACES_DRIVERS_CANOPENSTACK_H_
 #define INTERFACES_DRIVERS_CANOPENSTACK_H_
-#define REMOTE_NODE_ID 0x05
+#define REMOTE_NODE_ID 0x005
 typedef union{
     uint8_t data[8];
     struct
@@ -88,7 +88,7 @@ public:
 
 
     //callback function for service
-    std::function<void (can_frame_stream frame)> callback;
+    std::function<StateMachine_StatusWord (can_frame_stream frame)> callback;
     can_frame_stream _temp;
 
 protected:

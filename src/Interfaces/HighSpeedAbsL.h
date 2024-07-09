@@ -20,7 +20,7 @@ public:
 	virtual ~HighSpeed_AbsL();
 	HighSpeed_AbsL(const HighSpeed_AbsL &&other);
 	HighSpeed_AbsL& operator=(const HighSpeed_AbsL&& other);
-	std::weak_ptr<APL> g_AplHandle();
+	APL* g_AplHandle();
 	APL*  operator->();
 
 

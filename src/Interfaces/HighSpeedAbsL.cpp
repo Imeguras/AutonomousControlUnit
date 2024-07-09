@@ -64,10 +64,10 @@ template<typename APL> HighSpeed_AbsL<APL>::HighSpeed_AbsL(const HighSpeed_AbsL&
     return;
 }
 template<typename APL>
-std::weak_ptr<APL> HighSpeed_AbsL<APL>::g_AplHandle(){
+APL* HighSpeed_AbsL<APL>::g_AplHandle(){
 	//TODO: yeah this is dangerous af
-	std::weak_ptr<APL> weak = apl_handle;
-	return weak;
+	//std::weak_ptr<APL> weak = apl_handle;
+	return this->apl_handle.get();
 }
 template<typename APL>
 HighSpeed_AbsL<APL>& HighSpeed_AbsL<APL>::operator=(const HighSpeed_AbsL<APL>&& other) {

@@ -44,7 +44,7 @@ int CanFDRen::initialization(){
         return FSP_ERR_ALREADY_OPEN;
 
     }
-    uint16_t channel_selected =-1;
+    this->channel =-1;
 
     canfd_instance_ctrl_t  * tmp_canfd_ctrl;
     const can_cfg_t * tmp_canfd_cfg;
@@ -63,7 +63,7 @@ int CanFDRen::initialization(){
     int ret_init = this->initialization(tmp_canfd_ctrl, tmp_canfd_cfg);
         if(FSP_SUCCESS == ret_init){
 
-            s_canStateKernel(channel_selected, OCCUPIED);
+            s_canStateKernel(this->channel, OCCUPIED);
 
         }
     return ret_init;
@@ -151,7 +151,19 @@ uint32_t CanFDRen::recv(void* data, uint32_t buffer=CANFD_RX_BUFFER_FIFO_0, uint
     {
         return (uint32_t)FSP_ERR_CAN_DATA_UNAVAILABLE;
     }
-    uint32_t status = (uint32_t)R_CANFD_Read(this->g_canfd_ctrl, buffer, (can_frame_t *)data);
+    can_info_t info = {
+         .status  = 0,
+         .rx_mb_status = 0,
+         .rx_fifo_status = 0,
+         .error_count_transmit = 0,
+         .error_count_receive = 0,
+         .error_code = 0
+    };
+    R_CANFD_InfoGet(this->g_canfd_ctrl, &info);
+
+    can_frame_t p_frame;
+    uint32_t status = R_CANFD_Read(this->g_canfd_ctrl, buffer, &p_frame);
+
 
     return status;
 }
@@ -167,8 +179,17 @@ uint32_t CanFDRen::write(void *data, uint32_t stream_size){
 //	while(this->tx_ready != true) {
 //
 //	}
+    can_info_t info = {
+         .status  = 0,
+         .rx_mb_status = 0,
+         .rx_fifo_status = 0,
+         .error_count_transmit = 0,
+         .error_count_receive = 0,
+         .error_code = 0
+    };
 
- 	UINT status = R_CANFD_Write(this->g_canfd_ctrl, 0, (can_frame_t *)data);
+    R_CANFD_InfoGet(this->g_canfd_ctrl, &info);
+ 	UINT status = R_CANFD_Write(this->g_canfd_ctrl, CANFD_TX_MB_0, (can_frame_t *)data);
 
 	this->tx_ready=false;
 
@@ -184,30 +205,35 @@ uint32_t CanFDRen::decode(uint32_t buffer){
          .error_count_receive = 0,
          .error_code = 0
     };
-    do{
-        R_CANFD_InfoGet(this->g_canfd_ctrl, &info);
+
+    R_CANFD_InfoGet(this->g_canfd_ctrl, &info);
+    if((info.rx_mb_status & (1<<buffer)) == (1<<buffer)){
         can_frame_t p_frame;
-        R_CANFD_Read(g_canfd_ctrl, buffer, &p_frame);
+        R_CANFD_Read(this->g_canfd_ctrl, buffer, &p_frame);
         decodeImmediate(p_frame);
-    }while(info.rx_fifo_status != 1);
+    }
     return FSP_SUCCESS;
 }
 uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
-    if(channel >1){
+    /** what the fuck
+    if(this->channel>1){
         //TODO its probs not opened
+       led_update(0,BSP_IO_LEVEL_HIGH);
        return FSP_ERR_CAN_INIT_FAILED;
-    }
-    store::Store * store = store::Store::getInstance();
+    }**/
 
-    if (channel == 0){
+
+/*    if (this->channel == 0){
         //CANFD
     }
-    else if (channel == 1){
+    else if (this->channel == 1){*/
         //CAN
         can_frame_stream _data={0,0,0,0,0,0,0,0};
         int32_t position =0;
         int16_t momentum = 0;
-        store::_Maxon_t maxon = __LART_STRUCTS__MAXON_T_RESET;
+        //TODO: FIND OUT HOW TO MACRO A STRUCT INIT
+        store::_Maxon_t maxon ;
+        memcpy(_data.data, frame.data, 8);
         switch(frame.id){
             //TODO fix this shyte
             case CAN_AS_DATALOGGER:
@@ -216,8 +242,15 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
                 this->currentCanOpenStack->a_bootedNodes(5);
                 break;
             case SDO_RESPONSE_ADDRESS_COBID():
-                memcpy(&_data, frame.data, 8);
-                this->currentCanOpenStack->callback(_data);
+                //check if the callback is null
+                if(this->currentCanOpenStack->callback == NULL) {
+                    led_update(0, BSP_IO_LEVEL_HIGH);
+                }else{
+                    //this->currentCanOpenStack->callback(_data);
+
+                }
+
+
                 break;
             case PDO_TXONE_MAXON():
                 break;
@@ -225,13 +258,19 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
                 break;
             case PDO_TXTHREE_MAXON():
                 //Decode
-                position = MAP_DECODE_PDO_TXTHREE_ACTUAL_POSITION(_data.data);
-                momentum= MAP_DECODE_PDO_TXTHREE_ACTUAL_MOMENT(_data.data);
+                position = MAP_DECODE_PDO_TXTHREE_ACTUAL_POSITION(frame.data);
+                momentum= MAP_DECODE_PDO_TXTHREE_ACTUAL_MOMENT(frame.data);
                 //Mold the blank struct
                 maxon.actual_position = position;
                 maxon.actual_torque = momentum;
+                maxon.undirty = false;
+
                 //Apply the struct to the store
-                store->maxon = maxon;
+                store::Store::getInstance().maxon = maxon;
+
+                if (store::Store::getInstance().maxon.actual_position != 0){
+                    led_flip(7);
+                }
                 break;
             case PDO_TXFOUR_MAXON():
 
@@ -241,7 +280,7 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
                 break;
         };
 
-    }
+    //}
 
     return FSP_SUCCESS;
 }
@@ -255,8 +294,9 @@ void CanFDRen::callbackHandle(can_callback_args_t *p_args){
             break;
         case CAN_EVENT_RX_COMPLETE:
             this->rx_ready=true;
-            buf=  p_args->buffer;
-            decode(buf);
+//            buf=  p_args->buffer;
+//            decode(buf);
+            decodeImmediate(p_args->frame);
             led_flip(2);
             break;
 

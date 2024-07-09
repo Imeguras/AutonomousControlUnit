@@ -9,7 +9,7 @@
 
 
 namespace store {
-    #define __LART_STRUCTS__MAXON_T_RESET {0,0,0,0,0, true}
+
     typedef struct {
         int32_t target_position;
         int32_t target_speed;
@@ -18,6 +18,8 @@ namespace store {
         int16_t actual_torque;
         bool undirty=true;
     }_Maxon_t;
+
+
     class Store {
         public:
             static Store& getInstance(){

@@ -43,7 +43,7 @@
     <node id="board.clock.pll2r.display" option="board.clock.pll2r.display.value"/>
     <node id="board.clock.clock.source" option="board.clock.clock.source.pll1p"/>
     <node id="board.clock.clkout.source" option="board.clock.clkout.source.disabled"/>
-    <node id="board.clock.sciclk.source" option="board.clock.sciclk.source.disabled"/>
+    <node id="board.clock.sciclk.source" option="board.clock.sciclk.source.pll1p"/>
     <node id="board.clock.spiclk.source" option="board.clock.spiclk.source.disabled"/>
     <node id="board.clock.canfdclk.source" option="board.clock.canfdclk.source.pll1p"/>
     <node id="board.clock.lcdclk.source" option="board.clock.lcdclk.source.disabled"/>
@@ -63,7 +63,7 @@
     <node id="board.clock.bclkout.div" option="board.clock.bclkout.div.2"/>
     <node id="board.clock.fclk.div" option="board.clock.fclk.div.8"/>
     <node id="board.clock.clkout.div" option="board.clock.clkout.div.1"/>
-    <node id="board.clock.sciclk.div" option="board.clock.sciclk.div.4"/>
+    <node id="board.clock.sciclk.div" option="board.clock.sciclk.div.8"/>
     <node id="board.clock.spiclk.div" option="board.clock.spiclk.div.4"/>
     <node id="board.clock.canfdclk.div" option="board.clock.canfdclk.div.8"/>
     <node id="board.clock.lcdclk.div" option="board.clock.lcdclk.div.2"/>
@@ -133,8 +133,8 @@
       <configSetting altId="sci0.rxd0.p602" configurationId="sci0.rxd0"/>
       <configSetting altId="sci0.sck0.p601" configurationId="sci0.sck0"/>
       <configSetting altId="sci0.txd0.p603" configurationId="sci0.txd0"/>
-      <configSetting altId="sci4.rxd4.p414" configurationId="sci4.rxd4"/>
-      <configSetting altId="sci4.txd4.p415" configurationId="sci4.txd4"/>
+      <configSetting altId="sci4.rxd4.p414" configurationId="sci4.rxd4" isUsedByDriver="true"/>
+      <configSetting altId="sci4.txd4.p415" configurationId="sci4.txd4" isUsedByDriver="true"/>
       <configSetting altId="sdhi0.sd0cd.p306" configurationId="sdhi0.sd0cd"/>
       <configSetting altId="sdhi0.sd0clk.p308" configurationId="sdhi0.sd0clk"/>
       <configSetting altId="sdhi0.sd0cmd.p307" configurationId="sdhi0.sd0cmd"/>

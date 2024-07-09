@@ -116,7 +116,7 @@ FSP Configuration
     PLL2R Div /2
     Clock Src: PLL1P
     CLKOUT Disabled
-    SCICLK Disabled
+    SCICLK Src: PLL1P
     SPICLK Disabled
     CANFDCLK Src: PLL1P
     LCDCLK Disabled
@@ -136,7 +136,7 @@ FSP Configuration
     EBCLK Div /2
     FCLK Div /8
     CLKOUT Div /1
-    SCICLK Div /4
+    SCICLK Div /8
     SPICLK Div /4
     CANFDCLK Div /8
     LCDCLK Div /2
@@ -1085,9 +1085,9 @@ FSP Configuration
     KSZ8091RNB Target: Disabled
     KSZ8041 Target: Disabled
     DP83620 Target: Disabled
-    ICS1894 Target: Disabled
+    ICS1894 Target: Enabled
     User Own Target: Disabled
-    Reference Clock: Default
+    Reference Clock: Enabled
     Automatic Phy LSI Initialization: Enabled
     
   Module "Azure RTOS NetX Duo Common"
@@ -1475,6 +1475,12 @@ FSP Configuration
     Reception: Acceptance Filtering: Channel 0 Rule Count: 16
     Reception: Acceptance Filtering: Channel 1 Rule Count: 16
     
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
+    
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
     General: Error Checking: Enabled
@@ -1545,14 +1551,14 @@ FSP Configuration
     Name: High Speed Interface
     Stack size (bytes): 5000
     Priority: 2
-    Auto start: Disabled
+    Auto start: Enabled
     Time slicing interval (ticks): 1
     
     Instance "g_ip0 Azure RTOS NetX Duo IP Instance"
       Name: g_ip0
       IPv4 Address: 192.168.1.128
       Subnet Mask: 255.255.255.0
-      Default Gateway Address: 192.168.1.1
+      Default Gateway Address: 0.0.0.0
       IPv6 Global Address: 2001:0:0:0:0:0:0:1
       IPv6 Link Local Address (All zeros means use MAC address): 0:0:0:0:0:0:0:0
       IP Helper Thread Stack Size (bytes): 2048
@@ -1576,7 +1582,7 @@ FSP Configuration
           General: Zero-copy Mode: Enable
           General: Flow control functionality: Disable
           Filters: Multicast Mode: Enable
-          Filters: Promiscuous Mode: Enable
+          Filters: Promiscuous Mode: Disable
           Filters: Broadcast filter: 0
           Buffers: Number of TX buffer: 4
           Buffers: Number of RX buffer: 4
@@ -1593,19 +1599,45 @@ FSP Configuration
             PHY-LSI Address: 5
             PHY-LSI Reset Completion Timeout: 0x00020000
             Select MII type: RMII
-            Phy LSI type: Kit Component
+            Phy LSI type: ICS1894
             Port Custom Init Function: NULL
             Port Custom Link Partner Ability Get Function: NULL
             MII/RMII Register Access Wait-time: 8
             Flow Control: Disable
             
         Instance "Azure RTOS NetX Duo Common"
+    Instance "g_uart0 UART (r_sci_b_uart)"
+      General: Name: g_uart0
+      General: Channel: 4
+      General: Data Bits: 8bits
+      General: Parity: None
+      General: Stop Bits: 1bit
+      Baud: Baud Rate: 115200
+      Baud: Baud Rate Modulation: Disabled
+      Baud: Max Error (%): 5
+      Flow Control: CTS/RTS Selection: Hardware RTS
+      Flow Control: Software RTS Port: Disabled
+      Flow Control: Software RTS Pin: Disabled
+      Extra: Clock Source: Internal Clock
+      Extra: Start bit detection: Falling Edge
+      Extra: Noise Filter: Disable
+      Extra: Receive FIFO Trigger Level: Max
+      Extra: RS-485: DE Pin: Disable
+      Extra: RS-485: DE Pin Polarity: Active High
+      Extra: RS-485: DE Pin Assertion Time: 1
+      Extra: RS-485: DE Pin Negation Time: 1
+      Interrupts: Callback: NULL
+      Interrupts: Receive Interrupt Priority: Priority 12
+      Interrupts: Transmit Data Empty Interrupt Priority: Priority 12
+      Interrupts: Transmit End Interrupt Priority: Priority 12
+      Interrupts: Error Interrupt Priority: Priority 12
+      
   Thread "Low Speed Interface"
     Symbol: low_speed_interface_thread0
     Name: Low Speed Interface
     Stack size (bytes): 1024
     Priority: 1
-    Auto start: Enabled
+    Auto start: Disabled
     Time slicing interval (ticks): 1
     
     Instance "g_canfd0 CAN FD Lite (r_canfdlite)"

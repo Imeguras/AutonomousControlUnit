@@ -49,7 +49,7 @@ class CanFDRen : AbstractPeripheralLayer{
         CANopenStack * currentCanOpenStack;
 
     protected:
-        uint8_t channel=-1;
+        volatile uint8_t channel;
     private:
 
         canfd_instance_ctrl_t * g_canfd_ctrl;
