@@ -10,6 +10,7 @@
 //TODO maybe a injection should be better in this case
 #include "high_speed_interface_thread0.h"
 #include "../MicroRosDuoGen.h"
+#include <stddef.h>
 #ifndef INTERFACES_DRIVERS_HARDWAREBASED_UARTREN_H_
 #define INTERFACES_DRIVERS_HARDWAREBASED_UARTREN_H_
 #define UART_IT_BUFFER_SIZE 2048
@@ -29,6 +30,9 @@ namespace hardware_drivers {
             void user_uart_callback (uart_callback_args_t * p_args);
 
         protected:
+            volatile size_t it_head = 0;
+            volatile size_t it_tail = 0;
+
             uint8_t it_buffer[UART_IT_BUFFER_SIZE];
             bool initialized = false;
             uart_ctrl_t * g_uart_ctrl;
@@ -47,6 +51,9 @@ namespace hardware_drivers {
             size_t read_handle(struct uxrCustomTransport *transport, uint8_t *buffer, size_t length, int timeout,
                     uint8_t *error_code);
             UartRen *uartRen;
+
+
+
     };
 }
 #endif /* INTERFACES_DRIVERS_HARDWAREBASED_UARTREN_H_ */
