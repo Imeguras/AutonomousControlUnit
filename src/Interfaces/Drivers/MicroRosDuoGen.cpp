@@ -5,17 +5,15 @@
  *      Author: micron
  */
 
-#include "Interfaces/Drivers/MicroRosDuoGen.h"
-#include "Interfaces/Drivers/HardwareBased/EthDuo.h"
-#include "Interfaces/Drivers/HardwareBased/UartRen.h"
-#include <typeinfo>
+#include "./MicroRosDuoGen.h"
 
+using namespace hardware_drivers;
 template <typename T>
 inline MicroRosDuoGen<T>::MicroRosDuoGen(){
     //check if template is EthDuo
     if (typeid(T) == typeid(EthDuo)){
         this->transport = ETH_UDP;
-    } else if (typeid(T) == typeid(hardware_drivers::UartRen)){
+    } else if (typeid(T) == typeid(hardware_drivers::UartRenAdapter)){
         this->transport = UART_RAW;
     } else {
         this->transport = TRANSPORT_UNKNOWN;
@@ -23,6 +21,7 @@ inline MicroRosDuoGen<T>::MicroRosDuoGen(){
 
 
 }
+
 template <typename T>
 inline int MicroRosDuoGen<T>::initialization(){
     using Driver = T;
@@ -79,21 +78,16 @@ inline int MicroRosDuoGen<T>::initialization(){
 
         return ret_init;
     }
-
-
-
-
     return -1;
 }
 template <typename T>
-inline uint32_t recv(void * data, uint32_t stream_size){
+inline uint32_t MicroRosDuoGen<T>::recv(void * data, uint32_t stream_size){
     return 0;
 }
 template <typename T>
-uint32_t write(void *data, uint32_t stream_size){
+inline uint32_t MicroRosDuoGen<T>::write(void *data, uint32_t stream_size){
     return 0;
 
 }
-
 
 

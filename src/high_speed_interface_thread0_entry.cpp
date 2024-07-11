@@ -12,7 +12,9 @@
 
 #include "Interfaces/HighSpeedAbsL.cpp"
 #include "Interfaces/Drivers/HardwareBased/EthDuo.h"
+#include "Interfaces/Drivers/HardwareBased/UartRen.h"
 #include "Interfaces/Drivers/MicroRosDuo.h"
+#include "Interfaces/Drivers/MicroRosDuoGen.h"
 #include "Interfaces/MicroRosBoylerplate/microros_transports.h"
 //TODO fix this mess
 #include "../../../ra/board/ra8t1_acuity_bsp/board.h"
@@ -32,12 +34,12 @@ void (* sub_callback)(const void *);
 void thread_setup(void);
 void subscription_callback_status(const void * msgin);
 void subscription_callback_mission(const void * msgin);
-
+using namespace hardware_drivers;
 void high_speed_interface_thread0_entry(void) {
 
     led_blink(7, 3);
     led_update(0, BSP_IO_LEVEL_HIGH);
-
+    HighSpeed_AbsL<MicroRosDuoGen<UartRenAdapter>> micro_ros;
     //HighSpeed_AbsL<MicroRosDuo> eth;
     /*HighSpeed_AbsL<EthDuo> eth;
     if(eth->error_counter > 0){

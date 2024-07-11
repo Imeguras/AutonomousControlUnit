@@ -20,19 +20,22 @@
 #include "../../../ra/board/ra8t1_acuity_bsp/board.h"
 #include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
 
-#pragma once
+
+#ifndef MICROROSDUOGEN_H_
+#define MICROROSDUOGEN_H_
+
 enum transport_type{
     UART_RAW=0,
     ETH_UDP=1,
     ETH_TCP=2,
     TRANSPORT_UNKNOWN
 };
-template <typename T>
 
+template <typename T>
 class MicroRosDuoGen : AbstractPeripheralLayer{
 public:
-    MicroRosDuoGen();
-    virtual ~MicroRosDuoGen();
+    MicroRosDuoGen<T>();
+    virtual ~MicroRosDuoGen<T>();
     int initialization();
     uint32_t  error_counter=0;
     uint32_t recv(void * data, uint32_t stream_size);
@@ -43,6 +46,7 @@ private:
     custom_transport_args remote_addr;
 
 };
+
 
 
 class TargetAdapter {
@@ -65,3 +69,4 @@ class TargetAdapter {
 
 
 };
+#endif /* MICROROSDUOGEN_H_ */

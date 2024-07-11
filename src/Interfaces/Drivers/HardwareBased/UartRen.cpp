@@ -124,6 +124,8 @@ bool UartRenAdapter::close_handle(struct uxrCustomTransport *transport){
     return false;
 }
 size_t UartRenAdapter::read_handle(struct uxrCustomTransport *transport, uint8_t *buffer, size_t length, int timeout, uint8_t *error_code){
+    FSP_PARAMETER_NOT_USED(transport);
+    FSP_PARAMETER_NOT_USED(error_code);
     int64_t start = uxr_millis();
 
 
@@ -134,6 +136,26 @@ size_t UartRenAdapter::read_handle(struct uxrCustomTransport *transport, uint8_t
     }
 
     return 0;
+}
+size_t UartRenAdapter::write_handle(struct uxrCustomTransport *transport, const uint8_t *buffer, size_t length, uint8_t *error_code){
+       FSP_PARAMETER_NOT_USED(transport);
+       FSP_PARAMETER_NOT_USED(error_code);
+
+       this->uartRen->g_write_complete = false;
+       fsp_err_t err = FSP_ERR_ABORTED;
+
+       err = (fsp_err_t)this->uartRen->write((void *)buffer, (uint32_t)length);
+
+       if (err != FSP_SUCCESS){
+           return 0;
+       }
+
+       int64_t start = uxr_millis();
+       while(!this->uartRen->g_write_complete && (uxr_millis() -  start) < WRITE_TIMEOUT){
+           R_BSP_SoftwareDelay(5, BSP_DELAY_UNITS_MICROSECONDS);
+       }
+
+       return length;
 }
 }//NAMESPACE end
 
