@@ -19,6 +19,8 @@
 #include <typeinfo>
 #include "../../../ra/board/ra8t1_acuity_bsp/board.h"
 #include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
+#include "Interfaces/Drivers/HardwareBased/EthDuo.h"
+#include "Interfaces/Drivers/HardwareBased/UartRen.h"
 
 
 #ifndef MICROROSDUOGEN_H_
@@ -34,19 +36,88 @@ enum transport_type{
 template <typename T>
 class MicroRosDuoGen : AbstractPeripheralLayer{
 public:
-    MicroRosDuoGen<T>();
-    virtual ~MicroRosDuoGen<T>();
-    int initialization();
     uint32_t  error_counter=0;
-    uint32_t recv(void * data, uint32_t stream_size);
-    uint32_t write(void *data, uint32_t stream_size);
+    MicroRosDuoGen<T>(){
+        //check if template is EthDuo
+        if (typeid(T) == typeid(EthDuo)){
+            this->transport = ETH_UDP;
+        } else if (typeid(T) == typeid(hardware_drivers::UartRenAdapter)){
+            this->transport = UART_RAW;
+        } else {
+            this->transport = TRANSPORT_UNKNOWN;
+        }
+    }
+    virtual ~MicroRosDuoGen<T>()= default;
+    int initialization(){
+        using Driver = T;
+            Driver driver = Driver();
+
+
+            switch(this->transport){
+
+                case ETH_UDP:
+                case ETH_TCP:
+                    this->remote_addr = custom_transport_args{
+
+                                                   .agent_ip_address=IP_ADDRESS(192,168,1,100),
+                                                   .agent_port=8888
+                                                };
+
+                    //TODO FIX EVERYTHING
+        /*            rmw_uros_set_custom_transport(
+                                           false,
+                                           (void *) &remote_addr,
+                                           ,
+                                           RosIntanceSingleton::getInstance().handle_close,
+                                           RosIntanceSingleton::getInstance().handle_write,
+                                           RosIntanceSingleton::getInstance().handle_read);
+                                           */
+
+                    break;
+                case UART_RAW:
+
+                    /*rmw_uros_set_custom_transport(true,
+                                                  NULL,
+                                                  driver.open_handle,
+                                                  driver.close_handle,
+                                                  driver.write_handle,
+                                                  driver.read_handle);*/
+                   break;
+                case TRANSPORT_UNKNOWN:
+                default:
+                    return -1;
+                    break;
+            }
+            rcl_allocator_t custom_allocator = rcutils_get_zero_initialized_allocator();
+            custom_allocator.allocate = microros_allocate;
+            custom_allocator.deallocate = microros_deallocate;
+            custom_allocator.reallocate = microros_reallocate;
+            custom_allocator.zero_allocate =  microros_zero_allocate;
+            if (!rcutils_set_default_allocator(&custom_allocator)) {
+                //TODO this should be written
+                led_blink(0,12);
+            }
+
+            //int ret_init = driver.();
+//            if(ret_init){
+//
+//                return ret_init;
+//            }
+            return -1;
+    }
+
+    uint32_t recv(void * data, uint32_t stream_size){
+        return 0;
+    }
+    uint32_t write(void *data, uint32_t stream_size){
+        return 0;
+    }
 
 private:
     transport_type transport;
     custom_transport_args remote_addr;
 
 };
-
 
 
 class TargetAdapter {

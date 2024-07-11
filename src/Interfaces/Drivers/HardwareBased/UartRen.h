@@ -9,7 +9,11 @@
 #include "r_uart_api.h"
 //TODO maybe a injection should be better in this case
 #include "high_speed_interface_thread0.h"
-#include "../MicroRosDuoGen.h"
+#include <uxr/client/transport.h>
+#include <uxr/client/util/time.h>
+#include <rmw_microxrcedds_c/config.h>
+#include "rmw_microros/rmw_microros.h"
+
 #include <stddef.h>
 #ifndef INTERFACES_DRIVERS_HARDWAREBASED_UARTREN_H_
 #define INTERFACES_DRIVERS_HARDWAREBASED_UARTREN_H_
@@ -18,7 +22,7 @@ namespace hardware_drivers {
     class UartRen : AbstractPeripheralLayer {
         public:
             UartRen();
-            virtual ~UartRen();
+            virtual ~UartRen()=default;
             int initialization();
             uint32_t recv(void *data, uint32_t stream_size);
             uint32_t write(void *data, uint32_t stream_size);
@@ -39,11 +43,11 @@ namespace hardware_drivers {
             const uart_cfg_t * g_uart_cfg;
 
     };
-
-    class UartRenAdapter : public TargetAdapter {
+//: public TargetAdapter
+    class UartRenAdapter {
         public:
             UartRenAdapter();
-            virtual ~UartRenAdapter();
+            virtual ~UartRenAdapter()=default;
             bool open_handle(struct uxrCustomTransport *transport);
             bool close_handle(struct uxrCustomTransport *transport);
             size_t write_handle(struct uxrCustomTransport *transport, const uint8_t *buffer, size_t length,

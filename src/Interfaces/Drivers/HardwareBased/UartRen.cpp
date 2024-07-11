@@ -15,7 +15,6 @@ UartRen::UartRen(){
 
 }
 
-UartRen::~UartRen(){}
 
 int UartRen::initialization(){
     //open uart
@@ -151,7 +150,8 @@ size_t UartRenAdapter::write_handle(struct uxrCustomTransport *transport, const 
        }
 
        int64_t start = uxr_millis();
-       while(!this->uartRen->g_write_complete && (uxr_millis() -  start) < WRITE_TIMEOUT){
+       while(!this->uartRen->g_write_complete && (uxr_millis() -  start) < 100U){
+
            R_BSP_SoftwareDelay(5, BSP_DELAY_UNITS_MICROSECONDS);
        }
 
