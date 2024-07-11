@@ -39,20 +39,61 @@ void high_speed_interface_thread0_entry(void) {
 
     led_blink(7, 3);
     led_update(0, BSP_IO_LEVEL_HIGH);
+
     HighSpeed_AbsL<MicroRosDuoGen<UartRenAdapter>> micro_ros;
+    rcl_allocator_t allocator = rcl_get_default_allocator();
+
+        rclc_support_t support;
+
+        rcl_init_options_t init_options = rcl_get_zero_initialized_init_options();
+
+        auto _iosdid =rcl_init_options_set_domain_id(&init_options, 42);
+        auto _opt_init = rcl_init_options_init(&init_options, allocator);
+        FSP_PARAMETER_NOT_USED(_iosdid);
+        FSP_PARAMETER_NOT_USED(_opt_init);
+        //auto _ret = rclc_support_init(&support, 0, NULL, &allocator);
+
+        auto _ret = rclc_support_init_with_options(&support, 0, NULL, &init_options, &allocator);
+        if (_ret == RCL_RET_ERROR){
+            //TODO this should be written
+            led_blink (0, 12);
+        }
+        rcl_node_t node ;
+
+    //    rclc_executor_t executor=rclc_executor_get_zero_initialized_executor();
+    //
+    //    rclc_executor_init(&executor, &support.context, ROS2_EXECUTOR_MAX_HANDLES, &allocator);
+        _ret = rclc_node_init_default(&node, "faadihgas_node", "", &support);
+        if (_ret == RCL_RET_ERROR)
+        {
+            led_blink (0, 12);
+        }
+        rcl_publisher_t publisher;
+        rclc_publisher_init_default(&publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8), "topic");
+        std_msgs__msg__Int8 msg_output;
+
+        msg_output.data = 0;
+
+    //    rclc_executor_spin(&executor);
+
+
+        led_blink(0,3);
+        while (1){
+            //publish
+            msg_output.data=1;
+            rcl_publish(&publisher, &msg_output, NULL);
+            R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
+            tx_thread_sleep (1);
+        }
+
     //HighSpeed_AbsL<MicroRosDuo> eth;
     /*HighSpeed_AbsL<EthDuo> eth;
     if(eth->error_counter > 0){
         //TODO: retry?
         return;
     }*/
-    led_update(0, BSP_IO_LEVEL_LOW);
-//
-    led_blink(7, 3);
-    while(1){
-        R_BSP_SoftwareDelay(1,BSP_DELAY_UNITS_MILLISECONDS );
 
-    }
+
 
 }
 

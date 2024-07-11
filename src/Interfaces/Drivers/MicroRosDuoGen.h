@@ -21,6 +21,7 @@
 #include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
 #include "Interfaces/Drivers/HardwareBased/EthDuo.h"
 #include "Interfaces/Drivers/HardwareBased/UartRen.h"
+#include <functional>
 
 
 #ifndef MICROROSDUOGEN_H_
@@ -33,10 +34,40 @@ enum transport_type{
     TRANSPORT_UNKNOWN
 };
 
+
 template <typename T>
 class MicroRosDuoGen : AbstractPeripheralLayer{
 public:
     uint32_t  error_counter=0;
+
+    static bool open_hand(struct uxrCustomTransport* transport){
+        using Driver = T;
+        Driver driver;
+
+        return driver.open_handle(transport);
+    }
+    static bool close_hand (struct uxrCustomTransport* transport){
+        using Driver = T;
+        Driver driver;
+        return driver.close_handle (transport);
+
+    }
+    static size_t write_hand (
+            struct uxrCustomTransport* transport,
+            const uint8_t* buffer,
+            size_t length,
+            uint8_t* error_code){
+        using Driver = T;
+        Driver driver;
+        return driver.write_handle(transport, buffer, length, error_code);
+
+    }
+    static size_t read_hand(struct uxrCustomTransport *transport, uint8_t *buffer, size_t length, int timeout, uint8_t *error_code){
+        using Driver = T;
+        Driver driver;
+        return driver.read_handle (transport, buffer, length, timeout, error_code);
+
+    }
     MicroRosDuoGen<T>(){
         //check if template is EthDuo
         if (typeid(T) == typeid(EthDuo)){
@@ -72,16 +103,16 @@ public:
                                            RosIntanceSingleton::getInstance().handle_write,
                                            RosIntanceSingleton::getInstance().handle_read);
                                            */
-
                     break;
                 case UART_RAW:
+                    //bind open_hand to open_handle
 
-                    /*rmw_uros_set_custom_transport(true,
+                    rmw_uros_set_custom_transport(true,
                                                   NULL,
-                                                  driver.open_handle,
-                                                  driver.close_handle,
-                                                  driver.write_handle,
-                                                  driver.read_handle);*/
+                                                  open_hand,
+                                                  close_hand,
+                                                  write_hand,
+                                                  read_hand);
                    break;
                 case TRANSPORT_UNKNOWN:
                 default:
