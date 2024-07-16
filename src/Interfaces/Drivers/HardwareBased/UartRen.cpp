@@ -38,7 +38,7 @@ uint32_t UartRen::close(){
     return err;
 
 }
-uint32_t UartRen::open(){
+inline uint32_t UartRen::open(){
     fsp_err_t err;
     err = R_SCI_B_UART_Open (g_uart_ctrl, g_uart_cfg);
     return err;
@@ -101,12 +101,13 @@ void UartRen::user_uart_callback (uart_callback_args_t * p_args)
  */
 
 UartRenAdapter::UartRenAdapter(){
-    uartRen = new UartRen();
+
 }
 
 
 bool UartRenAdapter::open_handle(struct uxrCustomTransport *transport){
     FSP_PARAMETER_NOT_USED(transport);
+    this->uartRen = new UartRen();
     auto k = this->uartRen->initialization();
     if (k == FSP_SUCCESS){
         return true;

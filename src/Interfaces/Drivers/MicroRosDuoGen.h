@@ -37,37 +37,40 @@ enum transport_type{
 
 template <typename T>
 class MicroRosDuoGen : AbstractPeripheralLayer{
+
 public:
+    class RosIntanceSingletonAid {
+          public:
+              static bool handle_open(struct uxrCustomTransport * transport){
+                  return RosIntanceSingletonAid::getInstance().handle->running_instance->open_handle(transport);
+              }
+              static bool handle_close(struct uxrCustomTransport * transport){
+                  return RosIntanceSingletonAid::getInstance().handle->running_instance->close_handle(transport);
+
+              }
+              static size_t handle_read(struct uxrCustomTransport* transport, uint8_t* buf, size_t len, int timeout, uint8_t* err){
+                  return RosIntanceSingletonAid::getInstance().handle->running_instance->read_handle(transport, buf, len, timeout, err);
+              }
+              static size_t handle_write(struct uxrCustomTransport* transport, const uint8_t * buf, size_t len, uint8_t * err){
+                  return RosIntanceSingletonAid::getInstance().handle->running_instance->write_handle(transport, buf, len, err);
+              }
+              static RosIntanceSingletonAid& getInstance(){
+                  static RosIntanceSingletonAid instance;
+                  return instance;
+              }
+              static void setHandle(MicroRosDuoGen<T> * _handle){
+                  RosIntanceSingletonAid::getInstance().handle=_handle;
+              }
+
+          private:
+              RosIntanceSingletonAid(RosIntanceSingletonAid const&);
+              void operator=(RosIntanceSingletonAid const&);
+              RosIntanceSingletonAid(){}
+              MicroRosDuoGen<T> * handle = NULL;
+
+      };
+
     uint32_t  error_counter=0;
-
-    static bool open_hand(struct uxrCustomTransport* transport){
-        using Driver = T;
-        Driver driver;
-
-        return driver.open_handle(transport);
-    }
-    static bool close_hand (struct uxrCustomTransport* transport){
-        using Driver = T;
-        Driver driver;
-        return driver.close_handle (transport);
-
-    }
-    static size_t write_hand (
-            struct uxrCustomTransport* transport,
-            const uint8_t* buffer,
-            size_t length,
-            uint8_t* error_code){
-        using Driver = T;
-        Driver driver;
-        return driver.write_handle(transport, buffer, length, error_code);
-
-    }
-    static size_t read_hand(struct uxrCustomTransport *transport, uint8_t *buffer, size_t length, int timeout, uint8_t *error_code){
-        using Driver = T;
-        Driver driver;
-        return driver.read_handle (transport, buffer, length, timeout, error_code);
-
-    }
     MicroRosDuoGen<T>(){
         //check if template is EthDuo
         if (typeid(T) == typeid(EthDuo)){
@@ -79,10 +82,12 @@ public:
         }
     }
     virtual ~MicroRosDuoGen<T>()= default;
+    T *running_instance= NULL;
     int initialization(){
-        using Driver = T;
+            using Driver = T;
             Driver driver = Driver();
 
+            running_instance = &driver;
 
             switch(this->transport){
 
@@ -106,13 +111,13 @@ public:
                     break;
                 case UART_RAW:
                     //bind open_hand to open_handle
-
+                    RosIntanceSingletonAid::setHandle(this);
                     rmw_uros_set_custom_transport(true,
                                                   NULL,
-                                                  open_hand,
-                                                  close_hand,
-                                                  write_hand,
-                                                  read_hand);
+                                                  RosIntanceSingletonAid::handle_open,
+                                                  RosIntanceSingletonAid::handle_close,
+                                                  RosIntanceSingletonAid::handle_write,
+                                                  RosIntanceSingletonAid::handle_read);
                    break;
                 case TRANSPORT_UNKNOWN:
                 default:
@@ -138,9 +143,14 @@ public:
     }
 
     uint32_t recv(void * data, uint32_t stream_size){
+        FSP_PARAMETER_NOT_USED(data);
+        FSP_PARAMETER_NOT_USED(stream_size);
+
         return 0;
     }
     uint32_t write(void *data, uint32_t stream_size){
+        FSP_PARAMETER_NOT_USED(data);
+        FSP_PARAMETER_NOT_USED(stream_size);
         return 0;
     }
 
@@ -171,4 +181,6 @@ class TargetAdapter {
 
 
 };
+
+
 #endif /* MICROROSDUOGEN_H_ */

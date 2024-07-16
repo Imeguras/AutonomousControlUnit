@@ -80,14 +80,7 @@ static std::unordered_map<uint16_t, e_acuity_can_status> g_bsp_prv_can_t {
 #define RESET_VALUE             (0x00)
 
 #define EP_VERSION              ("1.0")
-#define MODULE_NAME             "NetX_dhcpv4_client"
-#define BANNER_INFO             "\r\n********************************************************************************"\
-                                "\r\n*   Renesas FSP Example Project for "MODULE_NAME" Module                  *"\
-                                "\r\n*   Example Project Version %s                                                *"\
-                                "\r\n*   Flex Software Pack Version  %d.%d.%d                                          *"\
-                                "\r\n********************************************************************************"\
-                                "\r\nRefer to readme.txt file for more details on Example Project and" \
-                                "\r\nFSP User's Manual for more information about "MODULE_NAME" driver\r\n"
+
 
 #define SEGGER_INDEX            (0)
 

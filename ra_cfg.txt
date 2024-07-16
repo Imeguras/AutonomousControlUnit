@@ -84,7 +84,7 @@ FSP Configuration
   RA8T1 event data
   RA Common
     Main stack size (bytes): 0x1688
-    Heap size (bytes): 0x5000
+    Heap size (bytes): 0x6000
     MCU Vcc (mV): 3300
     Parameter checking: Enabled
     Assert Failures: Return FSP_ERR_ASSERTION
@@ -1549,7 +1549,7 @@ FSP Configuration
   Thread "High Speed Interface"
     Symbol: high_speed_interface_thread0
     Name: High Speed Interface
-    Stack size (bytes): 5000
+    Stack size (bytes): 10000
     Priority: 2
     Auto start: Enabled
     Time slicing interval (ticks): 1
@@ -1626,7 +1626,7 @@ FSP Configuration
       Extra: RS-485: DE Pin Polarity: Active High
       Extra: RS-485: DE Pin Assertion Time: 1
       Extra: RS-485: DE Pin Negation Time: 1
-      Interrupts: Callback: NULL
+      Interrupts: Callback: user_uart_callback
       Interrupts: Receive Interrupt Priority: Priority 12
       Interrupts: Transmit Data Empty Interrupt Priority: Priority 12
       Interrupts: Transmit End Interrupt Priority: Priority 12

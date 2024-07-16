@@ -22,10 +22,11 @@
 
 #include "Data_structs/AutomataStructs.hpp"
 #include "utils.h"
-
+#include <functional>
 #define TX_DATA_HIGH_SPEED_TIMEOUT 32
 #define ROS2_EXECUTOR_MAX_HANDLES 2
-
+extern "C" void user_uart_callback (uart_callback_args_t * p_args);
+void * interface_callback_uart_t;
 std_msgs__msg__Int8 msg_incoming;
 //static std_msgs__msg__Int8 msg_status;
 //static std_msgs__msg__Int8 msg_mission;
@@ -34,6 +35,9 @@ void (* sub_callback)(const void *);
 void thread_setup(void);
 void subscription_callback_status(const void * msgin);
 void subscription_callback_mission(const void * msgin);
+
+
+
 using namespace hardware_drivers;
 void high_speed_interface_thread0_entry(void) {
 
@@ -41,6 +45,15 @@ void high_speed_interface_thread0_entry(void) {
     led_update(0, BSP_IO_LEVEL_HIGH);
 
     HighSpeed_AbsL<MicroRosDuoGen<UartRenAdapter>> micro_ros;
+    //TODO this should be writt
+
+    rcl_allocator_t custom_allocator = rcutils_get_zero_initialized_allocator();
+    custom_allocator.allocate = microros_allocate;
+    custom_allocator.deallocate = microros_deallocate;
+    custom_allocator.reallocate = microros_reallocate;
+    custom_allocator.zero_allocate =  microros_zero_allocate;
+
+    //interface_callback_uart_t = micro_ros->running_instance;
     rcl_allocator_t allocator = rcl_get_default_allocator();
 
         rclc_support_t support;
@@ -81,19 +94,17 @@ void high_speed_interface_thread0_entry(void) {
         while (1){
             //publish
             msg_output.data=1;
-            rcl_publish(&publisher, &msg_output, NULL);
+            auto _pub_ret = rcl_publish(&publisher, &msg_output, NULL);
+            FSP_PARAMETER_NOT_USED(_pub_ret);
             R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
             tx_thread_sleep (1);
         }
 
-    //HighSpeed_AbsL<MicroRosDuo> eth;
-    /*HighSpeed_AbsL<EthDuo> eth;
-    if(eth->error_counter > 0){
-        //TODO: retry?
-        return;
-    }*/
-
-
+}
+extern "C" void user_uart_callback (uart_callback_args_t * p_args){
+    if(interface_callback_uart_t != NULL){
+        ((UartRenAdapter * )interface_callback_uart_t)->uartRen->user_uart_callback(p_args);
+    }
 
 }
 
@@ -195,4 +206,4 @@ void high_speed_interface_thread0_entry(void) {
 //
 //    tx_semaphore_put(&css);
 //}
-//
+

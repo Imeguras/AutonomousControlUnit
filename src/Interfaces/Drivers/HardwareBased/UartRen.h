@@ -54,7 +54,7 @@ namespace hardware_drivers {
                     uint8_t *error_code);
             size_t read_handle(struct uxrCustomTransport *transport, uint8_t *buffer, size_t length, int timeout,
                     uint8_t *error_code);
-            UartRen *uartRen;
+            UartRen *uartRen=NULL;
 
 
 
