@@ -191,8 +191,12 @@ void low_speed_interface_thread0_entry(void) {
             canfd1->write((void *)&frame,0);
             R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
             //write control word
+//            frame.id = SDO_REQUEST_ADDRESS_COBID();
+//            can_frame_stream _data2 = canfd1->currentCanOpenStack->requestControlWordMessage(0x00, 0x0F);
+//            memcpy(frame.data, &_data2.data, 8);
+//            canfd1->write((void *)&frame,0);
             frame.id = SDO_REQUEST_ADDRESS_COBID();
-            can_frame_stream _data2 = canfd1->currentCanOpenStack->requestControlWordMessage(0x00, 0x0F);
+            can_frame_stream _data2 = canfd1->currentCanOpenStack->requestControlWordMessage(0x00, 0x1F);
             memcpy(frame.data, &_data2.data, 8);
             canfd1->write((void *)&frame,0);
             R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);

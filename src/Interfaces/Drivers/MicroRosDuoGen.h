@@ -80,14 +80,13 @@ public:
         } else {
             this->transport = TRANSPORT_UNKNOWN;
         }
+        using Driver = T;
+
+        running_instance = new Driver();
     }
     virtual ~MicroRosDuoGen<T>()= default;
     T *running_instance= NULL;
     int initialization(){
-            using Driver = T;
-            Driver driver = Driver();
-
-            running_instance = &driver;
 
             switch(this->transport){
 
@@ -134,12 +133,7 @@ public:
                 led_blink(0,12);
             }
 
-            //int ret_init = driver.();
-//            if(ret_init){
-//
-//                return ret_init;
-//            }
-            return -1;
+            return 0;
     }
 
     uint32_t recv(void * data, uint32_t stream_size){

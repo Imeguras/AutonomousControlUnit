@@ -31,16 +31,20 @@ namespace hardware_drivers {
             uint32_t error_counter = 0;
             bool mode_async = true;
             volatile bool g_write_complete = false;
-            void user_uart_callback (uart_callback_args_t * p_args);
 
+
+
+
+            void user_uart_callback (uart_callback_args_t * p_args);
+            uint8_t it_buffer[UART_IT_BUFFER_SIZE];
+            uart_ctrl_t * g_uart_ctrl;
+            const uart_cfg_t * g_uart_cfg;
         protected:
             volatile size_t it_head = 0;
             volatile size_t it_tail = 0;
 
-            uint8_t it_buffer[UART_IT_BUFFER_SIZE];
-            bool initialized = false;
-            uart_ctrl_t * g_uart_ctrl;
-            const uart_cfg_t * g_uart_cfg;
+                        bool initialized = false;
+
 
     };
 //: public TargetAdapter

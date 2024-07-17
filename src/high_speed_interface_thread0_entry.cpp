@@ -13,6 +13,7 @@
 #include "Interfaces/HighSpeedAbsL.cpp"
 #include "Interfaces/Drivers/HardwareBased/EthDuo.h"
 #include "Interfaces/Drivers/HardwareBased/UartRen.h"
+
 #include "Interfaces/Drivers/MicroRosDuo.h"
 #include "Interfaces/Drivers/MicroRosDuoGen.h"
 #include "Interfaces/MicroRosBoylerplate/microros_transports.h"
@@ -21,12 +22,13 @@
 #include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
 
 #include "Data_structs/AutomataStructs.hpp"
+
 #include "utils.h"
 #include <functional>
 #define TX_DATA_HIGH_SPEED_TIMEOUT 32
 #define ROS2_EXECUTOR_MAX_HANDLES 2
 extern "C" void user_uart_callback (uart_callback_args_t * p_args);
-void * interface_callback_uart_t;
+hardware_drivers::UartRen * interface_callback_uart_t;
 std_msgs__msg__Int8 msg_incoming;
 //static std_msgs__msg__Int8 msg_status;
 //static std_msgs__msg__Int8 msg_mission;
@@ -36,7 +38,7 @@ void thread_setup(void);
 void subscription_callback_status(const void * msgin);
 void subscription_callback_mission(const void * msgin);
 
-
+hardware_drivers::UartRenAdapter * etc;
 
 using namespace hardware_drivers;
 void high_speed_interface_thread0_entry(void) {
@@ -45,16 +47,11 @@ void high_speed_interface_thread0_entry(void) {
     led_update(0, BSP_IO_LEVEL_HIGH);
 
     HighSpeed_AbsL<MicroRosDuoGen<UartRenAdapter>> micro_ros;
-    //TODO this should be writt
 
-    rcl_allocator_t custom_allocator = rcutils_get_zero_initialized_allocator();
-    custom_allocator.allocate = microros_allocate;
-    custom_allocator.deallocate = microros_deallocate;
-    custom_allocator.reallocate = microros_reallocate;
-    custom_allocator.zero_allocate =  microros_zero_allocate;
 
-    //interface_callback_uart_t = micro_ros->running_instance;
-    rcl_allocator_t allocator = rcl_get_default_allocator();
+
+
+        rcl_allocator_t allocator = rcl_get_default_allocator();
 
         rclc_support_t support;
 
@@ -65,7 +62,7 @@ void high_speed_interface_thread0_entry(void) {
         FSP_PARAMETER_NOT_USED(_iosdid);
         FSP_PARAMETER_NOT_USED(_opt_init);
         //auto _ret = rclc_support_init(&support, 0, NULL, &allocator);
-
+        etc = micro_ros->running_instance;
         auto _ret = rclc_support_init_with_options(&support, 0, NULL, &init_options, &allocator);
         if (_ret == RCL_RET_ERROR){
             //TODO this should be written
@@ -102,10 +99,24 @@ void high_speed_interface_thread0_entry(void) {
 
 }
 extern "C" void user_uart_callback (uart_callback_args_t * p_args){
-    if(interface_callback_uart_t != NULL){
-        ((UartRenAdapter * )interface_callback_uart_t)->uartRen->user_uart_callback(p_args);
-    }
+//    if(interface_callback_uart_t != NULL){
+//        interface_callback_uart_t->user_uart_callback(p_args);
+//    }
+    switch (p_args->event)
+    {
+        case UART_EVENT_TX_COMPLETE:
+            etc->uartRen->g_write_complete = true;
+            break;
 
+        case UART_EVENT_RX_COMPLETE:
+
+                R_SCI_B_UART_Read(&etc->uartRen->g_uart_ctrl, &etc->uartRen->it_buffer[0], UART_IT_BUFFER_SIZE);
+
+            break;
+
+        default:
+            break;
+    }
 }
 
 //    rcl_allocator_t allocator = rcl_get_default_allocator();

@@ -76,8 +76,7 @@ uint32_t UartRen::write(void *data, uint32_t stream_size){
 
     return err;
 }
-void UartRen::user_uart_callback (uart_callback_args_t * p_args)
-{
+void UartRen::user_uart_callback (uart_callback_args_t * p_args){
     switch (p_args->event)
     {
         case UART_EVENT_TX_COMPLETE:
@@ -96,7 +95,7 @@ void UartRen::user_uart_callback (uart_callback_args_t * p_args)
 }
 
 
-/** UartRenAdapter
+/** UartRenAdapteroirb
  *
  */
 
