@@ -38,6 +38,13 @@ void thread_setup(void);
 void subscription_callback_status(const void * msgin);
 void subscription_callback_mission(const void * msgin);
 
+bool renesas_e2_transport_open(struct uxrCustomTransport * transport);
+bool renesas_e2_transport_close(struct uxrCustomTransport * transport);
+size_t renesas_e2_transport_write(struct uxrCustomTransport* transport, const uint8_t * buf, size_t len, uint8_t * error);
+size_t renesas_e2_transport_read(struct uxrCustomTransport* transport, uint8_t* buf, size_t len, int timeout, uint8_t* error);
+static uint8_t it_buffer[UART_IT_BUFFER_SIZE];
+static size_t it_head = 0, it_tail = 0;
+bool g_write_complete = false;
 hardware_drivers::UartRenAdapter * etc;
 
 using namespace hardware_drivers;
@@ -46,9 +53,25 @@ void high_speed_interface_thread0_entry(void) {
     led_blink(7, 3);
     led_update(0, BSP_IO_LEVEL_HIGH);
 
-    HighSpeed_AbsL<MicroRosDuoGen<UartRenAdapter>> micro_ros;
+    //HighSpeed_AbsL<MicroRosDuoGen<UartRenAdapter>> micro_ros;
 
+    rmw_uros_set_custom_transport(
+                               true,
+                               (void *) NULL,
+                               renesas_e2_transport_open,
+                               renesas_e2_transport_close,
+                               renesas_e2_transport_write,
+                               renesas_e2_transport_read);
 
+        rcl_allocator_t custom_allocator = rcutils_get_zero_initialized_allocator();
+        custom_allocator.allocate = microros_allocate;
+        custom_allocator.deallocate = microros_deallocate;
+        custom_allocator.reallocate = microros_reallocate;
+        custom_allocator.zero_allocate =  microros_zero_allocate;
+        if (!rcutils_set_default_allocator(&custom_allocator)) {
+            //TODO this should be written
+            led_blink(0,12);
+        }
 
 
         rcl_allocator_t allocator = rcl_get_default_allocator();
@@ -62,7 +85,7 @@ void high_speed_interface_thread0_entry(void) {
         FSP_PARAMETER_NOT_USED(_iosdid);
         FSP_PARAMETER_NOT_USED(_opt_init);
         //auto _ret = rclc_support_init(&support, 0, NULL, &allocator);
-        etc = micro_ros->running_instance;
+
         auto _ret = rclc_support_init_with_options(&support, 0, NULL, &init_options, &allocator);
         if (_ret == RCL_RET_ERROR){
             //TODO this should be written
@@ -217,4 +240,86 @@ extern "C" void user_uart_callback (uart_callback_args_t * p_args){
 //
 //    tx_semaphore_put(&css);
 //}
+bool renesas_e2_transport_open(struct uxrCustomTransport * transport){
+    (void) transport;
+    fsp_err_t err;
 
+#if defined (BOARD_RA6T2_MCK)
+    R_SCI_B_UART_Open(&g_uart0_ctrl, &g_uart0_cfg);
+    err = R_SCI_B_UART_Read(&g_uart0_ctrl, &it_buffer[0], UART_IT_BUFFER_SIZE);
+#else
+    R_SCI_B_UART_Open(&g_uart0_ctrl, &g_uart0_cfg);
+    err = R_SCI_B_UART_Read(&g_uart0_ctrl, &it_buffer[0], UART_IT_BUFFER_SIZE);
+#endif
+
+    return err == FSP_SUCCESS;
+}
+
+bool renesas_e2_transport_close(struct uxrCustomTransport * transport){
+    (void) transport;
+    fsp_err_t err;
+
+#if defined (BOARD_RA6T2_MCK)
+    err = R_SCI_B_UART_Close(&g_uart0_ctrl);
+#else
+    err = R_SCI_B_UART_Close(&g_uart0_ctrl);
+#endif
+
+    return err == FSP_SUCCESS;
+}
+
+size_t renesas_e2_transport_write(struct uxrCustomTransport* transport, const uint8_t * buf, size_t len, uint8_t * error){
+    (void) transport;
+    (void) error;
+
+    g_write_complete = false;
+    fsp_err_t err;
+
+#if defined (BOARD_RA6T2_MCK)
+    err = R_SCI_B_UART_Write(&g_uart0_ctrl, buf, len);
+#else
+    err = R_SCI_B_UART_Write(&g_uart0_ctrl, buf, len);
+#endif
+
+    if (err != FSP_SUCCESS)
+    {
+        return 0;
+    }
+
+    int64_t start = uxr_millis();
+    while(!g_write_complete && (uxr_millis() -  start) < WRITE_TIMEOUT)
+    {
+        R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MICROSECONDS);
+    }
+
+    return len;
+}
+
+size_t renesas_e2_transport_read(struct uxrCustomTransport* transport, uint8_t* buf, size_t len, int timeout, uint8_t* error){
+    (void) transport;
+    (void) error;
+
+    int64_t start = uxr_millis();
+    size_t wrote = 0;
+
+    while ((uxr_millis() -  start) < timeout)
+    {
+        it_tail = UART_IT_BUFFER_SIZE - g_uart0_ctrl.rx_dest_bytes;
+
+        if (it_head != it_tail)
+        {
+            while (it_head != it_tail && wrote < len)
+            {
+                buf[wrote] = it_buffer[it_head];
+                it_head = (it_head + 1) % UART_IT_BUFFER_SIZE;
+                wrote++;
+            }
+
+            break;
+        }
+
+        R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MICROSECONDS);
+    }
+
+    return wrote;
+}
