@@ -5,11 +5,12 @@
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
 #include <std_msgs/msg/int8.h>
+#include <lart_msgs/msg/state.h>
 #include <list>
 #include <map>
 #include <iostream>
 #include "rmw_microros/rmw_microros.h"
-
+#include <lart_msgs/msg/as_status.h>
 #include "Interfaces/HighSpeedAbsL.cpp"
 #include "Interfaces/Drivers/HardwareBased/EthDuo.h"
 #include "Interfaces/Drivers/HardwareBased/UartRen.h"
@@ -25,6 +26,8 @@
 
 #include "utils.h"
 #include <functional>
+
+
 #define TX_DATA_HIGH_SPEED_TIMEOUT 32
 #define ROS2_EXECUTOR_MAX_HANDLES 2
 extern "C" void user_uart_callback (uart_callback_args_t * p_args);
@@ -80,8 +83,10 @@ void high_speed_interface_thread0_entry(void) {
 
         rcl_init_options_t init_options = rcl_get_zero_initialized_init_options();
 
-        auto _iosdid =rcl_init_options_set_domain_id(&init_options, 42);
+
         auto _opt_init = rcl_init_options_init(&init_options, allocator);
+        auto _iosdid =rcl_init_options_set_domain_id(&init_options, 42);
+        //auto _retttt = rcl_init_options_fini(&init_options);
         FSP_PARAMETER_NOT_USED(_iosdid);
         FSP_PARAMETER_NOT_USED(_opt_init);
         //auto _ret = rclc_support_init(&support, 0, NULL, &allocator);

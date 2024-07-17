@@ -4,4 +4,8 @@
 /* KickStart_Rainbow entry function */
 void kickstart_rainbow_entry(void){
     rainbow();
+    //start High_Speed_interface thread
+
+
 }
+

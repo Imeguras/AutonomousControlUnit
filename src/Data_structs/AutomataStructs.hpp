@@ -6,6 +6,7 @@
  */
 #include <stdint.h>
 #include <std_msgs/msg/int8.h>
+#include  <lart_msgs/msg/as_status.h>
 #pragma once
 enum critical_as_state {
 	OFF=1,
@@ -47,6 +48,7 @@ class critical_as_int8{
 
 
 	private: 
+		lart_msgs__msg__ASStatus aut;
 		std_msgs__msg__Int8 msg;
 
 };
