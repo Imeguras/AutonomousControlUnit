@@ -31,7 +31,7 @@ HighSpeed_AbsL<APL>::HighSpeed_AbsL() {
                 int init_ret = locked->initialization();
                 //Init is OK?
                 if(FSP_SUCCESS == (fsp_err_t)init_ret){
-                    this->apl_handle = _temp;
+                    this->apl_handle = locked;
                 }else{
                     //TODO define a screaming protocol
                 }
@@ -53,13 +53,21 @@ template<typename APL> HighSpeed_AbsL<APL>::~HighSpeed_AbsL() {
 }
 
 template<typename APL> HighSpeed_AbsL<APL>::HighSpeed_AbsL(const HighSpeed_AbsL&& other) {
-	//TODO
+    // Check for self-assignment to avoid unnecessary work
+    if (this == &other)
+    {
+        return;
+    }
+
+    this->apl_handle = std::move (other.apl_handle);
+    other.~HighSpeed_AbsL ();
+    return;
 }
 template<typename APL>
-std::weak_ptr<APL> HighSpeed_AbsL<APL>::g_AplHandle(){
+APL* HighSpeed_AbsL<APL>::g_AplHandle(){
 	//TODO: yeah this is dangerous af
-	std::weak_ptr<APL> weak = apl_handle;
-	return weak;
+	//std::weak_ptr<APL> weak = apl_handle;
+	return this->apl_handle.get();
 }
 template<typename APL>
 HighSpeed_AbsL<APL>& HighSpeed_AbsL<APL>::operator=(const HighSpeed_AbsL<APL>&& other) {

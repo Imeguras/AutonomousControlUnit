@@ -15,10 +15,10 @@
 #include "../../../../ra/board/board_ra8t1_acuity_bsp/board.h"
 #include "../../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
 #include "../../../../ra/board/ra8t1_acuity_bsp/board_init.hpp"
+#include "../CANopenStack.h"
 #define CANFDREN_LOOPBACK_TIMEOUT 200
 #ifndef CANFDREN_H_
 #define CANFDREN_H_
-static bool ja_usado;
 class CanFDRen : AbstractPeripheralLayer{
     public:
         /**
@@ -36,16 +36,25 @@ class CanFDRen : AbstractPeripheralLayer{
 
         int channelInjection(canfd_instance_ctrl_t * _g_canfd_ctrl, const can_cfg_t * _g_canfd_cfg);
 
-        void* recv(void * data, uint32_t stream_size) override;
-        uint32_t	write(void *data, uint32_t stream_size) override;
+        uint32_t recv(void * data, uint32_t stream_size) override;
+        uint32_t recv(void* data, uint32_t buffer, uint32_t stream_size);
+
+        uint32_t	write(void *data, uint32_t stream_size=0) override;
         volatile bool rx_ready;
         volatile bool tx_ready;
-
+        uint32_t close();
         void callbackHandle(can_callback_args_t *p_args);
+        uint32_t decode(uint32_t buffer);
+        uint32_t decodeImmediate(can_frame_t frame);
+        CANopenStack * currentCanOpenStack;
+
+    protected:
+        volatile uint8_t channel;
     private:
-        std::list<uint32_t> fbuffers_rx;
+
         canfd_instance_ctrl_t * g_canfd_ctrl;
         const can_cfg_t * g_canfd_cfg;
+
 
         bool checkCanChannelAnyUsed(uint16_t * fetch_channelId );
 

@@ -37,8 +37,8 @@ public:
 	virtual ~MicroRosDuo();
 	int initialization() override;
 
-	void* recv(void * data, uint32_t stream_size) override;
-	uint32_t	write(void *data, uint32_t stream_size) override;
+	uint32_t recv(void * data, uint32_t stream_size) override;
+	uint32_t write(void *data, uint32_t stream_size) override;
 
 
 	bool _transport_open(struct uxrCustomTransport * transport);

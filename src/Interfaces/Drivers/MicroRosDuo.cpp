@@ -4,7 +4,8 @@
  *  Created on: 02/11/2023
  *      Author: micron
  */
-
+/** TODO URGENT THIS HAS TO BE DEPRECATED: PATTERNS ARE CONTRADITORY AND MAY BE SEEN AS AN ANTI PATTERN
+ */
 #include "MicroRosDuo.h"
 
 //TODO: The linker as usual has this boogaloo behaviour, study nmore on how to do it the hardway
@@ -81,7 +82,7 @@ MicroRosDuo::MicroRosDuo() {
 MicroRosDuo::~MicroRosDuo() {
 	// TODO Auto-generated destructor stub
 }
-void* MicroRosDuo::recv(void * data, uint32_t stream_size){
+uint32_t MicroRosDuo::recv(void * data, uint32_t stream_size){
 	return this->EthDuo::recv(data, stream_size);
 }
 bool MicroRosDuo::_transport_open(struct uxrCustomTransport * transport){

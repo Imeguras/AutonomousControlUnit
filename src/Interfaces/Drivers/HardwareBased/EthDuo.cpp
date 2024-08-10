@@ -31,15 +31,24 @@ EthDuo::~EthDuo() {
 	this->error_counter+=status;
 }
 
-void* EthDuo::recv(void * data, uint32_t stream_size){
-	return (int)0;
-}
+uint32_t EthDuo::recv(void * data, uint32_t stream_size){
 
-uint32_t	EthDuo::write(void *data, uint32_t stream_size){
+    FSP_PARAMETER_NOT_USED(data);
+    FSP_PARAMETER_NOT_USED(stream_size);
 	return 0;
 }
 
+uint32_t	EthDuo::write(void *data, uint32_t stream_size){
+    FSP_PARAMETER_NOT_USED(data);
+    FSP_PARAMETER_NOT_USED(stream_size);
+    return 0;
+}
+
 int  EthDuo::initialization(){
+    if(this->initialized){
+            //TODO Evaluate risk
+            return FSP_ERR_ALREADY_OPEN;
+    }
 	nx_system_initialize();
 	this->g_packet_pool0_quick_setup();
   	this->g_ip0_quick_setup();
