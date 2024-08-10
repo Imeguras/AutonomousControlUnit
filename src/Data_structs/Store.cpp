@@ -4,7 +4,7 @@
  *  Created on: 14/12/2023
  *      Author: micron
  */
-#include "Data_structs/AutomataStructs.hpp"
+
 #include <lart_msgs/msg/as_status.h>
 #pragma once
 
@@ -19,7 +19,12 @@ namespace store {
         int16_t actual_torque;
         bool undirty=true;
     }_Maxon_t;
+    typedef struct{
+        uint8_t gpio_state;
 
+        bool undirty=true;
+
+    }_GrossFunkeRes_t;
 
     class Store {
         public:
@@ -37,6 +42,8 @@ namespace store {
 
                 //INTERNAL
                 _Maxon_t maxon;
+                _GrossFunkeRes_t res;
+
 
 
 

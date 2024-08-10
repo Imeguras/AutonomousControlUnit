@@ -207,8 +207,8 @@ FSP Configuration
       P314 55 - - - - Disabled - - "ADC(Digital): ADTRG0; SCI3: CTS_RTS3; SCI3: DE3" - None - - 
       P315 56 - - - - Disabled - - "SCI3: DE3; SCI3: SCK3" - None - - 
       P400 1 ETHER_RMII_ET0_WOL - H None "Peripheral mode" - - "ADC(Digital): ADTRG1; AGT1: AGTIO1; ETHER_MII: ET0_WOL; ETHER_RMII: ET0_WOL; GPT6: GTIOC6A; I3C0: I3C_SCL0; IRQ0: IRQ0; SCI1: TXD1; SDHI1: SD1CLK" - IO - - 
-      P401 2 ETHER_RMII_ET0_MDC - M None "Peripheral mode" - - "CANFD0: CTX0; ETHER_MII: ET0_MDC; ETHER_RMII: ET0_MDC; GPT6: GTIOC6B; GPT_POEGA: GTETRGA; I3C0: I3C_SDA0; IRQ5: IRQ5-DS; SCI1: RXD1; SDHI1: SD1CMD" - IO - - 
-      P402 3 ETHER_RMII_ET0_MDIO - M None "Peripheral mode" - - "CAC: CACREF; CANFD0: CRX0; ETHER_MII: ET0_MDIO; ETHER_RMII: ET0_MDIO; IRQ4: IRQ4-DS; SCI1: DE1; SCI1: SCK1; SDHI1: SD1DAT0" - IO - - 
+      P401 2 ETHER_RMII_ET0_MDC - H None "Peripheral mode" - - "CANFD0: CTX0; ETHER_MII: ET0_MDC; ETHER_RMII: ET0_MDC; GPT6: GTIOC6B; GPT_POEGA: GTETRGA; I3C0: I3C_SDA0; IRQ5: IRQ5-DS; SCI1: RXD1; SDHI1: SD1CMD" - IO - - 
+      P402 3 ETHER_RMII_ET0_MDIO - H None "Peripheral mode" - - "CAC: CACREF; CANFD0: CRX0; ETHER_MII: ET0_MDIO; ETHER_RMII: ET0_MDIO; IRQ4: IRQ4-DS; SCI1: DE1; SCI1: SCK1; SDHI1: SD1DAT0" - IO - - 
       P403 4 ETHER_RMII_ET0_LINKSTA - H None "Peripheral mode" - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1" - IO - - 
       P404 5 ETHER_RMII_ET0_EXOUT - H None "Peripheral mode" - - "ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; SCI1: CTS1; SDHI1: SD1DAT2" - IO - - 
       P405 6 ETHER_RMII_RMII0_TXD_EN - H - "Peripheral mode" - - "AGT1: AGTIO1; ETHER_MII: ET0_TX_EN; ETHER_RMII: RMII0_TXD_EN; GPT1: GTIOC1A; SCI2: DE2; SCI2: SCK2; SDHI1: SD1DAT3" - IO - - 
@@ -1551,7 +1551,7 @@ FSP Configuration
     Name: High Speed Interface
     Stack size (bytes): 10000
     Priority: 2
-    Auto start: Enabled
+    Auto start: Disabled
     Time slicing interval (ticks): 1
     
     Instance "g_ip0 Azure RTOS NetX Duo IP Instance"
@@ -1637,7 +1637,7 @@ FSP Configuration
     Name: Low Speed Interface
     Stack size (bytes): 1024
     Priority: 1
-    Auto start: Disabled
+    Auto start: Enabled
     Time slicing interval (ticks): 1
     
     Instance "g_canfd0 CAN FD Lite (r_canfdlite)"

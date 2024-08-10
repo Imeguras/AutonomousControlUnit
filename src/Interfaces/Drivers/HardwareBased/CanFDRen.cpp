@@ -1,10 +1,4 @@
-/*
- * CanRen.cpp
-
- *
- *  Created on: 09/10/2023
- *      Author: micron
- */
+#include <Data_structs/Can-Header-Map/CANOPEN_db.h>
 #include "CanFDRen.h"
 //#include "../../../../ra/board/board_ra8t1_acuity_bsp/board.h"
 //#include "../../../../ra/board/board_ra8t1_acuity_bsp/board_leds.hpp"
@@ -14,7 +8,6 @@
 #include "utils.h"
 #include "../../../Data_structs/Can-Header-Map/CAN_asdb.h"
 
-#include "../../../Data_structs/Can-Header-Map/CANOPEN_maxondb.h"
 #include "../../../Data_structs/Store.cpp"
 
 
@@ -229,10 +222,11 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
     else if (this->channel == 1){*/
         //CAN
         can_frame_stream _data={0,0,0,0,0,0,0,0};
-        int32_t position =0;
-        int16_t momentum = 0;
+
         //TODO: FIND OUT HOW TO MACRO A STRUCT INIT
-        store::_Maxon_t maxon ;
+        store::_Maxon_t maxon_dummy;
+        store::_GrossFunkeRes_t res_dummy;
+
         memcpy(_data.data, frame.data, 8);
         switch(frame.id){
             //TODO fix this shyte
@@ -252,30 +246,29 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
 
 
                 break;
-            case PDO_TXONE_MAXON():
+            case PDO_TXONE(NODE_ID_STEERING):
                 break;
-            case PDO_TXTWO_MAXON():
+            case PDO_TXTWO(NODE_ID_STEERING):
                 break;
-            case PDO_TXTHREE_MAXON():
-                //Decode
-                position = MAP_DECODE_PDO_TXTHREE_ACTUAL_POSITION(frame.data);
-                momentum= MAP_DECODE_PDO_TXTHREE_ACTUAL_MOMENT(frame.data);
-                //Mold the blank struct
-                maxon.actual_position = position;
-                maxon.actual_torque = momentum;
-                maxon.undirty = false;
+            case PDO_TXTHREE(NODE_ID_STEERING):
+
+                maxon_dummy.actual_position = MAP_DECODE_PDO_TXTHREE_MAXON_ACTUAL_POSITION(frame.data);
+                maxon_dummy.actual_torque = MAP_DECODE_PDO_TXTHREE_MAXON_ACTUAL_MOMENT(frame.data);
+                maxon_dummy.undirty = false;
 
                 //Apply the struct to the store
-                store::Store::getInstance().maxon = maxon;
-
-                if (store::Store::getInstance().maxon.actual_position != 0){
-                    led_flip(7);
-                }
-                break;
-            case PDO_TXFOUR_MAXON():
+                store::Store::getInstance().maxon = maxon_dummy;
 
                 break;
+            case PDO_TXFOUR(NODE_ID_STEERING):
 
+                break;
+            case PDO_TXONE(NODE_ID_RES):
+                res_dummy.gpio_state =MAP_DECODE_PDO_TXONE_RES_STATUS(frame.data);
+                res_dummy.undirty = false;
+                store::Store::getInstance().res = res_dummy;
+
+                break;
             default:
                 break;
         };

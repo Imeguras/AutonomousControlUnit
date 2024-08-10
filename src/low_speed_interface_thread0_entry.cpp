@@ -1,3 +1,4 @@
+#include <Data_structs/Can-Header-Map/CANOPEN_db.h>
 #include <Data_structs/Store.cpp>
 
 #include <string.h>
@@ -8,9 +9,8 @@
 #include "Interfaces/HighSpeedAbsL.cpp"
 #include "Interfaces/Drivers/HardwareBased/CanFDRen.h"
 #include "utils.h"
-#include "Data_structs/AutomataStructs.hpp"
+
 #include "Data_structs/Can-Header-Map/CAN_asdb.h"
-#include "Data_structs/Can-Header-Map/CANOPEN_maxondb.h"
 
 
 
@@ -117,7 +117,7 @@ void low_speed_interface_thread0_entry(void) {
     R_BSP_SoftwareDelay(1, BSP_DELAY_UNITS_SECONDS);
     //wakeupNodes(canfd1.g_AplHandle());
     /*****/
-    frame.id = NMT_ADDRESS_COBID();
+            frame.id = NMT_ADDRESS_COBID();
             frame.data_length_code = 8U;
             frame.id_mode  = CAN_ID_MODE_STANDARD;
             frame.type = CAN_FRAME_TYPE_DATA;
@@ -131,7 +131,6 @@ void low_speed_interface_thread0_entry(void) {
             memcpy(frame.data, &_data.data, 8);
             canfd1->write((void *)&frame,0);
             R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-
             frame.id = SDO_REQUEST_ADDRESS_COBID();
 
 
@@ -182,12 +181,12 @@ void low_speed_interface_thread0_entry(void) {
             memcpy(frame.data, __data, 8);
 
 
-            frame.id = PDO_RXTHREE_MAXON() ;
+            frame.id = PDO_RXTHREE(NODE_ID_STEERING) ;
             canfd1->write((void *)&frame,0);
             R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
             uint8_t data___[8] = {0x22, 0x40, 0xAA, 0x82, 0x07, 0x00, 0x00 ,0x00};
             memcpy(frame.data, data___, 8);
-            frame.id = PDO_RXTHREE_MAXON();
+            frame.id = PDO_RXTHREE(NODE_ID_STEERING);
             canfd1->write((void *)&frame,0);
             R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
             //write control word
@@ -202,16 +201,26 @@ void low_speed_interface_thread0_entry(void) {
             R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
 
 
-    frame.id = 0x11;
-    frame.data_length_code = 8U;
-    frame.id_mode  = CAN_ID_MODE_STANDARD;
-    frame.type = CAN_FRAME_TYPE_DATA;
-    frame.options = 0;
 
-    while (canfd1->currentCanOpenStack->g_currentState () != Switched_on ){
 
+//    while (canfd1->currentCanOpenStack->g_currentState () != Switched_on ){
+    uint8_t __f = 0x00;
+    while(1){
+
+        __f+=1;
+        if(__f >= 0x06){
+            __f=0x00;
+        }
+        frame.id = CAN_AS_STATUS;
+        frame.data_length_code = 8U;
+        uint8_t data____[8] = {__f, 0x00, 0x00, 0x00, 0x00, 0x00 ,0x00, 0x00};
+        memcpy(frame.data, data____, 8);
+
+        frame.id_mode  = CAN_ID_MODE_STANDARD;
+        frame.type = CAN_FRAME_TYPE_DATA;
+        frame.options = 0;
         canfd1->write((void *)&frame,0);
-        R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
+        R_BSP_SoftwareDelay(4000, BSP_DELAY_UNITS_MILLISECONDS);
 
         //canfd1->decodeImmediate (frame);
 
@@ -313,7 +322,7 @@ UINT wakeupNodes(CanFDRen* canfd){
         uint8_t __data[8] = {0x22, 0x7A, 100, 100, 100, 100, 00, 00};
         memcpy(frame.data, __data, 8);
 
-        frame.id = PDO_RXTHREE_MAXON() ;
+        frame.id = PDO_RXTHREE(NODE_ID_STEERING) ;
         canfd->write((void *)&frame,0);
 
 

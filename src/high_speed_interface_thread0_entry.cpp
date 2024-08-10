@@ -5,25 +5,23 @@
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
 #include <std_msgs/msg/int8.h>
-#include <lart_msgs/msg/state.h>
 #include <list>
 #include <map>
 #include <iostream>
 #include "rmw_microros/rmw_microros.h"
+
 #include <lart_msgs/msg/as_status.h>
 #include "Interfaces/HighSpeedAbsL.cpp"
 #include "Interfaces/Drivers/HardwareBased/EthDuo.h"
 #include "Interfaces/Drivers/HardwareBased/UartRen.h"
-
+#include <ackermann_msgs/msg/ackermann_drive.h>
+#include <ackermann_msgs/msg/ackermann_drive_stamped.h>
 #include "Interfaces/Drivers/MicroRosDuo.h"
 #include "Interfaces/Drivers/MicroRosDuoGen.h"
 #include "Interfaces/MicroRosBoylerplate/microros_transports.h"
 //TODO fix this mess
 #include "../../../ra/board/ra8t1_acuity_bsp/board.h"
 #include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
-
-#include "Data_structs/AutomataStructs.hpp"
-
 #include "utils.h"
 #include <functional>
 
@@ -32,7 +30,7 @@
 #define ROS2_EXECUTOR_MAX_HANDLES 2
 extern "C" void user_uart_callback (uart_callback_args_t * p_args);
 hardware_drivers::UartRen * interface_callback_uart_t;
-std_msgs__msg__Int8 msg_incoming;
+//std_msgs__msg__Int8 msg_incoming;
 //static std_msgs__msg__Int8 msg_status;
 //static std_msgs__msg__Int8 msg_mission;
 /* New Thread entry function */
@@ -107,21 +105,31 @@ void high_speed_interface_thread0_entry(void) {
             led_blink (0, 12);
         }
         rcl_publisher_t publisher;
-        rclc_publisher_init_default(&publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8), "topic");
-        std_msgs__msg__Int8 msg_output;
+//        rclc_publisher_init_default(&publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8), "topic");
+        rclc_publisher_init_default(&publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(lart_msgs, msg, ASStatus), "goalv");
+        store::Store::getInstance().as_status.mission_data = 1;
+        store::Store::getInstance().as_status.state_data = 2;
+        lart_msgs__msg__ASStatus msg_output;
 
-        msg_output.data = 0;
+
+
+        //std_msgs__msg__Int8 msg_output;
+
+        //msg_output.data = 0;
 
     //    rclc_executor_spin(&executor);
 
 
         led_blink(0,3);
         while (1){
-            //publish
-            msg_output.data=1;
+            msg_output.mission_data=store::Store::getInstance().as_status.mission_data;
+            msg_output.state_data=store::Store::getInstance().as_status.state_data;
+
+
+            //publis
             auto _pub_ret = rcl_publish(&publisher, &msg_output, NULL);
             FSP_PARAMETER_NOT_USED(_pub_ret);
-            R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
+            R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
             tx_thread_sleep (1);
         }
 
