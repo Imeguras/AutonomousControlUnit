@@ -10,20 +10,9 @@
 #include <memory>
 #include <utility>
 #include <iostream>
+#include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
 #ifndef HIGHSPEEDABSL_H_
 #define HIGHSPEEDABSL_H_
-
-/*template<typename APL> class HighSpeed_AbsL {
-public:
-	HighSpeed_AbsL();
-	virtual ~HighSpeed_AbsL();
-	HighSpeed_AbsL(const HighSpeed_AbsL &&other);
-	HighSpeed_AbsL& operator=(const HighSpeed_AbsL&& other);
-	APL* g_AplHandle();
-private:
-	std::shared_ptr<APL> apl_handle;
-
-};*/
 
 template<typename APL> class HighSpeed_AbsL {
 public:
@@ -31,10 +20,13 @@ public:
 	virtual ~HighSpeed_AbsL();
 	HighSpeed_AbsL(const HighSpeed_AbsL &&other);
 	HighSpeed_AbsL& operator=(const HighSpeed_AbsL&& other);
-	std::weak_ptr<APL> g_AplHandle();
+	APL* g_AplHandle();
 	APL*  operator->();
+
+
 private:
 	std::shared_ptr<APL> apl_handle;
+
 
 };
 

@@ -1,5 +1,5 @@
 #include "hal_data.h"
-
+#include "../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
 FSP_CPP_HEADER
 void R_BSP_WarmStart(bsp_warm_start_event_t event);
 FSP_CPP_FOOTER
@@ -16,6 +16,7 @@ void hal_entry(void)
     /* Enter non-secure code */
     R_BSP_NonSecureEnter();
 #endif
+
 }
 
 /*******************************************************************************************************************//**
@@ -43,7 +44,7 @@ void R_BSP_WarmStart(bsp_warm_start_event_t event)
         /* C runtime environment and system clocks are setup. */
 
         /* Configure pins. */
-        R_IOPORT_Open (&g_ioport_ctrl, &IOPORT_CFG_NAME);
+        IOPORT_CFG_OPEN (&IOPORT_CFG_CTRL, &IOPORT_CFG_NAME);
     }
 }
 

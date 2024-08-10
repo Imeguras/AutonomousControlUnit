@@ -5,7 +5,7 @@
  *      Author: micron
  */
 
-#include "interfaces/EthDuo.h"
+#include "HardwareBased/EthDuo.h"
 
 #include <rcl/rcl.h>
 #include <rcl/error_handling.h>
@@ -14,7 +14,7 @@
 #include <rcutils/allocator.h>
 #include <rmw_microros/rmw_microros.h>
 #include <rmw_microxrcedds_c/config.h>
-#include "MicroRosHumble/microros_transports.h"
+#include "../MicroRosBoylerplate/microros_transports.h"
 /*
 #include "rmw_microros/rmw_microros.h"
 #include "microros_transports.h"*/
@@ -31,14 +31,14 @@
 #define SOCKET_FIFO_SIZE G_PACKET_POOL0_PACKET_NUM
 #define TX_MS_TO_TICKS(milliseconds) ((ULONG) ((milliseconds / 1000.0) * TX_TIMER_TICKS_PER_SECOND))
 
-class MicroRosDuo: public EthDuo {
+class MicroRosDuo : public EthDuo {
 public:
 	MicroRosDuo();
 	virtual ~MicroRosDuo();
 	int initialization() override;
 
-	void* recv(void * data, uint32_t stream_size) override;
-	uint32_t	write(void *data, uint32_t stream_size) override;
+	uint32_t recv(void * data, uint32_t stream_size) override;
+	uint32_t write(void *data, uint32_t stream_size) override;
 
 
 	bool _transport_open(struct uxrCustomTransport * transport);
