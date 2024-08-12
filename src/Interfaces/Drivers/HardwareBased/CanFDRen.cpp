@@ -18,7 +18,7 @@ CanFDRen::CanFDRen()  {
     this->g_canfd_ctrl= NULL;
     this->g_canfd_cfg= NULL;
     this->currentCanOpenStack = NULL;
-
+    this->m_preamble.id = 0xEFEFEFEF;
 }
 
 CanFDRen::~CanFDRen() {
@@ -188,6 +188,26 @@ uint32_t CanFDRen::write(void *data, uint32_t stream_size){
 
 	return status;
 }
+uint32_t CanFDRen::write(void *data, uint32_t stream_size, bool preamble){
+    this->tx_ready=false;
+    if(preamble == false){
+        return this->write(data, stream_size);
+    }
+    can_info_t info = {
+         .status  = 0,
+         .rx_mb_status = 0,
+         .rx_fifo_status = 0,
+         .error_count_transmit = 0,
+         .error_count_receive = 0,
+         .error_code = 0
+    };
+    R_CANFD_InfoGet(this->g_canfd_ctrl, &info);
+    //TODO: sanitize preamble?
+    memcpy(this->m_preamble.data, data, stream_size);
+    UINT status = R_CANFD_Write(this->g_canfd_ctrl, CANFD_TX_MB_0, (can_frame_t *)&m_preamble);
+
+    return status;
+}
 uint32_t CanFDRen::decode(uint32_t buffer){
 
     can_info_t info = {
@@ -232,9 +252,6 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
             //TODO fix this shyte
             case CAN_AS_DATALOGGER:
                 break;
-            case BOOTUP_ADDRESS_COBID():
-                this->currentCanOpenStack->a_bootedNodes(5);
-                break;
             case SDO_RESPONSE_ADDRESS_COBID():
                 //check if the callback is null
                 if(this->currentCanOpenStack->callback == NULL) {
@@ -269,6 +286,9 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
                 store::Store::getInstance().res = res_dummy;
 
                 break;
+            case BOOTUP_ADDRESS_COBID(0) ... BOOTUP_ADDRESS_COBID(0x7F):
+                this->currentCanOpenStack->a_bootedNodes(frame.id - 0x700);
+                break;
             default:
                 break;
         };
@@ -277,6 +297,20 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
 
     return FSP_SUCCESS;
 }
+uint32_t CanFDRen::s_preambleID(int32_t id){
+    if(m_preamble.id != 0xEFEFEFEF){
+        m_preamble.id = id;
+    }
+    return FSP_SUCCESS;
+}
+uint32_t CanFDRen::preamble(void * data){
+    can_frame_t * frame = (can_frame_t *)data;
+    //move frame into m_preamble
+    memcpy(&m_preamble, frame, sizeof(can_frame_t));
+    return FSP_SUCCESS;
+
+}
+
 void CanFDRen::callbackHandle(can_callback_args_t *p_args){
     uint32_t buf;
     switch (p_args->event){
