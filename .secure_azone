@@ -43,7 +43,6 @@
             <slot name="P400" secure="true"/>
             <slot name="P401" secure="true"/>
             <slot name="P402" secure="true"/>
-            <slot name="P403" secure="true"/>
             <slot name="P404" secure="true"/>
             <slot name="P405" secure="true"/>
             <slot name="P406" secure="true"/>
@@ -67,6 +66,7 @@
             <slot name="P705" secure="true"/>
         </peripheral>
         <peripheral name="AGT0" group="AGT" security=""/>
+        <peripheral name="SDHI0" group="SDHI" security=""/>
         <peripheral name="ETHERC0" group="ETHERC" security=""/>
         <peripheral name="CANFD0" group="CANFD" security=""/>
         <peripheral name="CANFD1" group="CANFD" security=""/>
@@ -85,6 +85,8 @@
             <slot name="IRQ11" secure="true"/>
             <slot name="IRQ12" secure="true"/>
             <slot name="IRQ13" secure="true"/>
+            <slot name="IRQ14" secure="true"/>
+            <slot name="IRQ15" secure="true"/>
         </peripheral>
     </partition>
 </azone>

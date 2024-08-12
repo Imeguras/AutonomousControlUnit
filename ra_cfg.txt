@@ -209,7 +209,7 @@ FSP Configuration
       P400 1 ETHER_RMII_ET0_WOL - H None "Peripheral mode" - - "ADC(Digital): ADTRG1; AGT1: AGTIO1; ETHER_MII: ET0_WOL; ETHER_RMII: ET0_WOL; GPT6: GTIOC6A; I3C0: I3C_SCL0; IRQ0: IRQ0; SCI1: TXD1; SDHI1: SD1CLK" - IO - - 
       P401 2 ETHER_RMII_ET0_MDC - H None "Peripheral mode" - - "CANFD0: CTX0; ETHER_MII: ET0_MDC; ETHER_RMII: ET0_MDC; GPT6: GTIOC6B; GPT_POEGA: GTETRGA; I3C0: I3C_SDA0; IRQ5: IRQ5-DS; SCI1: RXD1; SDHI1: SD1CMD" - IO - - 
       P402 3 ETHER_RMII_ET0_MDIO - H None "Peripheral mode" - - "CAC: CACREF; CANFD0: CRX0; ETHER_MII: ET0_MDIO; ETHER_RMII: ET0_MDIO; IRQ4: IRQ4-DS; SCI1: DE1; SCI1: SCK1; SDHI1: SD1DAT0" - IO - - 
-      P403 4 ETHER_RMII_ET0_LINKSTA - H None "Peripheral mode" - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1" - IO - - 
+      P403 4 - - - - Disabled - - "ETHER_MII: ET0_LINKSTA; ETHER_RMII: ET0_LINKSTA; GPT3: GTIOC3A; IRQ14: IRQ14-DS; SCI1: CTS_RTS1; SCI1: DE1; SDHI1: SD1DAT1" - None - - 
       P404 5 ETHER_RMII_ET0_EXOUT - H None "Peripheral mode" - - "ETHER_MII: ET0_EXOUT; ETHER_RMII: ET0_EXOUT; GPT3: GTIOC3B; IRQ15: IRQ15-DS; SCI1: CTS1; SDHI1: SD1DAT2" - IO - - 
       P405 6 ETHER_RMII_RMII0_TXD_EN - H - "Peripheral mode" - - "AGT1: AGTIO1; ETHER_MII: ET0_TX_EN; ETHER_RMII: RMII0_TXD_EN; GPT1: GTIOC1A; SCI2: DE2; SCI2: SCK2; SDHI1: SD1DAT3" - IO - - 
       P406 7 ETHER_RMII_RMII0_TXD1 - H - "Peripheral mode" - - "CGC: EXCIN; ETHER_MII: ET0_RX_ER; ETHER_RMII: RMII0_TXD1; GPT1: GTIOC1B; SCI2: TXD2; SDHI1: SD1CD; SPI0: SSLA3" - IO - - 
@@ -1481,6 +1481,55 @@ FSP Configuration
     DTC Support: Disable
     Flow Control Support: Disable
     
+  Module "Azure RTOS FileX on Block Media"
+    Error Checking: Enabled (default)
+    Common: Max Long Name Len: 
+    Common: Max Last Name Len: 
+    Common: Max Sector Cache: 
+    Common: Fat Map Size: 
+    Common: Max Fat Cache: 
+    Threading: Update Rate (Seconds): 
+    Threading: No Timer: Disabled (default)
+    Threading: Single Thread: Disabled (default)
+    Threading: Standalone: Disabled (default)
+    Extra Features: Don't Update Open Files: Disabled (default)
+    Extra Features: Media Search Cache: Enabled (default)
+    Extra Features: Direct Data Read Cache Fill: Enabled (default)
+    Extra Features: Media Statistics: Enabled (default)
+    Extra Features: Single Open Legacy: Disabled (default)
+    Extra Features: Rename Path Inherit: Disabled (default)
+    Extra Features: No Local Path: Disabled (default)
+    Extra Features: 64-bit LBA: Disabled (default)
+    Extra Features: Cache: Enabled (default)
+    Extra Features: File Close: Enabled (default)
+    Extra Features: Fast Close: Enabled (default)
+    Extra Features: Force Memory Operation: Enabled (default)
+    Extra Features: Build Options: Enabled (default)
+    Extra Features: One Line Function: Enabled (default)
+    Extra Features: FAT Entry Refresh: Enabled (default)
+    Extra Features: Consecutive Detect: Enabled (default)
+    Fault Tolerant: Fault Tolerant Service: Disabled (default)
+    Fault Tolerant: Fault Tolerant Data: Disabled (default)
+    Fault Tolerant: Fault Tolerant: Disabled (default)
+    Fault Tolerant: Fault Tolerant Boot Index: 
+    Extra Features: Enable exFAT: Enabled
+    
+  Module "FileX I/O (rm_filex_block_media)"
+    Parameter Checking: Default (BSP)
+    
+  Module "Block Media SD/MMC (rm_block_media_sdmmc)"
+    Parameter Checking: Default (BSP)
+    
+  Module "SD/MMC (r_sdhi)"
+    Parameter Checking: Default (BSP)
+    Unaligned Access Support: Enabled
+    SD Support: Enabled
+    eMMC Support: Enabled
+    
+  Module "Transfer (r_dtc)"
+    Parameter Checking: Default (BSP)
+    Linker section to keep DTC vector table: .fsp_dtc_vector_table
+    
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
     General: Error Checking: Enabled
@@ -1546,6 +1595,53 @@ FSP Configuration
       Interrupts: Callback: micro_ros_timer_cb
       Interrupts: Underflow Interrupt Priority: Priority 12
       
+    Instance "g_fx_media0 Azure RTOS FileX on Block Media"
+      Name: g_fx_media0
+      Volume Name: Volume 1
+      Number of FATs: 1
+      Directory Entries: 256
+      Hidden Sectors: 0
+      Total Sectors: 65536
+      Bytes per Sector: 512
+      Sectors per Cluster: 1
+      Volume Serial Number (exFAT only): 12345
+      Boundary Unit (exFAT only): 128
+      Working media memory size: 512
+      
+      Instance "g_rm_filex_block_media_0 FileX I/O (rm_filex_block_media)"
+        Name: g_rm_filex_block_media_0
+        Callback: g_rm_filex_block_media_0_callback
+        Partition Number: 0
+        
+        Instance "g_rm_block_media0 Block Media SD/MMC (rm_block_media_sdmmc)"
+          Name: g_rm_block_media0
+          Callback: rm_filex_block_media_memory_callback
+          
+          Instance "g_sdmmc0 SD/MMC (r_sdhi)"
+            Name: g_sdmmc0
+            Channel: 0
+            Bus Width: 4 Bits
+            Block Size: 512
+            Card Detection: CD Pin
+            Write Protection: WP Pin
+            Callback: rm_block_media_sdmmc_callback
+            Access Interrupt Priority: Priority 12
+            Card Interrupt Priority: Disabled
+            DTC Interrupt Priority: Priority 12
+            
+            Instance "g_transfer0 Transfer (r_dtc) SDHIMMC0 DMA REQ (DMA transfer request)"
+              Name: g_transfer0
+              Mode: Normal
+              Transfer Size: 4 Bytes
+              Destination Address Mode: Fixed
+              Source Address Mode: Incremented
+              Repeat Area (Unused in Normal Mode): Source
+              Interrupt Frequency: After all transfers have completed
+              Number of Transfers: 128
+              Number of Blocks (Valid only in Block Mode): 0
+              Number of Transfer Descriptors: 1
+              Activation Source: SDHIMMC0 DMA REQ (DMA transfer request)
+              
   Thread "High Speed Interface"
     Symbol: high_speed_interface_thread0
     Name: High Speed Interface
@@ -1636,7 +1732,7 @@ FSP Configuration
     Symbol: low_speed_interface_thread0
     Name: Low Speed Interface
     Stack size (bytes): 1024
-    Priority: 1
+    Priority: 3
     Auto start: Enabled
     Time slicing interval (ticks): 1
     
@@ -1745,6 +1841,14 @@ FSP Configuration
     Name: KickStart_Rainbow
     Stack size (bytes): 512
     Priority: 0
+    Auto start: Enabled
+    Time slicing interval (ticks): 1
+    
+  Thread "Supervisor"
+    Symbol: supervisor_thread0
+    Name: Supervisor
+    Stack size (bytes): 1024
+    Priority: 1
     Auto start: Enabled
     Time slicing interval (ticks): 1
     
