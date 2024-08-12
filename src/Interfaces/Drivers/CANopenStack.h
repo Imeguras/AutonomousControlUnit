@@ -9,10 +9,9 @@
 //
 #include <stdint.h>
 #include <functional>
-#include <vector>
+#include <unordered_set>
 #ifndef INTERFACES_DRIVERS_CANOPENSTACK_H_
 #define INTERFACES_DRIVERS_CANOPENSTACK_H_
-#define REMOTE_NODE_ID 0x005
 typedef union{
     uint8_t data[8];
     struct
@@ -82,7 +81,7 @@ public:
     can_frame_stream& requestStatusWordMessage();
     can_frame_stream& requestControlWordMessage(unsigned char highByte, unsigned char lowByte);
     StateMachine_StatusWord readStatusWordMessage(can_frame_stream);
-    std::vector<int> g_bootedNodes() const;
+    std::unordered_set<int> g_bootedNodes() const;
     void a_bootedNodes(int node_id);
 
 
@@ -90,12 +89,17 @@ public:
     //callback function for service
     std::function<StateMachine_StatusWord (can_frame_stream frame)> callback;
     can_frame_stream _temp;
+    const std::unordered_set<int> inscribed_nodes_list={
+      0x05,0x11
+    };
+
 
 protected:
     //TODO: this is a future implementation
     uint16_t acuity_node_id;
-    std::vector<int> booted_nodes;
+    std::unordered_set<int> booted_nodes;
     StateMachine_StatusWord current_state;
+
 
 private:
     //TODO THE DUCK is this? is it a CiA thing or a CanOpen thing

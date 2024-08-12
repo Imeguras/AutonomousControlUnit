@@ -53,10 +53,11 @@ void high_speed_interface_thread0_entry(void) {
 
     led_blink(7, 3);
     led_update(0, BSP_IO_LEVEL_HIGH);
+    HighSpeed_AbsL<MicroRosDuo> t;
 
     //HighSpeed_AbsL<MicroRosDuoGen<UartRenAdapter>> micro_ros;
 
-    rmw_uros_set_custom_transport(
+    /**rmw_uros_set_custom_transport(
                                true,
                                (void *) NULL,
                                renesas_e2_transport_open,
@@ -131,7 +132,7 @@ void high_speed_interface_thread0_entry(void) {
             FSP_PARAMETER_NOT_USED(_pub_ret);
             R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
             tx_thread_sleep (1);
-        }
+        }**/
 
 }
 extern "C" void user_uart_callback (uart_callback_args_t * p_args){

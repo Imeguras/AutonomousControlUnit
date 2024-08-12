@@ -106,7 +106,8 @@ extern "C" const canfd_afl_entry_t p_canfd1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
 
 extern "C" void canfd0_callback(can_callback_args_t * p_args);
 extern "C" void canfd1_callback(can_callback_args_t * p_args);
-UINT wakeupNodes(CanFDRen* canfd);
+UINT wakeupNodes(std::shared_ptr<CanFDRen> canfd);
+bool containsAllNodes(std::unordered_set<int> source, std::unordered_set<int> target);
 
 void low_speed_interface_thread0_entry(void) {
     can_frame_t frame;
@@ -115,111 +116,11 @@ void low_speed_interface_thread0_entry(void) {
     interface_callback0_t=(void *)&canfd0;
     interface_callback1_t=(void *)&canfd1;
     R_BSP_SoftwareDelay(1, BSP_DELAY_UNITS_SECONDS);
-    //wakeupNodes(canfd1.g_AplHandle());
-    /*****/
-            frame.id = NMT_ADDRESS_COBID();
-            frame.data_length_code = 8U;
-            frame.id_mode  = CAN_ID_MODE_STANDARD;
-            frame.type = CAN_FRAME_TYPE_DATA;
-            frame.options = 0;
-
-            can_frame_stream _data = canfd1->currentCanOpenStack->nmt_message(NMT_ENTER_PRE_OPERATIONAL, 0);
-            memcpy(frame.data, &_data.data, 8);
-            canfd1->write((void *)&frame,0);
-            R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-            _data = canfd1->currentCanOpenStack->nmt_message(NMT_START_REMOTE_NODE, 0);
-            memcpy(frame.data, &_data.data, 8);
-            canfd1->write((void *)&frame,0);
-            R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-            frame.id = SDO_REQUEST_ADDRESS_COBID();
+    wakeupNodes(canfd1.g_AplHandle());
 
 
-
-
-    //        can_frame_stream _data2 = canfd->currentCanOpenStack->requestStatusWordMessage();
-    //        memcpy(frame.data, &_data2.data, 8);
-    //        //bind the response of statusword to the callback function
-    //        canfd->currentCanOpenStack->callback = std::bind(&CANopenStack::readStatusWordMessage, canfd->currentCanOpenStack, std::placeholders::_1);
-    //        canfd->write((void *)&frame,0);
-    //        volatile StateMachine_StatusWord status=STATUSWORD_UNKNOWN;
-    //        do{
-    //           status = canfd->currentCanOpenStack->g_currentState();
-    //           R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-    //        }while(status != Switch_on_disabled);
-            R_BSP_SoftwareDelay(50, BSP_DELAY_UNITS_MILLISECONDS);
-            //Activate it
-
-            StateMachine_StatusWord status = Switch_on_disabled;
-            switch(status){
-                case Switch_on_disabled:
-                    _data = canfd1->currentCanOpenStack->requestControlWordMessage(0x00, dcc_shutdown);
-                    memcpy(frame.data, &_data.data, 8);
-                    canfd1->write((void *)&frame,0);
-                    R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-                    [[fallthrough]];
-                case Ready_to_switch_on:
-                    _data = canfd1->currentCanOpenStack->requestControlWordMessage(0x00, dcc_switchon_and_enable);
-                    memcpy(frame.data, &_data.data, 8);
-                    canfd1->write((void *)&frame,0);
-                    R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-                    break;
-                case Operation_enabled:
-                    led_update(3, BSP_IO_LEVEL_HIGH);
-                    break;
-
-                case Quick_stop_active:
-                case Fault_reaction_active:
-                case STATUSWORD_UNKNOWN:
-                default:
-                    led_update(0, BSP_IO_LEVEL_HIGH);
-
-
-
-
-            }
-            uint8_t __data[8] = {0x22, 0x7A, 0xAA, 0x82, 0x07, 00, 00, 00};
-            memcpy(frame.data, __data, 8);
-
-
-            frame.id = PDO_RXTHREE(NODE_ID_STEERING) ;
-            canfd1->write((void *)&frame,0);
-            R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-            uint8_t data___[8] = {0x22, 0x40, 0xAA, 0x82, 0x07, 0x00, 0x00 ,0x00};
-            memcpy(frame.data, data___, 8);
-            frame.id = PDO_RXTHREE(NODE_ID_STEERING);
-            canfd1->write((void *)&frame,0);
-            R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-            //write control word
-//            frame.id = SDO_REQUEST_ADDRESS_COBID();
-//            can_frame_stream _data2 = canfd1->currentCanOpenStack->requestControlWordMessage(0x00, 0x0F);
-//            memcpy(frame.data, &_data2.data, 8);
-//            canfd1->write((void *)&frame,0);
-            frame.id = SDO_REQUEST_ADDRESS_COBID();
-            can_frame_stream _data2 = canfd1->currentCanOpenStack->requestControlWordMessage(0x00, 0x1F);
-            memcpy(frame.data, &_data2.data, 8);
-            canfd1->write((void *)&frame,0);
-            R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-
-
-
-
-//    while (canfd1->currentCanOpenStack->g_currentState () != Switched_on ){
-    uint8_t __f = 0x00;
     while(1){
 
-        __f+=1;
-        if(__f >= 0x06){
-            __f=0x00;
-        }
-        frame.id = CAN_AS_STATUS;
-        frame.data_length_code = 8U;
-        uint8_t data____[8] = {__f, 0x00, 0x00, 0x00, 0x00, 0x00 ,0x00, 0x00};
-        memcpy(frame.data, data____, 8);
-
-        frame.id_mode  = CAN_ID_MODE_STANDARD;
-        frame.type = CAN_FRAME_TYPE_DATA;
-        frame.options = 0;
-        canfd1->write((void *)&frame,0);
         R_BSP_SoftwareDelay(4000, BSP_DELAY_UNITS_MILLISECONDS);
 
         //canfd1->decodeImmediate (frame);
@@ -251,83 +152,100 @@ void low_speed_interface_thread0_entry(void) {
 
 
 }
-UINT wakeupNodes(CanFDRen* canfd){
-        /*std::shared_ptr<CanFDRen> canfd = _canfd.lock();
-        if (canfd == nullptr){
-            return FSP_ERR_ASSERTION;
-        }*/
-
+UINT drive(std::shared_ptr<CanFDRen> canfd){
+    return FSP_SUCCESS;
+}
+UINT wakeupNodes(std::shared_ptr<CanFDRen> canfd){
         can_frame_t frame;
+        can_frame_stream _data;
         frame.id = NMT_ADDRESS_COBID();
         frame.data_length_code = 8U;
         frame.id_mode  = CAN_ID_MODE_STANDARD;
         frame.type = CAN_FRAME_TYPE_DATA;
         frame.options = 0;
-
-        can_frame_stream _data = canfd->currentCanOpenStack->nmt_message(NMT_ENTER_PRE_OPERATIONAL, 0);
-        memcpy(frame.data, &_data.data, 8);
-        canfd->write((void *)&frame,0);
-        R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-        _data = canfd->currentCanOpenStack->nmt_message(NMT_START_REMOTE_NODE, 0);
-        memcpy(frame.data, &_data.data, 8);
-        canfd->write((void *)&frame,0);
-        R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-
-        frame.id = SDO_REQUEST_ADDRESS_COBID();
-
-
-
-
-//        can_frame_stream _data2 = canfd->currentCanOpenStack->requestStatusWordMessage();
-//        memcpy(frame.data, &_data2.data, 8);
-//        //bind the response of statusword to the callback function
-//        canfd->currentCanOpenStack->callback = std::bind(&CANopenStack::readStatusWordMessage, canfd->currentCanOpenStack, std::placeholders::_1);
-//        canfd->write((void *)&frame,0);
-//        volatile StateMachine_StatusWord status=STATUSWORD_UNKNOWN;
-//        do{
-//           status = canfd->currentCanOpenStack->g_currentState();
-//           R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-//        }while(status != Switch_on_disabled);
-        R_BSP_SoftwareDelay(50, BSP_DELAY_UNITS_MILLISECONDS);
-        //Activate it
-
-        StateMachine_StatusWord status = Switch_on_disabled;
-        switch(status){
-            case Switch_on_disabled:
-                _data = canfd->currentCanOpenStack->requestControlWordMessage(0x00, dcc_shutdown);
-                memcpy(frame.data, &_data.data, 8);
-                canfd->write((void *)&frame,0);
-                R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-                [[fallthrough]];
-            case Ready_to_switch_on:
-                _data = canfd->currentCanOpenStack->requestControlWordMessage(0x00, dcc_switchon_and_enable);
-                memcpy(frame.data, &_data.data, 8);
-                canfd->write((void *)&frame,0);
-                R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-                break;
-            case Operation_enabled:
-                led_update(3, BSP_IO_LEVEL_HIGH);
-                break;
-
-            case Quick_stop_active:
-            case Fault_reaction_active:
-            case STATUSWORD_UNKNOWN:
-            default:
-                led_update(0, BSP_IO_LEVEL_HIGH);
-                return FSP_ERR_ASSERTION;
-
-
-
+        canfd->preamble((void *)&frame);
+        //TODO for speed we can afford to pop the inscribed_nodes_list uppon one member booting
+        while(containsAllNodes(canfd->currentCanOpenStack->g_bootedNodes(), canfd->currentCanOpenStack->inscribed_nodes_list) == false){
+            _data = canfd->currentCanOpenStack->nmt_message(NMT_ENTER_PRE_OPERATIONAL, 0);
+            canfd->write((void *)&_data,8, true);
+            R_BSP_SoftwareDelay(75, BSP_DELAY_UNITS_MILLISECONDS);
         }
-        uint8_t __data[8] = {0x22, 0x7A, 100, 100, 100, 100, 00, 00};
-        memcpy(frame.data, __data, 8);
 
-        frame.id = PDO_RXTHREE(NODE_ID_STEERING) ;
-        canfd->write((void *)&frame,0);
-
-
-    return FSP_SUCCESS;
+        _data = canfd->currentCanOpenStack->nmt_message(NMT_START_REMOTE_NODE, 0);
+        canfd->write((void *)&_data,8, true);
+        return FSP_SUCCESS;
 }
+UINT rundownProtocol(std::shared_ptr<CanFDRen> canfd){
+    can_frame_t frame;
+    can_frame_stream _data;
+    R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+    frame.id = SDO_REQUEST_ADDRESS_COBID();
+    _data = canfd->currentCanOpenStack->requestStatusWordMessage();
+    memcpy(frame.data, &_data.data, 8);
+    //bind the response of statusword to the callback function
+    canfd->currentCanOpenStack->callback = std::bind(&CANopenStack::readStatusWordMessage, canfd->currentCanOpenStack, std::placeholders::_1);
+    canfd->write((void *)&frame,0);
+    volatile StateMachine_StatusWord status=STATUSWORD_UNKNOWN;
+    do{
+       status = canfd->currentCanOpenStack->g_currentState();
+       R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+    }while(status != STATUSWORD_UNKNOWN);
+    R_BSP_SoftwareDelay(50, BSP_DELAY_UNITS_MILLISECONDS);
+      //Activate it
+
+        switch(status){
+          case Switch_on_disabled:
+              _data = canfd->currentCanOpenStack->requestControlWordMessage(0x00, dcc_shutdown);
+              memcpy(frame.data, &_data.data, 8);
+              canfd->write((void *)&frame,0);
+              R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+              [[fallthrough]];
+          case Ready_to_switch_on:
+              _data = canfd->currentCanOpenStack->requestControlWordMessage(0x00, dcc_switchon_and_enable);
+              memcpy(frame.data, &_data.data, 8);
+              canfd->write((void *)&frame,0);
+              R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+              break;
+          case Operation_enabled:
+              led_update(3, BSP_IO_LEVEL_HIGH);
+              break;
+
+          case Quick_stop_active:
+          case Fault_reaction_active:
+          case STATUSWORD_UNKNOWN:
+          default:
+              led_update(0, BSP_IO_LEVEL_HIGH);
+
+
+
+
+      }
+      uint8_t __data[8] = {0x22, 0x7A, 0xAA, 0x82, 0x07, 00, 00, 00};
+      memcpy(frame.data, __data, 8);
+
+
+      frame.id = PDO_RXTHREE(NODE_ID_STEERING) ;
+      canfd->write((void *)&frame,0);
+      R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+      uint8_t data___[8] = {0x22, 0x40, 0xAA, 0x82, 0x07, 0x00, 0x00 ,0x00};
+      memcpy(frame.data, data___, 8);
+      frame.id = PDO_RXTHREE(NODE_ID_STEERING);
+      canfd->write((void *)&frame,0);
+      R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+      //write control word
+//            frame.id = SDO_REQUEST_ADDRESS_COBID();
+//            can_frame_stream _data2 = canfd1->currentCanOpenStack->requestControlWordMessage(0x00, 0x0F);
+//            memcpy(frame.data, &_data2.data, 8);
+//            canfd1->write((void *)&frame,0);
+      frame.id = SDO_REQUEST_ADDRESS_COBID();
+      _data = canfd->currentCanOpenStack->requestControlWordMessage(0x00, 0x1F);
+      memcpy(frame.data, &_data.data, 8);
+      canfd->write((void *)&frame,0);
+      R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
+
+      return FSP_SUCCESS;
+}
+
 /* Callback function */
 extern "C" void canfd0_callback(can_callback_args_t *p_args){
 
@@ -341,4 +259,11 @@ extern "C" void canfd1_callback(can_callback_args_t *p_args){
       ((CanFDRen *)interface_callback1_t)->callbackHandle(p_args);
   }
 }
-
+bool containsAllNodes(std::unordered_set<int> source, std::unordered_set<int> target){
+    for (auto &i : source){
+        if (target.find (i) == target.end ()){
+            return false;
+        }
+    }
+    return true;
+}

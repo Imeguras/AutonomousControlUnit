@@ -21,12 +21,11 @@ StateMachine_StatusWord CANopenStack::readStatusWordMessage(can_frame_stream can
         }
     return this->current_state;
 }
-std::vector<int> CANopenStack::g_bootedNodes() const{
+std::unordered_set<int> CANopenStack::g_bootedNodes() const{
     return this->booted_nodes;
 }
 void CANopenStack::a_bootedNodes(int node_id){
-    this->booted_nodes.push_back (node_id);
-
+    this->booted_nodes.insert(node_id);
 }
 
 
@@ -64,14 +63,26 @@ CANopenStack::~CANopenStack(){
     // TODO Auto-generated destructor stub
 }
 
-CANopenStack::CANopenStack(const CANopenStack &other){
-    // TODO Auto-generated constructor stub
-
+CANopenStack::CANopenStack(const CANopenStack &other)
+    : current_state(other.current_state),
+      target_reached(other.target_reached),
+      acuity_node_id(other.acuity_node_id),
+      _temp(other._temp),
+      booted_nodes(other.booted_nodes){
 }
 
-CANopenStack::CANopenStack(CANopenStack &&other){
-    // TODO Auto-generated constructor stub
 
+CANopenStack::CANopenStack(CANopenStack &&other)
+    : current_state(other.current_state),
+      target_reached(other.target_reached),
+      acuity_node_id(other.acuity_node_id),
+      _temp(other._temp),
+      booted_nodes(std::move(other.booted_nodes)){
+    // After moving, reset the state of 'other' to a valid state
+    other.current_state = STATUSWORD_UNKNOWN;
+    other.target_reached = false;
+    other.acuity_node_id = 0;
+    other._temp = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 }
 
 CANopenStack& CANopenStack::operator=(const CANopenStack &other){

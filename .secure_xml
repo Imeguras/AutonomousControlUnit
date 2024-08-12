@@ -101,7 +101,6 @@
       <configSetting altId="cgc.extal.p212" configurationId="cgc.extal"/>
       <configSetting altId="cgc.xtal.p213" configurationId="cgc.xtal"/>
       <configSetting altId="ether_rmii.et0_exout.p404" configurationId="ether_rmii.et0_exout" isUsedByDriver="true"/>
-      <configSetting altId="ether_rmii.et0_linksta.p403" configurationId="ether_rmii.et0_linksta" isUsedByDriver="true"/>
       <configSetting altId="ether_rmii.et0_mdc.p401" configurationId="ether_rmii.et0_mdc" isUsedByDriver="true"/>
       <configSetting altId="ether_rmii.et0_mdio.p402" configurationId="ether_rmii.et0_mdio" isUsedByDriver="true"/>
       <configSetting altId="ether_rmii.et0_wol.p400" configurationId="ether_rmii.et0_wol" isUsedByDriver="true"/>
@@ -135,14 +134,14 @@
       <configSetting altId="sci0.txd0.p603" configurationId="sci0.txd0"/>
       <configSetting altId="sci4.rxd4.p414" configurationId="sci4.rxd4" isUsedByDriver="true"/>
       <configSetting altId="sci4.txd4.p415" configurationId="sci4.txd4" isUsedByDriver="true"/>
-      <configSetting altId="sdhi0.sd0cd.p306" configurationId="sdhi0.sd0cd"/>
-      <configSetting altId="sdhi0.sd0clk.p308" configurationId="sdhi0.sd0clk"/>
-      <configSetting altId="sdhi0.sd0cmd.p307" configurationId="sdhi0.sd0cmd"/>
-      <configSetting altId="sdhi0.sd0dat0.p304" configurationId="sdhi0.sd0dat0"/>
-      <configSetting altId="sdhi0.sd0dat1.p303" configurationId="sdhi0.sd0dat1"/>
-      <configSetting altId="sdhi0.sd0dat2.p302" configurationId="sdhi0.sd0dat2"/>
-      <configSetting altId="sdhi0.sd0dat3.p301" configurationId="sdhi0.sd0dat3"/>
-      <configSetting altId="sdhi0.sd0wp.p305" configurationId="sdhi0.sd0wp"/>
+      <configSetting altId="sdhi0.sd0cd.p306" configurationId="sdhi0.sd0cd" isUsedByDriver="true"/>
+      <configSetting altId="sdhi0.sd0clk.p308" configurationId="sdhi0.sd0clk" isUsedByDriver="true"/>
+      <configSetting altId="sdhi0.sd0cmd.p307" configurationId="sdhi0.sd0cmd" isUsedByDriver="true"/>
+      <configSetting altId="sdhi0.sd0dat0.p304" configurationId="sdhi0.sd0dat0" isUsedByDriver="true"/>
+      <configSetting altId="sdhi0.sd0dat1.p303" configurationId="sdhi0.sd0dat1" isUsedByDriver="true"/>
+      <configSetting altId="sdhi0.sd0dat2.p302" configurationId="sdhi0.sd0dat2" isUsedByDriver="true"/>
+      <configSetting altId="sdhi0.sd0dat3.p301" configurationId="sdhi0.sd0dat3" isUsedByDriver="true"/>
+      <configSetting altId="sdhi0.sd0wp.p305" configurationId="sdhi0.sd0wp" isUsedByDriver="true"/>
       <configSetting altId="system.md.p201" configurationId="system.md"/>
     </pincfg>
   </raPinConfiguration>
