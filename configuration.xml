@@ -562,6 +562,12 @@
       <property id="module.driver.transfer.number_of_descriptors" value="1"/>
       <property id="module.driver.transfer.activation_source" value="_disabled"/>
     </module>
+    <object id="rtos.threadx.object.queue.1529631060">
+      <property id="rtos.threadx.object.queue.name" value="OutBox"/>
+      <property id="rtos.threadx.object.queue.symbol" value="g_outbox"/>
+      <property id="rtos.threadx.object.queue.msg_size" value="3"/>
+      <property id="rtos.threadx.object.queue.queue_size" value="1024"/>
+    </object>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.middleware.rm_threadx_port.0"/>

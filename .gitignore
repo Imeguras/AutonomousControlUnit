@@ -2,6 +2,8 @@
 # Modified gitignore for Renesas E2Studio (Built on eclipse): maintain all data needed by eclipse to setting up a workspace.
 #some crap
 Debug
+Release
+Testing
 ra
 ra_cfg
 ra_gen
@@ -16,4 +18,5 @@ history.index
 
 # E2 Studio Specific
 HardwareDebug/src
-Release
+
+auto/__init__.py

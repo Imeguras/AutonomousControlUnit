@@ -1852,3 +1852,9 @@ FSP Configuration
     Auto start: Enabled
     Time slicing interval (ticks): 1
     
+  Object "g_outbox Queue"
+    Name: OutBox
+    Symbol: g_outbox
+    Message Size (Words): 3
+    Queue Size (Bytes): 1024
+    

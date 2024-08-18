@@ -11,11 +11,16 @@
 #include "utils.h"
 
 #include "Data_structs/Can-Header-Map/CAN_asdb.h"
-
+#include "Data_structs/Can-Header-Map/CAN_icupdb.h"
 
 
 void * interface_callback0_t;
 void * interface_callback1_t;
+typedef struct{
+    uint32_t id;
+    uint64_t data;
+
+}can_queue_envelope_t;
 /* CANFD Channel 1 Acceptance Filter List (AFL) rule array */
 extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
       {
@@ -108,7 +113,7 @@ extern "C" void canfd0_callback(can_callback_args_t * p_args);
 extern "C" void canfd1_callback(can_callback_args_t * p_args);
 UINT wakeupNodes(std::shared_ptr<CanFDRen> canfd);
 bool containsAllNodes(std::unordered_set<int> source, std::unordered_set<int> target);
-
+inline TX_THREAD low_speed_interface_thread0;
 void low_speed_interface_thread0_entry(void) {
     can_frame_t frame;
     HighSpeed_AbsL<CanFDRen> canfd0;
@@ -116,15 +121,40 @@ void low_speed_interface_thread0_entry(void) {
     interface_callback0_t=(void *)&canfd0;
     interface_callback1_t=(void *)&canfd1;
     R_BSP_SoftwareDelay(1, BSP_DELAY_UNITS_SECONDS);
+
+
     wakeupNodes(canfd1.g_AplHandle());
-
-
+    frame.data_length_code = 8U;
+    frame.id_mode  = CAN_ID_MODE_EXTENDED;
+    frame.type = CAN_FRAME_TYPE_DATA;
+    frame.options = CANFD_FRAME_OPTION_BRS | CANFD_FRAME_OPTION_FD;
+    frame.id = 0x1FFFFFFF;
+    canfd0->preamble((void *)&frame);
     while(1){
+        ULONG enqueued=0;
+        can_queue_envelope_t largs;
+        tx_queue_info_get(&g_outbox, NULL, &enqueued, NULL, NULL, NULL, NULL);
 
-        R_BSP_SoftwareDelay(4000, BSP_DELAY_UNITS_MILLISECONDS);
+        while(enqueued >=1){
+            tx_queue_info_get(&g_outbox, NULL, &enqueued, NULL, NULL, NULL, NULL);
 
-        //canfd1->decodeImmediate (frame);
+            tx_queue_receive (&g_outbox, (void*) &largs, TX_WAIT_FOREVER);
+            canfd0->s_preambleID(largs.id);
+            canfd0->write ((void*) &largs.data, 8, true);
 
+        };
+        R_BSP_SoftwareDelay(5, BSP_DELAY_UNITS_MILLISECONDS);
+
+
+        //(TX_QUEUE *queue_ptr, CHAR **name, ULONG *enqueued, ULONG *available_storage,        TX_THREAD **first_suspended, ULONG *suspended_count, TX_QUEUE **next_queue)
+
+//        tx_queue_info_get(&g_outbox, NULL, &enqueued, NULL, );
+//
+//        while(rx_queue_ > 0){
+//            tx_queue_receive(&g_outbox, (void *)&t, TX_WAIT_FOREVER) != TX_SUCCESS);
+//            canfd0->write((void *)&t,8, true);
+//
+//        }
 
     }
 
@@ -142,13 +172,6 @@ void low_speed_interface_thread0_entry(void) {
 
 
 
-
-    R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-    while(1){
-
-        R_BSP_SoftwareDelay(500, BSP_DELAY_UNITS_MILLISECONDS);
-
-    }
 
 
 }
@@ -220,14 +243,7 @@ UINT rundownProtocol(std::shared_ptr<CanFDRen> canfd){
 
 
       }
-      uint8_t __data[8] = {0x22, 0x7A, 0xAA, 0x82, 0x07, 00, 00, 00};
-      memcpy(frame.data, __data, 8);
-
-
-      frame.id = PDO_RXTHREE(NODE_ID_STEERING) ;
-      canfd->write((void *)&frame,0);
-      R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-      uint8_t data___[8] = {0x22, 0x40, 0xAA, 0x82, 0x07, 0x00, 0x00 ,0x00};
+      uint8_t data___[8] = {0x1F, 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00 ,0x00};
       memcpy(frame.data, data___, 8);
       frame.id = PDO_RXTHREE(NODE_ID_STEERING);
       canfd->write((void *)&frame,0);
@@ -256,7 +272,24 @@ extern "C" void canfd0_callback(can_callback_args_t *p_args){
 
 extern "C" void canfd1_callback(can_callback_args_t *p_args){
   if(interface_callback1_t != NULL){
+
       ((CanFDRen *)interface_callback1_t)->callbackHandle(p_args);
+      if(p_args->event == CAN_EVENT_RX_COMPLETE){
+          uint64_t* data;
+          uint32_t id = p_args->frame.id;
+          id = GENERIC_MSG_CONVERSION_ENCODE_AUTONOMOUSBUS(id);//()
+
+
+          //*id = GENERIC_MSG_CONVERSION_ENCODE_AUTONOMOUSBUS(*id);
+          data = (uint64_t *)p_args->frame.data;
+          can_queue_envelope_t largs;
+          largs.id = id;
+          largs.data = *data;
+
+          tx_queue_send(&g_outbox, (void *)&largs, TX_NO_WAIT);
+
+          //g_outbox.tx_queue_write(p_args->frame.d ata);
+      }
   }
 }
 bool containsAllNodes(std::unordered_set<int> source, std::unordered_set<int> target){

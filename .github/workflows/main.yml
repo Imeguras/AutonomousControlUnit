@@ -23,7 +23,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
       - name: Run Issue Bot
         uses: juulsn/todo-issue@main
         env:
