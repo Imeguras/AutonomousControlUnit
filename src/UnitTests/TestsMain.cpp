@@ -7,6 +7,8 @@
 #include <unity.h>
 #include <vector>
 #include "CANopenStack_test.cpp"
+//if main isnt define 
+
 class TestsMain{
 public:
 

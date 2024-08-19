@@ -1,5 +1,7 @@
-#include <Data_structs/Store.cpp>
 #include <high_speed_interface_thread0.h>
+
+#include <Data_structs/Store.cpp>
+
 #include <string.h>
 #include <functional>
 #include <rclc/rclc.h>
@@ -14,8 +16,7 @@
 #include "Interfaces/HighSpeedAbsL.cpp"
 #include "Interfaces/Drivers/HardwareBased/EthDuo.h"
 #include "Interfaces/Drivers/HardwareBased/UartRen.h"
-#include <ackermann_msgs/msg/ackermann_drive.h>
-#include <ackermann_msgs/msg/ackermann_drive_stamped.h>
+
 #include "Interfaces/Drivers/MicroRosDuo.h"
 #include "Interfaces/Drivers/MicroRosDuoGen.h"
 #include "Interfaces/MicroRosBoylerplate/microros_transports.h"
@@ -53,7 +54,7 @@ void high_speed_interface_thread0_entry(void) {
 
     led_blink(7, 3);
     led_update(0, BSP_IO_LEVEL_HIGH);
-    HighSpeed_AbsL<MicroRosDuo> t;
+
 
     //HighSpeed_AbsL<MicroRosDuoGen<UartRenAdapter>> micro_ros;
 
