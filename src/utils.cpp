@@ -7,7 +7,7 @@
 
 #include "utils.h"
 
-#include "../ra/board/ra8t1_acuity_bsp/board_init.hpp"
+#include "../ra/board/ra8m1_acuity_bsp/board_init.hpp"
 
 
 e_acuity_can_status g_canStateKernel(uint16_t id){
