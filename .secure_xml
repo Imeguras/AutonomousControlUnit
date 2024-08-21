@@ -43,10 +43,10 @@
     <node id="board.clock.pll2r.display" option="board.clock.pll2r.display.value"/>
     <node id="board.clock.clock.source" option="board.clock.clock.source.pll1p"/>
     <node id="board.clock.clkout.source" option="board.clock.clkout.source.disabled"/>
-    <node id="board.clock.sciclk.source" option="board.clock.sciclk.source.disabled"/>
+    <node id="board.clock.sciclk.source" option="board.clock.sciclk.source.pll1p"/>
     <node id="board.clock.spiclk.source" option="board.clock.spiclk.source.disabled"/>
-    <node id="board.clock.canfdclk.source" option="board.clock.canfdclk.source.disabled"/>
-    <node id="board.clock.i3cclk.source" option="board.clock.i3cclk.source.disabled"/>
+    <node id="board.clock.canfdclk.source" option="board.clock.canfdclk.source.pll1p"/>
+    <node id="board.clock.i3cclk.source" option="board.clock.i3cclk.source.pll1p"/>
     <node id="board.clock.uck.source" option="board.clock.uck.source.disabled"/>
     <node id="board.clock.u60ck.source" option="board.clock.u60ck.source.disabled"/>
     <node id="board.clock.octaspiclk.source" option="board.clock.octaspiclk.source.disabled"/>
@@ -109,26 +109,26 @@
       <configSetting altId="adc1.an118.p806" configurationId="adc1.an118"/>
       <configSetting altId="adc_40_digital_41.adtrg0.p314" configurationId="adc_40_digital_41.adtrg0"/>
       <configSetting altId="cac.cacref.p611" configurationId="cac.cacref"/>
-      <configSetting altId="canfd0.crx0.p202" configurationId="canfd0.crx0"/>
-      <configSetting altId="canfd0.ctx0.p203" configurationId="canfd0.ctx0"/>
-      <configSetting altId="canfd1.crx1.p414" configurationId="canfd1.crx1"/>
-      <configSetting altId="canfd1.ctx1.p415" configurationId="canfd1.ctx1"/>
+      <configSetting altId="canfd0.crx0.p202" configurationId="canfd0.crx0" isUsedByDriver="true"/>
+      <configSetting altId="canfd0.ctx0.p203" configurationId="canfd0.ctx0" isUsedByDriver="true"/>
+      <configSetting altId="canfd1.crx1.p414" configurationId="canfd1.crx1" isUsedByDriver="true"/>
+      <configSetting altId="canfd1.ctx1.p415" configurationId="canfd1.ctx1" isUsedByDriver="true"/>
       <configSetting altId="cgc.extal.p212" configurationId="cgc.extal"/>
       <configSetting altId="cgc.xtal.p213" configurationId="cgc.xtal"/>
       <configSetting altId="dac120.da0.p014" configurationId="dac120.da0"/>
-      <configSetting altId="ether_rmii.et0_exout.p113" configurationId="ether_rmii.et0_exout"/>
-      <configSetting altId="ether_rmii.et0_linksta.p114" configurationId="ether_rmii.et0_linksta"/>
-      <configSetting altId="ether_rmii.et0_mdc.p308" configurationId="ether_rmii.et0_mdc"/>
-      <configSetting altId="ether_rmii.et0_mdio.p307" configurationId="ether_rmii.et0_mdio"/>
-      <configSetting altId="ether_rmii.et0_wol.p115" configurationId="ether_rmii.et0_wol"/>
-      <configSetting altId="ether_rmii.ref50ck0.p303" configurationId="ether_rmii.ref50ck0"/>
-      <configSetting altId="ether_rmii.rmii0_crs_dv.p112" configurationId="ether_rmii.rmii0_crs_dv"/>
-      <configSetting altId="ether_rmii.rmii0_rx_er.p300" configurationId="ether_rmii.rmii0_rx_er"/>
-      <configSetting altId="ether_rmii.rmii0_rxd0.p302" configurationId="ether_rmii.rmii0_rxd0"/>
-      <configSetting altId="ether_rmii.rmii0_rxd1.p301" configurationId="ether_rmii.rmii0_rxd1"/>
-      <configSetting altId="ether_rmii.rmii0_txd0.p304" configurationId="ether_rmii.rmii0_txd0"/>
-      <configSetting altId="ether_rmii.rmii0_txd1.p305" configurationId="ether_rmii.rmii0_txd1"/>
-      <configSetting altId="ether_rmii.rmii0_txd_en.p306" configurationId="ether_rmii.rmii0_txd_en"/>
+      <configSetting altId="ether_rmii.et0_exout.p113" configurationId="ether_rmii.et0_exout" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.et0_linksta.p114" configurationId="ether_rmii.et0_linksta" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.et0_mdc.p308" configurationId="ether_rmii.et0_mdc" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.et0_mdio.p307" configurationId="ether_rmii.et0_mdio" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.et0_wol.p115" configurationId="ether_rmii.et0_wol" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.ref50ck0.p303" configurationId="ether_rmii.ref50ck0" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_crs_dv.p112" configurationId="ether_rmii.rmii0_crs_dv" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_rx_er.p300" configurationId="ether_rmii.rmii0_rx_er" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_rxd0.p302" configurationId="ether_rmii.rmii0_rxd0" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_rxd1.p301" configurationId="ether_rmii.rmii0_rxd1" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_txd0.p304" configurationId="ether_rmii.rmii0_txd0" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_txd1.p305" configurationId="ether_rmii.rmii0_txd1" isUsedByDriver="true"/>
+      <configSetting altId="ether_rmii.rmii0_txd_en.p306" configurationId="ether_rmii.rmii0_txd_en" isUsedByDriver="true"/>
       <configSetting altId="gpt3.gtioc3a.p912" configurationId="gpt3.gtioc3a"/>
       <configSetting altId="gpt3.gtioc3b.p911" configurationId="gpt3.gtioc3b"/>
       <configSetting altId="gpt5.gtioc5b.p914" configurationId="gpt5.gtioc5b"/>
@@ -199,8 +199,8 @@
       <configSetting altId="rtc.rtcic1.p403" configurationId="rtc.rtcic1"/>
       <configSetting altId="rtc.rtcic2.p404" configurationId="rtc.rtcic2"/>
       <configSetting altId="rtc.rtcout.p407" configurationId="rtc.rtcout"/>
-      <configSetting altId="sci0.rxd0.p602" configurationId="sci0.rxd0"/>
-      <configSetting altId="sci0.txd0.p603" configurationId="sci0.txd0"/>
+      <configSetting altId="sci0.rxd0.p602" configurationId="sci0.rxd0" isUsedByDriver="true"/>
+      <configSetting altId="sci0.txd0.p603" configurationId="sci0.txd0" isUsedByDriver="true"/>
       <configSetting altId="sci2.rxd2.pa02" configurationId="sci2.rxd2"/>
       <configSetting altId="sci2.sck2.p405" configurationId="sci2.sck2"/>
       <configSetting altId="sci2.txd2.p406" configurationId="sci2.txd2"/>
