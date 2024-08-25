@@ -5,7 +5,7 @@
  *      Author: micron
  */
 #include <cstdint>
-//#include <lart_msgs/msg/as_status.h>
+#include <lart_msgs/msg/as_status.h>
 #pragma once
 
 
@@ -38,7 +38,7 @@ namespace store {
                 Store(Store const&)           = delete;
                 void operator=(Store const&)  = delete;
                 //ROS2
-                //lart_msgs__msg__ASStatus as_status;
+                lart_msgs__msg__ASStatus as_status;
 
                 //INTERNAL
                 _Maxon_t maxon;

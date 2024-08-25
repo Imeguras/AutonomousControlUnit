@@ -50,7 +50,7 @@
     <node id="board.clock.uck.source" option="board.clock.uck.source.disabled"/>
     <node id="board.clock.u60ck.source" option="board.clock.u60ck.source.disabled"/>
     <node id="board.clock.octaspiclk.source" option="board.clock.octaspiclk.source.disabled"/>
-    <node id="board.clock.cpuclk.div" option="board.clock.cpuclk.div.2"/>
+    <node id="board.clock.cpuclk.div" option="board.clock.cpuclk.div.1"/>
     <node id="board.clock.iclk.div" option="board.clock.iclk.div.2"/>
     <node id="board.clock.pclka.div" option="board.clock.pclka.div.4"/>
     <node id="board.clock.pclkb.div" option="board.clock.pclkb.div.8"/>
@@ -173,7 +173,7 @@
       <configSetting altId="p515.input" configurationId="p515"/>
       <configSetting altId="p606.input" configurationId="p606"/>
       <configSetting altId="p607.input" configurationId="p607"/>
-      <configSetting altId="p711.output.high" configurationId="p711"/>
+      <configSetting altId="p708.output.high" configurationId="p708"/>
       <configSetting altId="p712.output.high" configurationId="p712"/>
       <configSetting altId="p713.output.high" configurationId="p713"/>
       <configSetting altId="p807.input" configurationId="p807"/>
@@ -195,10 +195,10 @@
       <configSetting altId="pb05.output.high" configurationId="pb05"/>
       <configSetting altId="pb06.output.high" configurationId="pb06"/>
       <configSetting altId="pb07.output.high" configurationId="pb07"/>
-      <configSetting altId="rtc.rtcic0.p402" configurationId="rtc.rtcic0"/>
-      <configSetting altId="rtc.rtcic1.p403" configurationId="rtc.rtcic1"/>
-      <configSetting altId="rtc.rtcic2.p404" configurationId="rtc.rtcic2"/>
-      <configSetting altId="rtc.rtcout.p407" configurationId="rtc.rtcout"/>
+      <configSetting altId="rtc.rtcic0.p402" configurationId="rtc.rtcic0" isUsedByDriver="true"/>
+      <configSetting altId="rtc.rtcic1.p403" configurationId="rtc.rtcic1" isUsedByDriver="true"/>
+      <configSetting altId="rtc.rtcic2.p404" configurationId="rtc.rtcic2" isUsedByDriver="true"/>
+      <configSetting altId="rtc.rtcout.p407" configurationId="rtc.rtcout" isUsedByDriver="true"/>
       <configSetting altId="sci0.rxd0.p602" configurationId="sci0.rxd0" isUsedByDriver="true"/>
       <configSetting altId="sci0.txd0.p603" configurationId="sci0.txd0" isUsedByDriver="true"/>
       <configSetting altId="sci2.rxd2.pa02" configurationId="sci2.rxd2"/>
@@ -223,7 +223,6 @@
       <configSetting altId="spi0.mosi0.p701" configurationId="spi0.mosi0"/>
       <configSetting altId="spi0.rspck0.p702" configurationId="spi0.rspck0"/>
       <configSetting altId="spi0.ssla0.p703" configurationId="spi0.ssla0"/>
-      <configSetting altId="ssie.audio_clk.p708" configurationId="ssie.audio_clk"/>
       <configSetting altId="ssie1.ssidata1.p206" configurationId="ssie1.ssidata1"/>
       <configSetting altId="ssie1.ssisck1.p204" configurationId="ssie1.ssisck1"/>
       <configSetting altId="ssie1.ssiws1.p205" configurationId="ssie1.ssiws1"/>

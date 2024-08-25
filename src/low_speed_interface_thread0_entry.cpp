@@ -21,6 +21,7 @@ typedef struct{
     uint64_t data;
 
 }can_queue_envelope_t;
+bool checkValves(bsp_io_port_pin_t button_id);
 /* CANFD Channel 1 Acceptance Filter List (AFL) rule array */
 extern "C" const canfd_afl_entry_t p_canfd0_afl[CANFD_CFG_AFL_CH0_RULE_NUM] ={
       {
@@ -108,7 +109,7 @@ extern "C" const canfd_afl_entry_t p_canfd1_afl[CANFD_CFG_AFL_CH1_RULE_NUM] ={
              }
 
 };
-
+bool checkValves(uint8_t button_id);
 extern "C" void canfd0_callback(can_callback_args_t * p_args);
 extern "C" void canfd1_callback(can_callback_args_t * p_args);
 UINT wakeupNodes(std::shared_ptr<CanFDRen> canfd);
@@ -121,11 +122,27 @@ void low_speed_interface_thread0_entry(void) {
     HighSpeed_AbsL<CanFDRen> canfd1;
     interface_callback0_t=(void *)&canfd0;
     interface_callback1_t=(void *)&canfd1;
+    uint8_t data[8] = {0x1F, 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00 ,0x00};
+
+    frame.data_length_code = 8U;
+    frame.id_mode  = CAN_ID_MODE_STANDARD;
+    frame.type = CAN_FRAME_TYPE_DATA;
+    frame.options = 0;
+    frame.id = 0x69;
+    while(1){
+        memcpy(frame.data, data, 8);
+
+        canfd0->write(&frame, 8);
+        R_BSP_SoftwareDelay(250, BSP_DELAY_UNITS_MILLISECONDS);
+        canfd1->write(&frame, 8);
+        R_BSP_SoftwareDelay(250, BSP_DELAY_UNITS_MILLISECONDS);
+
+    }
     R_BSP_SoftwareDelay(1, BSP_DELAY_UNITS_SECONDS);
 
 
     wakeupNodes(canfd1.g_AplHandle());
-    rundownProtocol(canfd1.g_AplHandle());
+    //rundownProtocol(canfd1.g_AplHandle());
 
     frame.data_length_code = 8U;
     frame.id_mode  = CAN_ID_MODE_EXTENDED;
@@ -134,6 +151,9 @@ void low_speed_interface_thread0_entry(void) {
     frame.id = 0x1FFFFFFF;
     canfd0->preamble((void *)&frame);
     while(1){
+        bool bt_0 = checkValves(BOTAO_0);
+        bool bt_1 = checkValves(BOTAO_1);
+        //
         ULONG enqueued=0;
         can_queue_envelope_t largs;
         tx_queue_info_get(&g_outbox, NULL, &enqueued, NULL, NULL, NULL, NULL);
@@ -177,6 +197,13 @@ void low_speed_interface_thread0_entry(void) {
 
 
 
+}
+bool checkValves(bsp_io_port_pin_t button_id){
+    uint32_t ret;
+    R_BSP_PinAccessEnable();
+    ret = R_BSP_PinRead(button_id);
+    R_BSP_PinAccessDisable();
+    return ret==0?false: true;
 }
 UINT drive(std::shared_ptr<CanFDRen> canfd){
     return FSP_SUCCESS;
