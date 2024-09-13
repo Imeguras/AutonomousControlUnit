@@ -182,10 +182,10 @@ FSP Configuration
       P205 B12 SSIE1_SSIWS1 - M None "Peripheral mode" - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; IIC1: SCL1; IRQ1: IRQ1-DS; SCI4: TXD4; SDHI0: SD0DAT3; SPI0: SSLA1; SSIE1: SSIWS1; USB FS: USB_OVRCURA" - IO - - 
       P206 D11 SSIE1_SSIDATA1 - M None "Peripheral mode" - - "BUS: CS7#; GPT_OPS: GTIU; IIC1: SDA1; IRQ0: IRQ0-DS; SCI4: RXD4; SDHI0: SD0DAT2; SPI0: SSLA2; SSIE1: SSIDATA1; USB FS: USB_VBUSEN" - IO - - 
       P207 C13 GPIO BOTAO_1 - - "Input mode" - - - - IO - - 
-      P208 F8 JTAG/SWD_TDI - L None "Peripheral mode" - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - IO - - 
-      P209 F9 JTAG/SWD_TDO - L - "Peripheral mode" - - "CANFD1: CTX1; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; JTAG/SWD: TDO; SCI9: TXD9; TRACE: TRACESWO" - IO - - 
-      P210 D8 JTAG/SWD_TMS - L - "Peripheral mode" - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; JTAG/SWD: TMS; SCI9: CTS_RTS9; SCI9: DE9" - IO - - 
-      P211 E10 JTAG/SWD_TCK - L - "Peripheral mode" - - "GPT0: GTIOC0A; GPT_OPS: GTOUUP; JTAG/SWD: SWCLK; JTAG/SWD: TCK; SCI9: DE9; SCI9: SCK9" - IO - - 
+      P208 F8 SCI9_RXD9 - L None "Peripheral mode" - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - I - - 
+      P209 F9 - - - - Disabled - - "CANFD1: CTX1; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; JTAG/SWD: TDO; SCI9: TXD9; TRACE: TRACESWO" - None - - 
+      P210 D8 JTAG/SWD_SWDIO - L - "Peripheral mode" - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; JTAG/SWD: TMS; SCI9: CTS_RTS9; SCI9: DE9" - IO - - 
+      P211 E10 JTAG/SWD_SWCLK - L - "Peripheral mode" - - "GPT0: GTIOC0A; GPT_OPS: GTOUUP; JTAG/SWD: SWCLK; JTAG/SWD: TCK; SCI9: DE9; SCI9: SCK9" - IO - - 
       P212 H15 CGC_EXTAL - L None "Peripheral mode" - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ3: IRQ3; SCI1: RXD1" - IO - - 
       P213 H14 CGC_XTAL - L None "Peripheral mode" - - "ADC(Digital): ADTRG1; CGC: XTAL; GPT0: GTIOC0A; GPT_POEGC: GTETRGC; IRQ2: IRQ2; SCI1: TXD1; ULPT0: ULPTEE0" - IO - - 
       P300 D5 ETHER_RMII_RMII0_RX_ER - H None "Peripheral mode" - - "BUS: A1; ETHER_MII: ET0_RX_CLK; ETHER_RMII: RMII0_RX_ER; GPT3: GTIOC3A; IRQ4: IRQ4; SCI0: DE0; SCI0: SCK0; SDRAM: A1; SDRAM: DQM3; SPI0: SSLA3; ULPT0: ULPTEVI0_A-DS" - IO - - 
@@ -243,7 +243,7 @@ FSP Configuration
       P604 N4 - - - - Disabled - - "BUS: D3; GPT8: GTIOC8B; SCI0: CTS_RTS0; SCI0: DE0; SDRAM: DQ3" - None - - 
       P605 K5 - - - - Disabled - - "BUS: D4; GPT8: GTIOC8A; SCI0: CTS0; SDRAM: DQ4" - None - - 
       P606 M5 GPIO Drive1_INV - - "Input mode" - - "BUS: D5; SDRAM: DQ5" - IO - - 
-      P607 J4 GPIO Mosfet3 - - "Input mode" - - "BUS: D6; SDRAM: DQ6" - IO - - 
+      P607 J4 GPIO Mosfet3 L - "Output mode (Initial Low)" - - "BUS: D6; SDRAM: DQ6" - IO - - 
       P609 B1 - - - - Disabled - - "BUS: D8; CANFD1: CTX1; ETHER_MII: ET0_RX_DV; GPT5: GTIOC5B; SCI0: TXD0; SDRAM: DQ8; SPI0: MISO0; ULPT1: ULPTOA1_A-DS" - None - - 
       P610 E4 - - - - Disabled - - "BUS: D9; CANFD1: CRX1; ETHER_MII: ET0_COL; GPT4: GTIOC4A; SCI0: RXD0; SDRAM: DQ9; SPI0: RSPCK0; ULPT1: ULPTOB1_A-DS" - None - - 
       P611 D1 CAC_CACREF - L - "Peripheral mode" - - "BUS: D10; CAC: CACREF; CLKOUT: CLKOUT; ETHER_MII: ET0_ERXD2; GPT4: GTIOC4B; SCI0: DE0; SCI0: SCK0; SDRAM: DQ10; SPI0: MOSI0" - IO - - 
@@ -280,7 +280,7 @@ FSP Configuration
       P810 P4 SDHI1_SD1CLK - L - "Peripheral mode" - - "SDHI1: SD1CLK; ULPT0: ULPTOA0" - IO - - 
       P811 M6 SDHI1_SD1CMD - L - "Peripheral mode" - - "SDHI1: SD1CMD; ULPT0: ULPTOB0; USB FS: USB_ID" - IO - - 
       P812 R4 SDHI1_SD1DAT0 - L - "Peripheral mode" - - "ADC1: AN122; SDHI1: SD1DAT0; USB FS: USB_EXICEN" - IO - - 
-      P813 J5 GPIO Mosfet4 L - "Output mode (Initial Low)" - - "BUS: D20; SDRAM: DQ20" - IO - - 
+      P813 J5 GPIO Mosfet4 H - "Output mode (Initial Low)" - - "BUS: D20; SDRAM: DQ20" - IO - - 
       P814 A14 "USB FS_USB_DP" - L - "Peripheral mode" - - "CANFD0: CRX0; GPT8: GTIOC8B; USB FS: USB_DP" - IO - - 
       P815 B14 "USB FS_USB_DM" - L - "Peripheral mode" - - "CANFD0: CTX0; GPT8: GTIOC8A; USB FS: USB_DM" - IO - - 
       P900 C10 GPIO Drive0_I0 L - "Output mode (Initial Low)" - - "SCI3: TXD3" - IO - - 
@@ -299,12 +299,12 @@ FSP Configuration
       P913 E8 - - - - Disabled - - "CLKOUT: CLKOUT" - None - - 
       P914 F6 GPT5_GTIOC5B PWM_0 L - "Peripheral mode" - - "GPT5: GTIOC5B" - IO - - 
       P915 C5 - - - - Disabled - - "GPT5: GTIOC5A" - None - - 
-      PA00 H4 GPIO Mosfet0 L - "Output mode (Initial Low)" - - "BUS: D7; SDRAM: DQ7" - IO - - 
-      PA01 H3 GPIO Mosfet2 L - "Output mode (Initial Low)" - - "BUS: RD" - IO - - 
+      PA00 H4 GPIO Mosfet0 H - "Output mode (Initial Low)" - - "BUS: D7; SDRAM: DQ7" - IO - - 
+      PA01 H3 GPIO Mosfet2 H - "Output mode (Initial Low)" - - "BUS: RD" - IO - - 
       PA02 K6 SCI2_RXD2 - L - "Peripheral mode" - - "BUS: D26; SCI2: RXD2; SDRAM: DQ26" - I - - 
-      PA03 G4 GPIO Mosfet5 L - "Output mode (Initial Low)" - - "BUS: D25; SCI2: TXD2; SDRAM: DQ25" - IO - - 
+      PA03 G4 GPIO Mosfet5 H - "Output mode (Initial Low)" - - "BUS: D25; SCI2: TXD2; SDRAM: DQ25" - IO - - 
       PA04 L6 GPIO Drive1_I1 - - "Input mode" - - "BUS: D24; SCI2: DE2; SCI2: SCK2; SDRAM: DQ24" - IO - - 
-      PA05 H5 GPIO Mosfet1 L - "Output mode (Initial Low)" - - "BUS: D23; SCI2: CTS_RTS2; SCI2: DE2; SDRAM: DQ23" - IO - - 
+      PA05 H5 GPIO Mosfet1 L - "Output mode (Initial High)" - - "BUS: D23; SCI2: CTS_RTS2; SCI2: DE2; SDRAM: DQ23" - IO - - 
       PA06 L5 - - - - Disabled - - "BUS: D22; GPT7: GTIOC7B; SCI2: CTS2; SDRAM: DQ22" - None - - 
       PA07 G5 GPT7_GTIOC7A PWM_3 L - "Peripheral mode" - - "BUS: D21; GPT7: GTIOC7A; SDRAM: DQ21" - IO - - 
       PA08 G3 - - - - Disabled - - "BUS: D15; GPT_POEGD: GTETRGD; IRQ6: IRQ6; SDRAM: DQ15" - None - - 
@@ -314,7 +314,7 @@ FSP Configuration
       PA12 D2 - - - - Disabled - - "BUS: D16; GPT6: GTIOC6B; SDRAM: DQ16" - None - - 
       PA13 E5 - - - - Disabled - - "BUS: D17; SDRAM: DQ17" - None - - 
       PA14 C1 SCI9_TXD9 - L - "Peripheral mode" - - "BUS: D18; SCI9: TXD9; SDRAM: DQ18" - O - - 
-      PA15 F5 SCI9_RXD9 - L - "Peripheral mode" - - "BUS: D19; SCI9: RXD9; SDRAM: DQ19" - I - - 
+      PA15 F5 - - - - Disabled - - "BUS: D19; SCI9: RXD9; SDRAM: DQ19" - None - - 
       PB00 L14 - - - - Disabled - - "SCI1: DE1; SCI1: SCK1; USB HS: USBHS_VBUSEN" - None - - 
       PB01 L15 - - - - Disabled - - "BUS: ALE; CEU: VIO_D11; SCI1: CTS_RTS1; SCI1: DE1; USB HS: USBHS_VBUS" - None - - 
       PB02 J10 GPIO LED_2 L - "Output mode (Initial High)" - - - - IO - - 
@@ -407,8 +407,8 @@ FSP Configuration
       P205 B12 - - L None Disabled - - "AGT1: AGTO1; CLKOUT: CLKOUT; GPT4: GTIOC4A; GPT_OPS: GTIV; IIC1: SCL1; IRQ1: IRQ1-DS; SCI4: TXD4; SDHI0: SD0DAT3; SPI0: SSLA1; SSIE1: SSIWS1; USB FS: USB_OVRCURA" - IO - - 
       P206 D11 - - L None Disabled - - "BUS: CS7#; GPT_OPS: GTIU; IIC1: SDA1; IRQ0: IRQ0-DS; SCI4: RXD4; SDHI0: SD0DAT2; SPI0: SSLA2; SSIE1: SSIDATA1; USB FS: USB_VBUSEN" - IO - - 
       P207 C13 - BOTAO_1 - - Disabled - - - - IO - - 
-      P208 F8 JTAG/SWD_TDI - L None "Peripheral mode" - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - IO - - 
-      P209 F9 JTAG/SWD_TDO - L - "Peripheral mode" - - "CANFD1: CTX1; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; JTAG/SWD: TDO; SCI9: TXD9; TRACE: TRACESWO" - IO - - 
+      P208 F8 JTAG/SWD_TDI - L None "Peripheral mode" - - "CANFD1: CRX1; CLKOUT: VCOUT; GPT1: GTIOC1B; GPT_OPS: GTOVLO; IRQ3: IRQ3; JTAG/SWD: TDI; SCI9: RXD9" - I - - 
+      P209 F9 JTAG/SWD_TDO - - - "Peripheral mode" - - "CANFD1: CTX1; CLKOUT: CLKOUT; GPT1: GTIOC1A; GPT_OPS: GTOVUP; JTAG/SWD: TDO; SCI9: TXD9; TRACE: TRACESWO" - None - - 
       P210 D8 JTAG/SWD_TMS - L - "Peripheral mode" - - "GPT0: GTIOC0B; GPT_OPS: GTOULO; JTAG/SWD: SWDIO; JTAG/SWD: TMS; SCI9: CTS_RTS9; SCI9: DE9" - IO - - 
       P211 E10 JTAG/SWD_TCK - L - "Peripheral mode" - - "GPT0: GTIOC0A; GPT_OPS: GTOUUP; JTAG/SWD: SWCLK; JTAG/SWD: TCK; SCI9: DE9; SCI9: SCK9" - IO - - 
       P212 H15 - - L None Disabled - - "AGT1: AGTEE1; CGC: EXTAL; GPT0: GTIOC0B; GPT_POEGD: GTETRGD; IRQ3: IRQ3; SCI1: RXD1" - IO - - 
@@ -468,7 +468,7 @@ FSP Configuration
       P604 N4 - - - - Disabled - - "BUS: D3; GPT8: GTIOC8B; SCI0: CTS_RTS0; SCI0: DE0; SDRAM: DQ3" - None - - 
       P605 K5 - - - - Disabled - - "BUS: D4; GPT8: GTIOC8A; SCI0: CTS0; SDRAM: DQ4" - None - - 
       P606 M5 - Drive1_INV - - Disabled - - "BUS: D5; SDRAM: DQ5" - IO - - 
-      P607 J4 - Mosfet3 - - Disabled - - "BUS: D6; SDRAM: DQ6" - IO - - 
+      P607 J4 - Mosfet3 L - Disabled - - "BUS: D6; SDRAM: DQ6" - IO - - 
       P609 B1 - - - - Disabled - - "BUS: D8; CANFD1: CTX1; ETHER_MII: ET0_RX_DV; GPT5: GTIOC5B; SCI0: TXD0; SDRAM: DQ8; SPI0: MISO0; ULPT1: ULPTOA1_A-DS" - None - - 
       P610 E4 - - - - Disabled - - "BUS: D9; CANFD1: CRX1; ETHER_MII: ET0_COL; GPT4: GTIOC4A; SCI0: RXD0; SDRAM: DQ9; SPI0: RSPCK0; ULPT1: ULPTOB1_A-DS" - None - - 
       P611 D1 - - L - Disabled - - "BUS: D10; CAC: CACREF; CLKOUT: CLKOUT; ETHER_MII: ET0_ERXD2; GPT4: GTIOC4B; SCI0: DE0; SCI0: SCK0; SDRAM: DQ10; SPI0: MOSI0" - IO - - 
@@ -539,7 +539,7 @@ FSP Configuration
       PA12 D2 - - - - Disabled - - "BUS: D16; GPT6: GTIOC6B; SDRAM: DQ16" - None - - 
       PA13 E5 - - - - Disabled - - "BUS: D17; SDRAM: DQ17" - None - - 
       PA14 C1 - - L - Disabled - - "BUS: D18; SCI9: TXD9; SDRAM: DQ18" - O - - 
-      PA15 F5 - - L - Disabled - - "BUS: D19; SCI9: RXD9; SDRAM: DQ19" - I - - 
+      PA15 F5 - - - - Disabled - - "BUS: D19; SCI9: RXD9; SDRAM: DQ19" - None - - 
       PB00 L14 - - - - Disabled - - "SCI1: DE1; SCI1: SCK1; USB HS: USBHS_VBUSEN" - None - - 
       PB01 L15 - - - - Disabled - - "BUS: ALE; CEU: VIO_D11; SCI1: CTS_RTS1; SCI1: DE1; USB HS: USBHS_VBUS" - None - - 
       PB02 J10 - LED_2 L - Disabled - - - - IO - - 
@@ -1737,12 +1737,6 @@ FSP Configuration
     Common: Interface Capability: Disable
     Azure IoT: Defender Security Module: Disable
     
-  Module "UART (r_sci_b_uart)"
-    Parameter Checking: Default (BSP)
-    FIFO Support: Disable
-    DTC Support: Disable
-    Flow Control Support: Disable
-    
   Module "CAN FD Lite (r_canfdlite)"
     Parameter Checking: Default (BSP)
     Global Error Interrupt: Callback Channel: Both
@@ -1754,12 +1748,28 @@ FSP Configuration
     
   Module "Realtime Clock (r_rtc)"
     Parameter Checking: Default (BSP)
-    Set Source Clock in Open: Disabled
+    Set Source Clock in Open: Enabled
+    
+  Module "UART (r_sci_b_uart)"
+    Parameter Checking: Default (BSP)
+    FIFO Support: Disable
+    DTC Support: Disable
+    Flow Control Support: Disable
+    
+  Module "I3C (r_i3c)"
+    Parameter Checking: Default (BSP)
+    Unaligned Buffer Support: Enabled
+    Master Support: Enabled
+    Slave Support: Enabled
+    Error Recovery Procedure: Support Error Recovery Version 2 Only.
+    
+  Module "ADC (r_adc)"
+    Parameter Checking: Default (BSP)
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
     General: Error Checking: Enabled
-    Timer: Timer Ticks Per Second: 100
+    Timer: Timer Ticks Per Second: 1000
     General: Max Priorities: 32
     General: Minimum Stack: 200
     Timer: Timer Thread Stack Size: 1024
@@ -1807,8 +1817,8 @@ FSP Configuration
       General: Counter Bit Width: AGT 16-bit
       General: Channel: 0
       General: Mode: Periodic
-      General: Period: 0x10000
-      General: Period Unit: Raw Counts
+      General: Period: 100
+      General: Period Unit: Microseconds
       Output: Duty Cycle Percent (only applicable in PWM mode): 50
       General: Count Source: PCLKB
       Output: AGTOA Output: Disabled
@@ -1818,8 +1828,8 @@ FSP Configuration
       Input: Input Filter: No Filter
       Input: Enable Pin: Enable Pin Not Used
       Input: Trigger Edge: Trigger Edge Rising
-      Interrupts: Callback: NULL
-      Interrupts: Underflow Interrupt Priority: Disabled
+      Interrupts: Callback: micro_ros_timer_cb
+      Interrupts: Underflow Interrupt Priority: Priority 12
       
     Instance "g_rtc0 Realtime Clock (r_rtc)"
       Name: g_rtc0
@@ -1950,19 +1960,65 @@ FSP Configuration
       Common FIFOs: FIFO 0: Interval Timer: Reference clock
       Common FIFOs: FIFO 0: Interval Timer Reference Clock Resolution: x1
       
+    Instance "g_i3c0 I3C (r_i3c)"
+      Name: g_i3c0
+      Callback: g_i3c0_callback
+      Callback Context: NULL
+      Device Type: Main Master
+      Bitrate Settings: Standard Mode: Open-Drain: Logic High Period (ns): 167
+      Bitrate Settings: Standard Mode: Open-Drain: Frequency: 1000000
+      Bitrate Settings: Standard Mode: Push-Pull: Logic High Period (ns): 167
+      Bitrate Settings: Standard Mode: Push-Pull: Frequency: 3400000
+      Bitrate Settings: Extended Mode: Open-Drain: Logic High Period (ns): 167
+      Bitrate Settings: Extended Mode: Open-Drain: Frequency: 1000000
+      Bitrate Settings: Extended Mode: Push-Pull: Logic High Period (ns): 167
+      Bitrate Settings: Extended Mode: Push-Pull: Frequency: 3400000
+      Bitrate Settings: Bus Timing: Open Drain Rising Time (ns): 0
+      Bitrate Settings: Bus Timing: Open Drain Falling Time (ns): 0
+      Bitrate Settings: Bus Timing: Push-Pull Rising Time (ns): 0
+      Bitrate Settings: Bus Timing: Push-Pull Falling Time (ns): 0
+      Bitrate Settings: Clock Stalling: Address Assignment Phase: Disabled
+      Bitrate Settings: Clock Stalling: Transition Phase: Disabled
+      Bitrate Settings: Clock Stalling: Parity Phase: Disabled
+      Bitrate Settings: Clock Stalling: Ack Phase: Disabled
+      Bitrate Settings: Clock Stalling: Time (us): 0
+      Bus Free Condition Detection Time (ns): 38.4
+      Bus Available Condition Detection Time (us): 1
+      Bus Idle Condition Detection Time (us): 1000
+      Master Mode: ACK Hot-Join Requests: Disabled
+      Master Mode: Notify Rejected Hot-Join Requests.: Disabled
+      Master Mode: Notify Rejected Mastership Requests.: Disabled
+      Master Mode: Notify Rejected Interrupt Requests.: Disabled
+      Slave Mode: Command Response Info: ENEC/DISEC: In-Band Interrupts: Disabled
+      Timeout Detection: Disabled
+      Slave Mode: Command Response Info: ENEC/DISEC: Hot-Join Requests: Disabled
+      Slave Mode: Command Response Info: ENTASn: Activity State: Activity State 0
+      Slave Mode: Command Response Info: SETMWL/GETMWL: Max Write Length: 65535
+      Slave Mode: Command Response Info: SETMRL/GETMRL: Max Read Length: 65535
+      Slave Mode: Command Response Info: SETMRL/GETMRL: Max IBI Payload Length: 0
+      Slave Mode: Command Response Info: GETMXDS: Write Data Rate: 2Mhz
+      Slave Mode: Command Response Info: GETMXDS: Read Data Rate: 2Mhz
+      Slave Mode: Command Response Info: GETMXDS: Clock to Data Turnaround Time: 8 Nanoseconds
+      Slave Mode: Command Response Info: GETMXDS: Include Max Read Turnaround Time: Disabled
+      Slave Mode: Command Response Info: GETMXDS: Max Read Turnaround Time: 0
+      Slave Mode: Command Response Info: GETXTIME: Frequency Byte: 0
+      Slave Mode: Command Response Info: GETXTIME: Inaccuracy Byte: 0
+      Interrupts: Interrupt Priority: Priority 12
+      Interrupts: Error and Event Interrupt Priority: Priority 12
+      
   Thread "High Speed Interface"
     Symbol: high_speed_interface_thread0
     Name: High Speed Interface
-    Stack size (bytes): 1024
+    Stack size (bytes): 5000
     Priority: 2
-    Auto start: Enabled
+    Auto start: Disabled
     Time slicing interval (ticks): 1
     
     Instance "g_ip0 Azure RTOS NetX Duo IP Instance"
       Name: g_ip0
-      IPv4 Address: 192.168.0.2
+      IPv4 Address: 192.168.1.2
       Subnet Mask: 255.255.255.0
-      Default Gateway Address: 192.168.0.1
+      Default Gateway Address: 192.168.1.1
       IPv6 Global Address: 2001:0:0:0:0:0:0:1
       IPv6 Link Local Address (All zeros means use MAC address): 0:0:0:0:0:0:0:0
       IP Helper Thread Stack Size (bytes): 2048
@@ -2030,11 +2086,56 @@ FSP Configuration
       Extra: RS-485: DE Pin Polarity: Active High
       Extra: RS-485: DE Pin Assertion Time: 1
       Extra: RS-485: DE Pin Negation Time: 1
-      Interrupts: Callback: user_uart_callback
+      Interrupts: Callback: NULL
       Interrupts: Receive Interrupt Priority: Priority 12
       Interrupts: Transmit Data Empty Interrupt Priority: Priority 12
       Interrupts: Transmit End Interrupt Priority: Priority 12
       Interrupts: Error Interrupt Priority: Priority 12
+      
+  Thread "Supervisor_Thread"
+    Symbol: supervisor_thread
+    Name: Supervisor_Thread
+    Stack size (bytes): 1024
+    Priority: 4
+    Auto start: Enabled
+    Time slicing interval (ticks): 1
+    
+    Instance "g_adc0 ADC (r_adc)"
+      General: Name: g_adc0
+      General: Unit: 0
+      General: Resolution: 12-Bit
+      General: Alignment: Right
+      General: Clear after read: On
+      General: Mode: Single Scan
+      General: Double-trigger: Disabled
+      Input: Channel Scan Mask (channel availability varies by MCU): Temperature Sensor
+      Input: Group B Scan Mask (channel availability varies by MCU): 
+      Interrupts: Normal/Group A Trigger: Software Trigger
+      Interrupts: Group B Trigger: Disabled
+      Interrupts: Group Priority (Valid only in Group Scan Mode): Group A cannot interrupt Group B
+      Input: Add/Average Count: Disabled
+      Input: Reference Voltage control: VREFH0/VREFH
+      Input: Addition/Averaging Mask (channel availability varies by MCU and unit): 
+      Input: Sample and Hold: Sample and Hold Channels (Available only on selected MCUs): 
+      Input: Sample and Hold: Sample Hold States (Applies only to channels 0, 1, 2): 24
+      Input: Window Compare: Window Mode: Disabled
+      Input: Window Compare: Event Output: OR
+      Input: Window Compare: Window A: Enable: Disabled
+      Input: Window Compare: Window A: Channels to compare (channel availability varies by MCU and unit): 
+      Input: Window Compare: Window A: Channel comparison mode (channel availability varies by MCU and unit): 
+      Input: Window Compare: Window A: Lower Reference: 0
+      Input: Window Compare: Window A: Upper Reference: 0
+      Input: Window Compare: Window B: Enable: Disabled
+      Input: Window Compare: Window B: Channel to compare (channel availability varies by MCU and unit): Channel 0
+      Input: Window Compare: Window B: Comparison mode: Less Than or Outside Window
+      Input: Window Compare: Window B: Lower Reference: 0
+      Input: Window Compare: Window B: Upper Reference: 0
+      Interrupts: Callback: NULL
+      Interrupts: Scan End Interrupt Priority: Disabled
+      Interrupts: Scan End Group B Interrupt Priority: Disabled
+      Interrupts: Window Compare A Interrupt Priority: Disabled
+      Interrupts: Window Compare B Interrupt Priority: Disabled
+      Extra: ADC Ring Buffer: Disabled
       
   Object "g_outbox Queue"
     Name: OutBox

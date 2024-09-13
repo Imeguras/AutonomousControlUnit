@@ -117,11 +117,27 @@ bool containsAllNodes(std::unordered_set<int> source, std::unordered_set<int> ta
 UINT rundownProtocol(std::shared_ptr<CanFDRen> canfd);
 inline TX_THREAD low_speed_interface_thread0;
 void low_speed_interface_thread0_entry(void) {
+    while(1){
+        volatile bool bt_0 = checkValves(BOTAO_0);
+        volatile bool bt_1 = checkValves(BOTAO_1);
+        if (bt_0){
+           led_update(2, BSP_IO_LEVEL_HIGH);
+        }else{
+            led_update(2, BSP_IO_LEVEL_LOW);
+        }
+        if (bt_1){
+            led_update(3, BSP_IO_LEVEL_HIGH);
+        }else{
+            led_update(3 , BSP_IO_LEVEL_LOW);
+        }
+        R_BSP_SoftwareDelay(50, BSP_DELAY_UNITS_MILLISECONDS);
+    }
     can_frame_t frame;
     HighSpeed_AbsL<CanFDRen> canfd0;
     HighSpeed_AbsL<CanFDRen> canfd1;
     interface_callback0_t=(void *)&canfd0;
     interface_callback1_t=(void *)&canfd1;
+
     uint8_t data[8] = {0x1F, 0x00, 0x00, 0xAA, 0xAA, 0x00, 0x00 ,0x00};
 
     frame.data_length_code = 8U;
@@ -151,9 +167,19 @@ void low_speed_interface_thread0_entry(void) {
     frame.id = 0x1FFFFFFF;
     canfd0->preamble((void *)&frame);
     while(1){
-        bool bt_0 = checkValves(BOTAO_0);
-        bool bt_1 = checkValves(BOTAO_1);
-        //
+            bool bt_0 = checkValves(BOTAO_0);
+            bool bt_1 = checkValves(BOTAO_1);
+            if (bt_0){
+               led_update(2, BSP_IO_LEVEL_HIGH);
+            }else{
+                led_update(2, BSP_IO_LEVEL_LOW);
+            }
+            if (bt_1){
+                led_update(3, BSP_IO_LEVEL_HIGH);
+            }else{
+                led_update(3 , BSP_IO_LEVEL_LOW);
+            }
+
         ULONG enqueued=0;
         can_queue_envelope_t largs;
         tx_queue_info_get(&g_outbox, NULL, &enqueued, NULL, NULL, NULL, NULL);
@@ -199,11 +225,12 @@ void low_speed_interface_thread0_entry(void) {
 
 }
 bool checkValves(bsp_io_port_pin_t button_id){
-    uint32_t ret;
+    bsp_io_level_t ret;
     R_BSP_PinAccessEnable();
-    ret = R_BSP_PinRead(button_id);
+
+    R_IOPORT_PinRead(&g_ioport_ctrl, button_id, &ret);
     R_BSP_PinAccessDisable();
-    return ret==0?false: true;
+    return ret==BSP_IO_LEVEL_LOW?false: true;
 }
 UINT drive(std::shared_ptr<CanFDRen> canfd){
     return FSP_SUCCESS;

@@ -31,9 +31,9 @@
 #define ROS2_EXECUTOR_MAX_HANDLES 2
 extern "C" void user_uart_callback (uart_callback_args_t * p_args);
 hardware_drivers::UartRen * interface_callback_uart_t;
-//std_msgs__msg__Int8 msg_incoming;
-//static std_msgs__msg__Int8 msg_status;
-//static std_msgs__msg__Int8 msg_mission;
+std_msgs__msg__Int8 msg_incoming;
+static std_msgs__msg__Int8 msg_status;
+static std_msgs__msg__Int8 msg_mission;
 /* New Thread entry function */
 void (* sub_callback)(const void *);
 void thread_setup(void);
@@ -49,19 +49,75 @@ static size_t it_head = 0, it_tail = 0;
 bool g_write_complete = false;
 hardware_drivers::UartRenAdapter * etc;
 
+
 using namespace hardware_drivers;
 void high_speed_interface_thread0_entry(void) {
-//    HighSpeed_AbsL<EthDuo> eth;
+    HighSpeed_AbsL<EthDuo> micro_ros;
+    while(1){
+        R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
 
-    led_blink(0, 3);
-    R_ETHER_PHY_ChipInit(&g_ether_phy0_ctrl, &g_ether_phy0_cfg);
+
+    }
 
 
-    while(1);
+//    rmw_uros_set_custom_transport(
+//      true,
+//      (void *) NULL,
+//      renesas_e2_transport_open,
+//      renesas_e2_transport_close,
+//      renesas_e2_transport_write,
+//      renesas_e2_transport_read);
+//
+//    rcl_allocator_t custom_allocator = rcutils_get_zero_initialized_allocator();
+//    custom_allocator.allocate = microros_allocate;
+//    custom_allocator.deallocate = microros_deallocate;
+//    custom_allocator.reallocate = microros_reallocate;
+//    custom_allocator.zero_allocate =  microros_zero_allocate;
+//    if (!rcutils_set_default_allocator(&custom_allocator)) {
+//        printf("Error on default allocators (line %d)\n", __LINE__);
+//    }
+//
+//
+//    rcl_allocator_t allocator = rcl_get_default_allocator();
+//    rclc_support_t support;
+//    rcl_init_options_t init_options = rcl_get_zero_initialized_init_options();
+//
+//
+//    auto _opt_init = rcl_init_options_init(&init_options, allocator);
+//    auto _iosdid =rcl_init_options_set_domain_id(&init_options, 42);
+//
+//    rclc_support_init_with_options(&support, 0, NULL, &init_options, &allocator);
+//    rcl_node_t node;
+//
+//    rclc_executor_t executor=rclc_executor_get_zero_initialized_executor();
+//
+//    rclc_executor_init(&executor, &support.context, ROS2_EXECUTOR_MAX_HANDLES, &allocator);
+//
+//    rcl_publisher_t publisher_critical_status;
+//    rcl_subscription_t subscriber_critical_status;//#include "../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
+//
+//
+//    rcl_ret_t rc = RCL_RET_OK;
+//
+//    rclc_node_init_default(&node, "faadihgas_node", "", &support);
+//
+//    rc = rclc_publisher_init_default(&publisher_critical_status,&node,ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8) , "/acu_origin/system_status/critical_as/state");
+//    if (RCL_RET_OK != rc) {
+//        error_blink(3);
+//        return;
+//
+//    }
+//    led_update(0, BSP_IO_LEVEL_HIGH);
+//    while(1){
+//        R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
+//
+//
+//    }
 
-    HighSpeed_AbsL<MicroRosDuoGen<UartRenAdapter>> micro_ros;
+}
+    //HighSpeed_AbsL<MicroRosDuoGen<UartRenAdapter>> micro_ros;
 
-    rmw_uros_set_custom_transport(
+    /**rmw_uros_set_custom_transport(
                                true,
                                (void *) NULL,
                                renesas_e2_transport_open,
@@ -89,7 +145,7 @@ void high_speed_interface_thread0_entry(void) {
 
         auto _opt_init = rcl_init_options_init(&init_options, allocator);
         auto _iosdid =rcl_init_options_set_domain_id(&init_options, 42);
-
+        //auto _retttt = rcl_init_options_fini(&init_options);
         FSP_PARAMETER_NOT_USED(_iosdid);
         FSP_PARAMETER_NOT_USED(_opt_init);
         //auto _ret = rclc_support_init(&support, 0, NULL, &allocator);
@@ -110,37 +166,33 @@ void high_speed_interface_thread0_entry(void) {
             led_blink (0, 12);
         }
         rcl_publisher_t publisher;
-        rclc_publisher_init_default(&publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8), "topic");
-        //rclc_publisher_init_default(&publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(, msg, ASStatus), "goalv");
-        //rclc_publisher_init_default(&publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8),
-        //        store::Store::getInstance().as_status.mission.data = 1;
-//        store::Store::getInstance().as_status.state.data = 2;
-//        lart_msgs__msg__ASStatus msg_output;
+//        rclc_publisher_init_default(&publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int8), "topic");
+        rclc_publisher_init_default(&publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(lart_msgs, msg, ASStatus), "goalv");
+        store::Store::getInstance().as_status.mission_data = 1;
+        store::Store::getInstance().as_status.state_data = 2;
+        lart_msgs__msg__ASStatus msg_output;
 
 
 
-        std_msgs__msg__Int8 msg_output;
+        //std_msgs__msg__Int8 msg_output;
 
-        msg_output.data = 0;
+        //msg_output.data = 0;
 
     //    rclc_executor_spin(&executor);
 
 
         led_blink(0,3);
         while (1){
-//            msg_output.mission.data=store::Store::getInstance().as_status.mission.data;
-//            msg_output.state.data=store::Store::getInstance().as_status.state.data;
+            msg_output.mission_data=store::Store::getInstance().as_status.mission_data;
+            msg_output.state_data=store::Store::getInstance().as_status.state_data;
 
 
             //publis
-            msg_output.data = msg_output.data++;
             auto _pub_ret = rcl_publish(&publisher, &msg_output, NULL);
             FSP_PARAMETER_NOT_USED(_pub_ret);
             R_BSP_SoftwareDelay(100, BSP_DELAY_UNITS_MILLISECONDS);
             tx_thread_sleep (1);
-        }
-}
-
+        }**/
 
 
 extern "C" void user_uart_callback (uart_callback_args_t * p_args){
@@ -164,6 +216,32 @@ extern "C" void user_uart_callback (uart_callback_args_t * p_args){
     }
 }
 
+//
+//void subscription_callback_status(const void * msgin){
+//    const std_msgs__msg__Int8 * msg_cast = (const std_msgs__msg__Int8 *)msgin;
+//    msg_status= *msg_cast;
+//
+//    led_update(blue, BSP_IO_LEVEL_LOW);
+//    R_BSP_SoftwareDelay(200, BSP_DELAY_UNITS_MILLISECONDS);
+//    led_update(blue, BSP_IO_LEVEL_HIGH);
+//}
+//void subscription_callback_mission(const void * msgin){
+//    const std_msgs__msg__Int8 * msg_cast = (const std_msgs__msg__Int8 *)msgin;
+//    msg_mission= *msg_cast;
+//
+//    led_update(blue, BSP_IO_LEVEL_LOW);
+//    R_BSP_SoftwareDelay(200, BSP_DELAY_UNITS_MILLISECONDS);
+//    led_update(blue, BSP_IO_LEVEL_HIGH);
+//}
+//
+//void thread_setup(void){
+//    tx_semaphore_get(&css, TX_DATA_HIGH_SPEED_TIMEOUT);
+//        store::Store::getInstance().critical_autonomous_system_status = msg_status;
+//        store::Store::getInstance().critical_autonomous_mission_status = msg_mission;
+//
+//
+//    tx_semaphore_put(&css);
+//}
 bool renesas_e2_transport_open(struct uxrCustomTransport * transport){
     (void) transport;
     fsp_err_t err;

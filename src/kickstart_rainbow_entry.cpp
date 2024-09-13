@@ -20,13 +20,14 @@
 #define TIME_DEC 268
 
 #define __LART_RTC_24H___
-#define __LART_RTC_ADJUST_IMEDIATE___
+//#define __LART_RTC_ADJUST_IMEDIATE___
 
 /* New Thread entry function */
 
 void kickstart_rainbow_entry(void){
 
     rainbow();
+
     rtc_time_t time_f;
     R_RTC_Open(&g_rtc0_ctrl, &g_rtc0_cfg);
     #ifdef __LART_RTC_ADJUST_IMEDIATE___
@@ -95,20 +96,17 @@ void kickstart_rainbow_entry(void){
         }
         time_f.tm_mday = (__DATE__[4] - '0')*10 + __DATE__[5] - '0';
         time_f.tm_year = ((__DATE__[7] - '0')*1000 + (__DATE__[8] - '0')*100 + (__DATE__[9] - '0')*10 + (__DATE__[10] - '0')) - 1900;
-        R_RTC_CalendarTimeSet(&g_rtc0_ctrl, &time_f);
         #ifdef __LART_RTC_24H___
             R_RTC->RCR2_b.HR24 = 1;
 
         #endif
+        R_RTC_CalendarTimeSet(&g_rtc0_ctrl, &time_f);
+
 #endif
 
-
-
-
     R_RTC_CalendarTimeGet(&g_rtc0_ctrl, &time_f);
-    if(time_f.tm_hour<12){
-        leds_update(red, BSP_IO_LEVEL_HIGH);
-        leds_update(blue, BSP_IO_LEVEL_LOW);
-     }
+    R_BSP_PinAccessEnable();
+    R_BSP_PinWrite(Mosfet0, BSP_IO_LEVEL_HIGH);
+    R_BSP_PinWrite(Mosfet1, BSP_IO_LEVEL_HIGH);
 
 }

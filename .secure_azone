@@ -40,7 +40,6 @@
             <slot name="P205" secure="true"/>
             <slot name="P206" secure="true"/>
             <slot name="P208" secure="true"/>
-            <slot name="P209" secure="true"/>
             <slot name="P210" secure="true"/>
             <slot name="P211" secure="true"/>
             <slot name="P212" secure="true"/>
@@ -133,7 +132,11 @@
         <peripheral name="RTC" security=""/>
         <peripheral name="CANFD0" group="CANFD" security=""/>
         <peripheral name="CANFD1" group="CANFD" security=""/>
+        <peripheral name="ELC">
+            <slot name="I3C" secure="true"/>
+        </peripheral>
         <peripheral name="ETHERC0" group="ETHERC" security=""/>
+        <peripheral name="ADC0" group="ADC" security=""/>
         <peripheral name="ICU">
             <slot name="IRQ0" secure="true"/>
             <slot name="IRQ1" secure="true"/>
@@ -149,6 +152,13 @@
             <slot name="IRQ11" secure="true"/>
             <slot name="IRQ12" secure="true"/>
             <slot name="IRQ13" secure="true"/>
+            <slot name="IRQ14" secure="true"/>
+            <slot name="IRQ15" secure="true"/>
+            <slot name="IRQ16" secure="true"/>
+            <slot name="IRQ17" secure="true"/>
+            <slot name="IRQ18" secure="true"/>
+            <slot name="IRQ19" secure="true"/>
+            <slot name="IRQ20" secure="true"/>
         </peripheral>
     </partition>
 </azone>

@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
 #include "hal_data.h"
 #include <unordered_map>
 
@@ -16,8 +17,14 @@
 
 #ifndef LART_ACUITY_UTILS_H_
 #define LART_ACUITY_UTILS_H_
-#include <stdint.h>
 
+#define ADC_10_BIT    (1024u)
+#define ADC_12_BIT    (4096u)
+#define ADC_16_BIT    (32768u)
+#define ADC_18_BIT    (131072u)
+#define ADC_20_BIT    (524288u)
+#define ADC_24_BIT    (8388608u)
+#define ADC_32_BIT    (2147483648u)
 
 /**
  * Just a simple type to be more readable
