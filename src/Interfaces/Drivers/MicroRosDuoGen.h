@@ -17,8 +17,8 @@
 #include "../MicroRosBoylerplate/microros_transports.h"
 #include "../MicroRosBoylerplate/microros_allocators.h"
 #include <typeinfo>
-#include "../../../ra/board/ra8t1_acuity_bsp/board.h"
-#include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
+#include "../../../ra/board/ra8m1_acuity_bsp/board.h"
+#include "../../../ra/board/ra8m1_acuity_bsp/board_leds.hpp"
 #include "Interfaces/Drivers/HardwareBased/EthDuo.h"
 #include "Interfaces/Drivers/HardwareBased/UartRen.h"
 #include <functional>

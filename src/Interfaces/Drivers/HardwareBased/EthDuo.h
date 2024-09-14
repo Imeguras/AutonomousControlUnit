@@ -9,7 +9,10 @@
 #include "common_data.h"
 #include "../../AbstractPeripheralLayer.cpp"
 #include <stdint.h>
-//#include "nxd_dhcp_client.h"
+
+#ifdef __LART_DHCP_HANDLER__
+    #include "nxd_dhcp_client.h"
+#endif
 #ifndef ETHDUO_H_
 #define ETHDUO_H_
 
@@ -22,6 +25,7 @@ class EthDuo : AbstractPeripheralLayer {
 		  uint32_t recv(void * data, uint32_t stream_size) override;
 		  uint32_t	write(void *data, uint32_t stream_size) override;
 		  uint32_t error_counter=0;
+		  void diagnostics();
 	protected:
 		  /* Stack memory for g_ip0. */
 		  NX_PACKET_POOL g_packet_pool0;

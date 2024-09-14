@@ -7,8 +7,7 @@
 
 #include "utils.h"
 
-#include "../ra/board/ra8t1_acuity_bsp/board_init.hpp"
-
+#include "../ra/board/ra8m1_acuity_bsp/board_init.hpp"
 
 e_acuity_can_status g_canStateKernel(uint16_t id){
     return g_bsp_prv_can_t[id];
@@ -44,7 +43,6 @@ static CHAR byte_memory[BYTE_POOL_SIZE] = {'\0'};
 static uint8_t queue_memory_op_rtt_obj[20] = {'\0'};
 static uint8_t queue_memory_ip_rtt_obj[20] = {'\0'};
 #endif
-
 UINT rtt_frameowrk_init(VOID)
 {
 #if (BSP_CFG_RTOS == 1)

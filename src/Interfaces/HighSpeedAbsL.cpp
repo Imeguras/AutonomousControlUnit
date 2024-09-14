@@ -7,7 +7,7 @@
 
 #include "HighSpeedAbsL.h"
 
-#include "../../../ra/board/ra8t1_acuity_bsp/board_leds.hpp"
+#include "../../../ra/board/ra8m1_acuity_bsp/board_leds.hpp"
 
 template<typename APL>
 APL*  HighSpeed_AbsL<APL>::operator->(){

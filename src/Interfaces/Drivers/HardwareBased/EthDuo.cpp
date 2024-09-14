@@ -70,7 +70,7 @@ int  EthDuo::initialization(){
  * calling this function.
  */
 void EthDuo::g_ip0_quick_setup() {
-	  UINT status;
+  UINT status;
 
   /* Create the ip instance. */
   status = nx_ip_create(&g_ip0, (char *)"g_ip0 IP Instance",G_IP0_ADDRESS,
@@ -111,13 +111,14 @@ void EthDuo::g_ip0_quick_setup() {
 
   status = nx_igmp_enable(&g_ip0);
   this->error_counter += status;
-  /*
+  #ifdef __LART_DHCP_HANDLER__
   status = nx_dhcp_create(&g_dhcp_client0, &g_ip0, (char *)"g_dhcp_client0");
 
   nx_dhcp_packet_pool_set(&g_dhcp_client0, &g_packet_pool0);
   nx_dhcp_start(&g_dhcp_client0);
 
   this->error_counter += status;
+  #endif
   /* Wait for the link to be enabled. */
   ULONG current_state;
    status =
@@ -126,6 +127,12 @@ void EthDuo::g_ip0_quick_setup() {
 
   	//assert(NX_SUCCESS == status);
   	//assert(NX_IP_ADDRESS_RESOLVED == requested_status);
+}
+void EthDuo::diagnostics(){
+    UINT status = R_ETHER_PHY_Open(&g_ether_phy0_ctrl, &g_ether_phy0_cfg);
+
+    //
+
 }
 /* Quick Setup for g_packet_pool0.
  * - nx_system_initialize() must be called before calling this function.

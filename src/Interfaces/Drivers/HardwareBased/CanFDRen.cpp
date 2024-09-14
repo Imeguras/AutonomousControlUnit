@@ -317,14 +317,14 @@ void CanFDRen::callbackHandle(can_callback_args_t *p_args){
         case CAN_EVENT_TX_COMPLETE:
 
             this->tx_ready=true;
-            led_flip(1);
+            //led_flip(1);
             break;
         case CAN_EVENT_RX_COMPLETE:
             this->rx_ready=true;
 //            buf=  p_args->buffer;
 //            decode(buf);
             decodeImmediate(p_args->frame);
-            led_flip(2);
+//            led_flip(2);
             break;
 
         case CAN_EVENT_TX_ABORTED:           /* Transmit abort event. */

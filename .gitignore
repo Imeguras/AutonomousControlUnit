@@ -20,3 +20,4 @@ history.index
 HardwareDebug/src
 
 auto/__init__.py
+/build/
