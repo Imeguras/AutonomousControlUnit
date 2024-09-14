@@ -90,16 +90,14 @@ VOID rtt_thread_service_cleanup(VOID)
     APP_ERR_TRAP(true);
 #endif
 }
-float convert_adc_data_to_voltage(uint16_t _adc_data, uint64_t adc_resolution){
-    float adc_data = (float)_adc_data;
-    adc_data = (float)((adc_data * 3.3f)/ADC_12_BIT);
+float convert_adc_data_temperature(uint16_t _adc_data){
     auto cal_127 = R_TSN_CAL->TSCDR;
 
     float v1 = 3.3f * (float)cal_127 / 4096.0f;
-    float vs = 3.3f * (float)adc_data / 4096.0f;
+    float vs = 3.3f * (float)_adc_data / 4096.0f;
 
-    adc_data = ((vs - v1) / (4.0f/1000)) + 127.0f;
-    return (float)adc_data;
+    auto temperature = ((vs - v1) / (4.0f/1000)) + 127.0f;
+    return (float)temperature;
 
 }
 

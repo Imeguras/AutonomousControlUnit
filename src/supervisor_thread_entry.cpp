@@ -23,12 +23,30 @@ bsp_io_level_t WhatchdogFlip = BSP_IO_LEVEL_LOW;
 
 void supervisor_thread_entry(void){
     HighSpeed_AbsL<AdcRen> unit0 ;
-
+    //allocate 4 bytes
+    uint8_t * mem= NULL;
+    mem=(uint8_t *)malloc(4*sizeof(uint8_t));
+    //check if allocation failed
+    if(mem == NULL){
+        return;
+    }
+    mem[0] = ADC_CHANNEL_TEMPERATURE;
     while (1){
-        refresh();
+        unit0->recv(mem,4);
+        uint16_t adc_data = 0;
+        //retrieve adc_data from mem[1] and mem[2]
+        memcpy(&adc_data, mem+1, sizeof(uint16_t));
+
+        float temperature = convert_adc_data_temperature(adc_data);
+
+        if(temperature < 100.0f || temperature > -30.0f){
+            refresh();
+        }
 
         R_BSP_SoftwareDelay(100,BSP_DELAY_UNITS_MILLISECONDS);
     }
+
+    free(mem);
 }
 void refresh (){
     if (WhatchdogFlip == BSP_IO_LEVEL_LOW){

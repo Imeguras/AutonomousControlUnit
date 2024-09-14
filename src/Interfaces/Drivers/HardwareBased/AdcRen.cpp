@@ -17,44 +17,50 @@ AdcRen::~AdcRen()
 }
 
 int AdcRen::initialization(){
+    fsp_err_t test = (fsp_err_t)open();
+     if (test != FSP_SUCCESS){
+        return test;
+     }
+    return close();
+}
+uint32_t AdcRen::open(){
     fsp_err_t err = FSP_SUCCESS;
 
 
-        if (false == g_ready_to_read){
-            /* Open/Initialize ADC module */
-            err = R_ADC_Open (&g_adc0_ctrl, &g_adc0_cfg);
-            /* handle error */
-            if (FSP_SUCCESS != err){
+    if (false == g_ready_to_read){
+        /* Open/Initialize ADC module */
+        err = R_ADC_Open (&g_adc0_ctrl, &g_adc0_cfg);
+        /* handle error */
+        if (FSP_SUCCESS != err){
 
-                return err;
-            }
-
-            /* Configures the ADC scan parameters */
-            err = R_ADC_ScanCfg (&g_adc0_ctrl, &g_adc0_channel_cfg);
-            /* handle error */
-            if (FSP_SUCCESS != err){
-                /* ADC Failure message */
-                return err;
-            }
-
-            /* Start the ADC scan*/
-            err = R_ADC_ScanStart (&g_adc0_ctrl);
-            /* handle error */
-            if (FSP_SUCCESS != err){
-                /* ADC Failure message */
-                return err;
-            }
-
-            /* Disable interrupts */
-            R_BSP_IrqDisable((IRQn_Type)ADC_EVENT_SCAN_COMPLETE);
-            /* Indication to start reading the adc data */
-            g_ready_to_read = true;
-        }else{
-            return FSP_ERR_ALREADY_OPEN;
+            return err;
         }
 
-        return err;
+        /* Configures the ADC scan parameters */
+        err = R_ADC_ScanCfg (&g_adc0_ctrl, &g_adc0_channel_cfg);
+        /* handle error */
+        if (FSP_SUCCESS != err){
+            /* ADC Failure message */
+            return err;
+        }
 
+        /* Start the ADC scan*/
+        err = R_ADC_ScanStart (&g_adc0_ctrl);
+        /* handle error */
+        if (FSP_SUCCESS != err){
+            /* ADC Failure message */
+            return err;
+        }
+
+        /* Disable interrupts */
+        R_BSP_IrqDisable((IRQn_Type)ADC_EVENT_SCAN_COMPLETE);
+        /* Indication to start reading the adc data */
+        g_ready_to_read = true;
+    }else{
+        return FSP_ERR_ALREADY_OPEN;
+    }
+
+    return err;
 }
 uint32_t AdcRen::close(){
     fsp_err_t err = FSP_SUCCESS;     // Error status
@@ -91,7 +97,9 @@ uint32_t AdcRen::close(){
  * @return 0 if the operation was successful, otherwise returns the error code (see fsp_err_t in fsp_common.h)
  */
 uint32_t AdcRen::recv(void * data, uint32_t stream_size){
+
     fsp_err_t err = FSP_SUCCESS;     // Error status
+    open();
     if(stream_size ==0){
         return FSP_ERR_INVALID_SIZE;
 
@@ -112,7 +120,10 @@ uint32_t AdcRen::recv(void * data, uint32_t stream_size){
         /* ADC Failure message */
         return err;
     }
+    uint8_t *payload = (uint8_t *)data + 1;
 
+    //copy g_adc_data onto the 1 byte buffer
+    memcpy(payload, &g_adc_data, sizeof(uint16_t));
 
 
 
