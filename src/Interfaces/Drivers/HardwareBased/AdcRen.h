@@ -39,6 +39,7 @@ class AdcRen : AbstractPeripheralLayer{
         uint32_t recv(void * data, uint32_t stream_size) override;
         uint32_t write(void *data, uint32_t stream_size=0) override;
         uint32_t close();
+//        void* preamble(void * data, int32_t channel, fsp_err_t * err);
     protected:
         volatile bool g_ready_to_read = false;
 

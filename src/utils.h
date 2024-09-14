@@ -204,7 +204,7 @@ UINT rtt_frameowrk_init(VOID);
 VOID rtt_thread_init_check(VOID);
 VOID rtt_thread_service_cleanup(VOID);
 float convert_adc_data_temperature(uint16_t adc_data);
-
+float convert_adc_data_pressure_(uint16_t adc_data);
 #endif /* rtos aware RTT ds and func */
 
 #endif /* LART_ACUITY_UTILS_H_ */

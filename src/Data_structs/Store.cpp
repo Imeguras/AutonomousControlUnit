@@ -8,6 +8,15 @@
 #include <lart_msgs/msg/as_status.h>
 #pragma once
 
+#define __LART_MAX_PRESSURE_BAR_HYDRAULIC_FRONT_AXIS__ 200
+#define __LART_MIN_PRESSURE_BAR_HYDRAULIC_FRONT_AXIS__ 60
+#define __LART_MAX_PRESSURE_BAR_HYDRAULIC_REAR_AXIS__ 200
+#define __LART_MIN_PRESSURE_BAR_HYDRAULIC_REAR_AXIS__ 60
+
+#define __LART_MIN_PRESSURE_BAR_PNEUMATIC_FRONT_AXIS__ 5.5f
+#define __LART_MAX_PRESSURE_BAR_PNEUMATIC_FRONT_AXIS__ 10.0f
+#define __LART_MIN_PRESSURE_BAR_PNEUMATIC_REAR_AXIS__ 5.5f
+#define __LART_MAX_PRESSURE_BAR_PNEUMATIC_REAR_AXIS__ 10.0f
 
 namespace store {
 
@@ -19,6 +28,15 @@ namespace store {
         int16_t actual_torque;
         bool undirty=true;
     }_Maxon_t;
+    typedef struct {
+        float pressureFront;
+        float pressureRear;
+    }_Pressure_Hydraulic_t;
+    typedef struct{
+        float voltage;
+        float temperature;
+
+    }_ACU_Internals_t;
     typedef struct{
         uint8_t gpio_state;
 
@@ -39,11 +57,14 @@ namespace store {
                 void operator=(Store const&)  = delete;
                 //ROS2
                 lart_msgs__msg__ASStatus as_status;
+                //TCU
 
+                bool shutdown_circuit_state = false; //false = open, true = closed
                 //INTERNAL
                 _Maxon_t maxon;
                 _GrossFunkeRes_t res;
-
+                _ACU_Internals_t acu_internals;
+                _Pressure_Hydraulic_t pressure;
 
 
 

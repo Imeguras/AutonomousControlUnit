@@ -3,25 +3,22 @@
 #include "utils.h"
 #include "Interfaces/Drivers/HardwareBased/AdcRen.h"
 #include "Interfaces/HighSpeedAbsL.cpp"
-/* Supervisor_Thread entry function */
+#include "Data_structs/Store.cpp"
+
+#define __LART_SECURITY_AS_BYPASS__
+#define __LART_SECURITY_AS_BYPASS__EXTERNAL_TCU__
+
 void refresh ();
+void emergency();
+uint32_t initial_checkup_sequence();
 bsp_io_level_t WhatchdogFlip = BSP_IO_LEVEL_LOW;
-/*******************************************************************************************************************//**
- * @addtogroup adc_ep
- * @{
- **********************************************************************************************************************/
-
-/* local variables */
 
 
-/*
- * private function declarations
- */
-/* Open the adc module, configures and initiates the scan*/
 
 
 
 void supervisor_thread_entry(void){
+
     HighSpeed_AbsL<AdcRen> unit0 ;
     //allocate 4 bytes
     uint8_t * mem= NULL;
@@ -30,23 +27,86 @@ void supervisor_thread_entry(void){
     if(mem == NULL){
         return;
     }
-    mem[0] = ADC_CHANNEL_TEMPERATURE;
+
     while (1){
-        unit0->recv(mem,4);
-        uint16_t adc_data = 0;
-        //retrieve adc_data from mem[1] and mem[2]
-        memcpy(&adc_data, mem+1, sizeof(uint16_t));
+        /// Check shutdown circuit
+        if (store::Store::getInstance ().shutdown_circuit_state == true){
+            break;
+        }
+        /// CHECK IF CAN BUS IS ALIVE
+        //TODO: this must be done...
+//        if (g_canStateKernel (0) == e_acuity_can_status::CAN_STATUS_OFFLINE)
+//        {
+//            emergency ();
+//        }
+        /// CHECK STATUS OF AS
+        if (store::Store::getInstance ().as_status.state.data == lart_msgs__msg__State__EMERGENCY){
+            emergency ();
+        }
+        /// CHECK STATUS OF RES
+        if (store::Store::getInstance ().res.gpio_state == 0){
+            emergency ();
+        }
+        /// CHECK STATUS OF MAXON
+        //TODO: maxon stuff
+        ///CHECK STATUS OF ACU
+        //TODO: move boylerplate elsewhere
+            mem[0] = ADC_CHANNEL_TEMPERATURE;
+            unit0->recv(mem,4);
+            uint16_t adc_data = 0;
+            //retrieve adc_data from mem[1] and mem[2]
+            memcpy(&adc_data, mem+1, sizeof(uint16_t));
 
         float temperature = convert_adc_data_temperature(adc_data);
 
-        if(temperature < 100.0f || temperature > -30.0f){
-            refresh();
-        }
+        store::Store::getInstance ().acu_internals.temperature = temperature;
 
+        if(temperature > 150.0f || temperature < -30.0f){
+            emergency ();
+        }
+        mem[0] = ADC_CHANNEL_1;
+        unit0->recv(mem,4);
+        adc_data = 0;
+        //retrieve adc_data from mem[1] and mem[2]
+        memcpy(&adc_data, mem+1, sizeof(uint16_t));
+
+
+        ///CHECK STATUS OF PRESSURE
+        if (store::Store::getInstance ().pressure.pressureFront < __LART_MIN_PRESSURE_BAR_PNEUMATIC_FRONT_AXIS__
+                || store::Store::getInstance ().pressure.pressureFront > __LART_MAX_PRESSURE_BAR_PNEUMATIC_FRONT_AXIS__){
+            emergency ();
+        }
+        if (store::Store::getInstance ().pressure.pressureRear < __LART_MIN_PRESSURE_BAR_PNEUMATIC_REAR_AXIS__
+                || store::Store::getInstance ().pressure.pressureRear > __LART_MAX_PRESSURE_BAR_PNEUMATIC_REAR_AXIS__)
+        {
+            emergency ();
+        }
+        refresh();
         R_BSP_SoftwareDelay(100,BSP_DELAY_UNITS_MILLISECONDS);
+    }
+    /// BREAKOUT POINT
+
+    /// DELAY 200MS
+    R_BSP_SoftwareDelay(200,BSP_DELAY_UNITS_MILLISECONDS);
+    ///CHECK IF FRONT AXIS
+    if (store::Store::getInstance ().pressure.pressureFront < __LART_MIN_PRESSURE_BAR_HYDRAULIC_FRONT_AXIS__
+            || store::Store::getInstance ().pressure.pressureFront > __LART_MAX_PRESSURE_BAR_HYDRAULIC_FRONT_AXIS__){
+        emergency();
+    }
+    /// CHECK IF REAR AXIS
+    if (store::Store::getInstance ().pressure.pressureRear < __LART_MIN_PRESSURE_BAR_HYDRAULIC_REAR_AXIS__
+            || store::Store::getInstance ().pressure.pressureRear > __LART_MAX_PRESSURE_BAR_HYDRAULIC_REAR_AXIS__){
+        emergency ();
+    }
+    while(1){
+        tx_thread_sleep(1);
     }
 
     free(mem);
+
+}
+void emergency(){
+    led_flip(7);
 }
 void refresh (){
     if (WhatchdogFlip == BSP_IO_LEVEL_LOW){
@@ -61,7 +121,20 @@ void refresh (){
 }
 
 
+uint32_t initial_checkup_sequence(){
+    while(1){
+        #ifdef __LART_SECURITY_AS_BYPASS__EXTERNAL_TCU__
+                store::Store::getInstance().shutdown_circuit_state = true;
+        #endif
+        if (store::Store::getInstance().shutdown_circuit_state == true){
+            break;
+        }
+        refresh();
+        R_BSP_SoftwareDelay(100,BSP_DELAY_UNITS_MILLISECONDS);
+    }
+    return FSP_SUCCESS;
 
+}
 
 
 

@@ -100,4 +100,10 @@ float convert_adc_data_temperature(uint16_t _adc_data){
     return (float)temperature;
 
 }
-
+float convert_adc_data_pressure_(uint16_t adc_data){
+    //adc_data is 12 bits convert to voltage
+    float v = 3.3f * (float)adc_data / 4096.0f;
+    //TODO its 0.4f for non scaled pressure
+    float pressure = v * 0.4f;
+    return 0;
+}

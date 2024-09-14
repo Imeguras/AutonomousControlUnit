@@ -90,6 +90,24 @@ uint32_t AdcRen::close(){
 
     return err;
 }
+//void* AdcRen::preamble(void * data, int32_t channel, fsp_err_t * err){
+//    uint8_t * casted_data = (uint8_t *)data;
+//    if (data != NULL){
+//        casted_data[0] = (uint8_t)channel;
+//        *err =  FSP_SUCCESS;
+//        return data;
+//    }
+//    data=(uint8_t *)malloc(4*sizeof(uint8_t));
+//    //check if allocation failed
+//    if(data == NULL){
+//        *err = FSP_ERR_INVALID_POINTER;
+//         return data;
+//    }
+//    casted_data[0] = (uint8_t)channel;
+//    *err = FSP_SUCCESS;
+//    return data;
+//
+//}
 /**
  * @brief Read data from the ADC peripheral.
  * @param data pointer to the buffer where the data will be stored, it must be allocated for at least 2 bytes and the first byte entails the channel

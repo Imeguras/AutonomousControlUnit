@@ -7,6 +7,10 @@
 #include <unordered_map>
 #include "utils.h"
 #include "../../../Data_structs/Can-Header-Map/CAN_asdb.h"
+#include "../../../Data_structs/Can-Header-Map/CAN_datadb.h"
+#include "../../../Data_structs/Can-Header-Map/CAN_icupdb.h"
+#include "../../../Data_structs/Can-Header-Map/CAN_pwtdb.h"
+
 
 #include "../../../Data_structs/Store.cpp"
 
@@ -288,6 +292,9 @@ uint32_t CanFDRen::decodeImmediate(can_frame_t frame){
                 break;
             case BOOTUP_ADDRESS_COBID(0) ... BOOTUP_ADDRESS_COBID(0x7F):
                 this->currentCanOpenStack->a_bootedNodes(frame.id - 0x700);
+                break;
+            //TODO: THIS MUST BE TCU SHUTDOWN CIRCUIT
+            case GENERIC_MSG_CONVERSION_ENCODE_POWERTRAIN(CAN_HV500_SetDriveEnable_ID):
                 break;
             default:
                 break;
