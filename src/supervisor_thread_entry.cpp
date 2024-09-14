@@ -166,14 +166,10 @@ fsp_err_t adc_read_data(void){
         /* Handle error */
         if (FSP_SUCCESS != err)
         {   /* ADC ScanStop message */
+            return err;
         }
 
-        if(((g_window_comp_event == true)&&(ADC_MODE_SINGLE_SCAN == g_adc0_cfg.mode))||(ADC_MODE_CONTINUOUS_SCAN == g_adc0_cfg.mode))
-        {
 
-            /* Print temperature status warning to RTT Viewer */
-
-        }
 
         /* Close the ADC module*/
         err = R_ADC_Close (&g_adc0_ctrl);
