@@ -203,6 +203,7 @@ UINT check_for_RTT_user_IP(char *const p_get_data);
 UINT rtt_frameowrk_init(VOID);
 VOID rtt_thread_init_check(VOID);
 VOID rtt_thread_service_cleanup(VOID);
+float convert_adc_data_to_voltage(uint16_t adc_data, uint64_t adc_resolution);
 
 #endif /* rtos aware RTT ds and func */
 

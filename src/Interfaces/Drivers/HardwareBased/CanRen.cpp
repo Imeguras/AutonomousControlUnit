@@ -4,10 +4,10 @@
  *  Created on: 09/10/2023
  *      Author: micron
  */
-#ifdef R_CAN_Open
+
 #include "CanRen.h"
 
-
+#if BSP_FEATURE_CAN_NUM_CHANNELS >= 1
 CanRen::CanRen()  {
 
 }
