@@ -32,6 +32,14 @@ namespace store {
         float pressureFront;
         float pressureRear;
     }_Pressure_Hydraulic_t;
+    typedef struct {
+        float pressureFront0;
+        float pressureRear0;
+        float pressureFront1;
+        float pressureRear1;
+        float transducer0;
+        float transducer1;
+    }_Pressure_Pneumatic_t;
     typedef struct{
         float voltage;
         float temperature;
@@ -64,7 +72,8 @@ namespace store {
                 _Maxon_t maxon;
                 _GrossFunkeRes_t res;
                 _ACU_Internals_t acu_internals;
-                _Pressure_Hydraulic_t pressure;
+                _Pressure_Hydraulic_t pressure_hydraulic;
+                _Pressure_Pneumatic_t pressure_pneumatic;
 
 
 

@@ -51,11 +51,11 @@ void supervisor_thread_entry(void){
         //TODO: maxon stuff
         ///CHECK STATUS OF ACU
         //TODO: move boylerplate elsewhere
-            mem[0] = ADC_CHANNEL_1;
-            unit0->recv(mem,4);
-            uint16_t adc_data = 0;
-            //retrieve adc_data from mem[1] and mem[2]
-            memcpy(&adc_data, mem+1, sizeof(uint16_t));
+        mem[0] = ADC_CHANNEL_TEMPERATURE;
+        unit0->recv(mem,4);
+        uint16_t adc_data = 0;
+        //retrieve adc_data from mem[1] and mem[2]
+        memcpy(&adc_data, mem+1, sizeof(uint16_t));
 
         float temperature = convert_adc_data_temperature(adc_data);
 
@@ -69,15 +69,18 @@ void supervisor_thread_entry(void){
         adc_data = 0;
         //retrieve adc_data from mem[1] and mem[2]
         memcpy(&adc_data, mem+1, sizeof(uint16_t));
+        float pressure = convert_adc_data_pressure_(adc_data);
+        store::Store::getInstance ().pressure_pneumatic.pressureFront0 = pressure;
+
 
 
         ///CHECK STATUS OF PRESSURE
-        if (store::Store::getInstance ().pressure.pressureFront < __LART_MIN_PRESSURE_BAR_PNEUMATIC_FRONT_AXIS__
-                || store::Store::getInstance ().pressure.pressureFront > __LART_MAX_PRESSURE_BAR_PNEUMATIC_FRONT_AXIS__){
+        if (store::Store::getInstance ().pressure_pneumatic.pressureFront0 < __LART_MIN_PRESSURE_BAR_PNEUMATIC_FRONT_AXIS__
+                || store::Store::getInstance ().pressure_pneumatic.pressureFront0 > __LART_MAX_PRESSURE_BAR_PNEUMATIC_FRONT_AXIS__){
             emergency ();
         }
-        if (store::Store::getInstance ().pressure.pressureRear < __LART_MIN_PRESSURE_BAR_PNEUMATIC_REAR_AXIS__
-                || store::Store::getInstance ().pressure.pressureRear > __LART_MAX_PRESSURE_BAR_PNEUMATIC_REAR_AXIS__)
+        if (store::Store::getInstance ().pressure_pneumatic.pressureRear0 < __LART_MIN_PRESSURE_BAR_PNEUMATIC_REAR_AXIS__
+                || store::Store::getInstance ().pressure_pneumatic.pressureRear0 > __LART_MAX_PRESSURE_BAR_PNEUMATIC_REAR_AXIS__)
         {
             emergency ();
         }
@@ -89,13 +92,13 @@ void supervisor_thread_entry(void){
     /// DELAY 200MS
     R_BSP_SoftwareDelay(200,BSP_DELAY_UNITS_MILLISECONDS);
     ///CHECK IF FRONT AXIS
-    if (store::Store::getInstance ().pressure.pressureFront < __LART_MIN_PRESSURE_BAR_HYDRAULIC_FRONT_AXIS__
-            || store::Store::getInstance ().pressure.pressureFront > __LART_MAX_PRESSURE_BAR_HYDRAULIC_FRONT_AXIS__){
+    if (store::Store::getInstance ().pressure_hydraulic.pressureFront < __LART_MIN_PRESSURE_BAR_HYDRAULIC_FRONT_AXIS__
+            || store::Store::getInstance ().pressure_hydraulic.pressureFront > __LART_MAX_PRESSURE_BAR_HYDRAULIC_FRONT_AXIS__){
         emergency();
     }
     /// CHECK IF REAR AXIS
-    if (store::Store::getInstance ().pressure.pressureRear < __LART_MIN_PRESSURE_BAR_HYDRAULIC_REAR_AXIS__
-            || store::Store::getInstance ().pressure.pressureRear > __LART_MAX_PRESSURE_BAR_HYDRAULIC_REAR_AXIS__){
+    if (store::Store::getInstance ().pressure_hydraulic.pressureRear < __LART_MIN_PRESSURE_BAR_HYDRAULIC_REAR_AXIS__
+            || store::Store::getInstance ().pressure_hydraulic.pressureRear > __LART_MAX_PRESSURE_BAR_HYDRAULIC_REAR_AXIS__){
         emergency ();
     }
     while(1){

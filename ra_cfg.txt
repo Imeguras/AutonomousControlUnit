@@ -2108,7 +2108,7 @@ FSP Configuration
       General: Clear after read: On
       General: Mode: Continuous Scan
       General: Double-trigger: Disabled
-      Input: Channel Scan Mask (channel availability varies by MCU): Channel 1
+      Input: Channel Scan Mask (channel availability varies by MCU): Channel 1, Channel 3, Temperature Sensor
       Input: Group B Scan Mask (channel availability varies by MCU): 
       Interrupts: Normal/Group A Trigger: Software Trigger
       Interrupts: Group B Trigger: Disabled
