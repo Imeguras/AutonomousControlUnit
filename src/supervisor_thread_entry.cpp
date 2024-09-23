@@ -51,7 +51,7 @@ void supervisor_thread_entry(void){
         //TODO: maxon stuff
         ///CHECK STATUS OF ACU
         //TODO: move boylerplate elsewhere
-            mem[0] = ADC_CHANNEL_TEMPERATURE;
+            mem[0] = ADC_CHANNEL_1;
             unit0->recv(mem,4);
             uint16_t adc_data = 0;
             //retrieve adc_data from mem[1] and mem[2]
