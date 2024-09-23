@@ -69,9 +69,15 @@ void supervisor_thread_entry(void){
         adc_data = 0;
         //retrieve adc_data from mem[1] and mem[2]
         memcpy(&adc_data, mem+1, sizeof(uint16_t));
-        float pressure = convert_adc_data_pressure_(adc_data);
-        store::Store::getInstance ().pressure_pneumatic.pressureFront0 = pressure;
-
+        float pressure_front = convert_adc_data_pressure_(adc_data);
+        store::Store::getInstance ().pressure_pneumatic.pressureFront0 = pressure_front;
+        mem[0] = ADC_CHANNEL_3;
+        unit0->recv(mem,4);
+        adc_data = 0;
+        //retrieve adc_data from mem[1] and mem[2]
+        memcpy(&adc_data, mem+1, sizeof(uint16_t));
+        float pressure_rear = convert_adc_data_pressure_(adc_data);
+        store::Store::getInstance ().pressure_pneumatic.pressureFront0 = pressure_rear;
 
 
         ///CHECK STATUS OF PRESSURE
