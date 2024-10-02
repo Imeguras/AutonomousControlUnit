@@ -64,6 +64,16 @@ void supervisor_thread_entry(void){
         if(temperature > 150.0f || temperature < -30.0f){
             emergency ();
         }
+        //TODO REMOVE URGENTLY
+       mem[0] = ADC_CHANNEL_1;
+       unit0->recv(mem,4);
+       adc_data = 0;
+       //retrieve adc_data from mem[1] and mem[2]
+       memcpy(&adc_data, mem+1, sizeof(uint16_t));
+       float voltageADC = convert_adc_data_pressure_(adc_data);
+       if (voltageADC > 0.0f){
+            led_blink(0,1);
+        }
         mem[0] = ADC_CHANNEL_1;
         unit0->recv(mem,4);
         adc_data = 0;

@@ -1756,15 +1756,15 @@ FSP Configuration
     DTC Support: Disable
     Flow Control Support: Disable
     
+  Module "ADC (r_adc)"
+    Parameter Checking: Default (BSP)
+    
   Module "I3C (r_i3c)"
     Parameter Checking: Default (BSP)
     Unaligned Buffer Support: Enabled
     Master Support: Enabled
     Slave Support: Enabled
     Error Recovery Procedure: Support Error Recovery Version 2 Only.
-    
-  Module "ADC (r_adc)"
-    Parameter Checking: Default (BSP)
     
   Azure RTOS ThreadX
     General: Custom tx_user.h: 
@@ -1857,7 +1857,7 @@ FSP Configuration
     Name: Low Speed Interface
     Stack size (bytes): 1024
     Priority: 3
-    Auto start: Disabled
+    Auto start: Enabled
     Time slicing interval (ticks): 1
     
     Instance "g_canfd0 CAN FD Lite (r_canfdlite)"
@@ -1960,52 +1960,6 @@ FSP Configuration
       Common FIFOs: FIFO 0: Interval Timer: Reference clock
       Common FIFOs: FIFO 0: Interval Timer Reference Clock Resolution: x1
       
-    Instance "g_i3c0 I3C (r_i3c)"
-      Name: g_i3c0
-      Callback: g_i3c0_callback
-      Callback Context: NULL
-      Device Type: Main Master
-      Bitrate Settings: Standard Mode: Open-Drain: Logic High Period (ns): 167
-      Bitrate Settings: Standard Mode: Open-Drain: Frequency: 1000000
-      Bitrate Settings: Standard Mode: Push-Pull: Logic High Period (ns): 167
-      Bitrate Settings: Standard Mode: Push-Pull: Frequency: 3400000
-      Bitrate Settings: Extended Mode: Open-Drain: Logic High Period (ns): 167
-      Bitrate Settings: Extended Mode: Open-Drain: Frequency: 1000000
-      Bitrate Settings: Extended Mode: Push-Pull: Logic High Period (ns): 167
-      Bitrate Settings: Extended Mode: Push-Pull: Frequency: 3400000
-      Bitrate Settings: Bus Timing: Open Drain Rising Time (ns): 0
-      Bitrate Settings: Bus Timing: Open Drain Falling Time (ns): 0
-      Bitrate Settings: Bus Timing: Push-Pull Rising Time (ns): 0
-      Bitrate Settings: Bus Timing: Push-Pull Falling Time (ns): 0
-      Bitrate Settings: Clock Stalling: Address Assignment Phase: Disabled
-      Bitrate Settings: Clock Stalling: Transition Phase: Disabled
-      Bitrate Settings: Clock Stalling: Parity Phase: Disabled
-      Bitrate Settings: Clock Stalling: Ack Phase: Disabled
-      Bitrate Settings: Clock Stalling: Time (us): 0
-      Bus Free Condition Detection Time (ns): 38.4
-      Bus Available Condition Detection Time (us): 1
-      Bus Idle Condition Detection Time (us): 1000
-      Master Mode: ACK Hot-Join Requests: Disabled
-      Master Mode: Notify Rejected Hot-Join Requests.: Disabled
-      Master Mode: Notify Rejected Mastership Requests.: Disabled
-      Master Mode: Notify Rejected Interrupt Requests.: Disabled
-      Slave Mode: Command Response Info: ENEC/DISEC: In-Band Interrupts: Disabled
-      Timeout Detection: Disabled
-      Slave Mode: Command Response Info: ENEC/DISEC: Hot-Join Requests: Disabled
-      Slave Mode: Command Response Info: ENTASn: Activity State: Activity State 0
-      Slave Mode: Command Response Info: SETMWL/GETMWL: Max Write Length: 65535
-      Slave Mode: Command Response Info: SETMRL/GETMRL: Max Read Length: 65535
-      Slave Mode: Command Response Info: SETMRL/GETMRL: Max IBI Payload Length: 0
-      Slave Mode: Command Response Info: GETMXDS: Write Data Rate: 2Mhz
-      Slave Mode: Command Response Info: GETMXDS: Read Data Rate: 2Mhz
-      Slave Mode: Command Response Info: GETMXDS: Clock to Data Turnaround Time: 8 Nanoseconds
-      Slave Mode: Command Response Info: GETMXDS: Include Max Read Turnaround Time: Disabled
-      Slave Mode: Command Response Info: GETMXDS: Max Read Turnaround Time: 0
-      Slave Mode: Command Response Info: GETXTIME: Frequency Byte: 0
-      Slave Mode: Command Response Info: GETXTIME: Inaccuracy Byte: 0
-      Interrupts: Interrupt Priority: Priority 12
-      Interrupts: Error and Event Interrupt Priority: Priority 12
-      
   Thread "High Speed Interface"
     Symbol: high_speed_interface_thread0
     Name: High Speed Interface
@@ -2097,7 +2051,7 @@ FSP Configuration
     Name: Supervisor_Thread
     Stack size (bytes): 1024
     Priority: 4
-    Auto start: Enabled
+    Auto start: Disabled
     Time slicing interval (ticks): 1
     
     Instance "g_adc0 ADC (r_adc)"
@@ -2136,6 +2090,52 @@ FSP Configuration
       Interrupts: Window Compare A Interrupt Priority: Disabled
       Interrupts: Window Compare B Interrupt Priority: Disabled
       Extra: ADC Ring Buffer: Disabled
+      
+    Instance "g_i3c0 I3C (r_i3c)"
+      Name: g_i3c0
+      Callback: g_i3c0_callback
+      Callback Context: NULL
+      Device Type: Slave
+      Bitrate Settings: Standard Mode: Open-Drain: Logic High Period (ns): 167
+      Bitrate Settings: Standard Mode: Open-Drain: Frequency: 1000000
+      Bitrate Settings: Standard Mode: Push-Pull: Logic High Period (ns): 167
+      Bitrate Settings: Standard Mode: Push-Pull: Frequency: 3400000
+      Bitrate Settings: Extended Mode: Open-Drain: Logic High Period (ns): 167
+      Bitrate Settings: Extended Mode: Open-Drain: Frequency: 1000000
+      Bitrate Settings: Extended Mode: Push-Pull: Logic High Period (ns): 167
+      Bitrate Settings: Extended Mode: Push-Pull: Frequency: 3400000
+      Bitrate Settings: Bus Timing: Open Drain Rising Time (ns): 0
+      Bitrate Settings: Bus Timing: Open Drain Falling Time (ns): 0
+      Bitrate Settings: Bus Timing: Push-Pull Rising Time (ns): 0
+      Bitrate Settings: Bus Timing: Push-Pull Falling Time (ns): 0
+      Bitrate Settings: Clock Stalling: Address Assignment Phase: Disabled
+      Bitrate Settings: Clock Stalling: Transition Phase: Disabled
+      Bitrate Settings: Clock Stalling: Parity Phase: Disabled
+      Bitrate Settings: Clock Stalling: Ack Phase: Disabled
+      Bitrate Settings: Clock Stalling: Time (us): 0
+      Bus Free Condition Detection Time (ns): 38.4
+      Bus Available Condition Detection Time (us): 1
+      Bus Idle Condition Detection Time (us): 1000
+      Master Mode: ACK Hot-Join Requests: Disabled
+      Master Mode: Notify Rejected Hot-Join Requests.: Disabled
+      Master Mode: Notify Rejected Mastership Requests.: Disabled
+      Master Mode: Notify Rejected Interrupt Requests.: Disabled
+      Slave Mode: Command Response Info: ENEC/DISEC: In-Band Interrupts: Disabled
+      Timeout Detection: Disabled
+      Slave Mode: Command Response Info: ENEC/DISEC: Hot-Join Requests: Disabled
+      Slave Mode: Command Response Info: ENTASn: Activity State: Activity State 0
+      Slave Mode: Command Response Info: SETMWL/GETMWL: Max Write Length: 65535
+      Slave Mode: Command Response Info: SETMRL/GETMRL: Max Read Length: 65535
+      Slave Mode: Command Response Info: SETMRL/GETMRL: Max IBI Payload Length: 0
+      Slave Mode: Command Response Info: GETMXDS: Write Data Rate: 2Mhz
+      Slave Mode: Command Response Info: GETMXDS: Read Data Rate: 2Mhz
+      Slave Mode: Command Response Info: GETMXDS: Clock to Data Turnaround Time: 8 Nanoseconds
+      Slave Mode: Command Response Info: GETMXDS: Include Max Read Turnaround Time: Disabled
+      Slave Mode: Command Response Info: GETMXDS: Max Read Turnaround Time: 0
+      Slave Mode: Command Response Info: GETXTIME: Frequency Byte: 0
+      Slave Mode: Command Response Info: GETXTIME: Inaccuracy Byte: 0
+      Interrupts: Interrupt Priority: Priority 12
+      Interrupts: Error and Event Interrupt Priority: Priority 12
       
   Object "g_outbox Queue"
     Name: OutBox

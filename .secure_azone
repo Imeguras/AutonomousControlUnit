@@ -132,11 +132,11 @@
         <peripheral name="RTC" security=""/>
         <peripheral name="CANFD0" group="CANFD" security=""/>
         <peripheral name="CANFD1" group="CANFD" security=""/>
+        <peripheral name="ETHERC0" group="ETHERC" security=""/>
+        <peripheral name="ADC0" group="ADC" security=""/>
         <peripheral name="ELC">
             <slot name="I3C" secure="true"/>
         </peripheral>
-        <peripheral name="ETHERC0" group="ETHERC" security=""/>
-        <peripheral name="ADC0" group="ADC" security=""/>
         <peripheral name="ICU">
             <slot name="IRQ0" secure="true"/>
             <slot name="IRQ1" secure="true"/>
