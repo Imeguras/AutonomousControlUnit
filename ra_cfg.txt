@@ -1857,7 +1857,7 @@ FSP Configuration
     Name: Low Speed Interface
     Stack size (bytes): 1024
     Priority: 3
-    Auto start: Enabled
+    Auto start: Disabled
     Time slicing interval (ticks): 1
     
     Instance "g_canfd0 CAN FD Lite (r_canfdlite)"
@@ -2051,7 +2051,7 @@ FSP Configuration
     Name: Supervisor_Thread
     Stack size (bytes): 1024
     Priority: 4
-    Auto start: Disabled
+    Auto start: Enabled
     Time slicing interval (ticks): 1
     
     Instance "g_adc0 ADC (r_adc)"

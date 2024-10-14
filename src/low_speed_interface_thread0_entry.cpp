@@ -125,7 +125,7 @@ void low_speed_interface_thread0_entry(void) {
 //        }else{
 //            led_update(2, BSP_IO_LEVEL_LOW);
 //        }
-//        if (bt_1){
+//        if (bt_1){    b
 //            led_update(3, BSP_IO_LEVEL_HIGH);
 //        }else{
 //            led_update(3 , BSP_IO_LEVEL_LOW);
@@ -173,11 +173,11 @@ void low_speed_interface_thread0_entry(void) {
         float _pressureFront0 = store::Store::getInstance().pressure_pneumatic.pressureFront0;
         float _pressureRear0 = store::Store::getInstance().pressure_pneumatic.pressureRear0;
 
-        MAP_ENCODE_AS_ACU_PNEUMATIC_BRAKING_EBS_FRONT(data, _pressureFront0);
+//        MAP_ENCODE_AS_ACU_PNEUMATIC_BRAKING_EBS_FRONT(data, _pressureFront0);
         memcpy(frame.data, &data, 8);
         canfd1->write((void *)&data,8, true);
         R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);
-        MAP_ENCODE_AS_ACU_PNEUMATIC_BRAKING_EBS_REAR(data, _pressureRear0);
+//        MAP_ENCODE_AS_ACU_PNEUMATIC_BRAKING_EBS_REAR(data, _pressureRear0);
         memcpy(frame.data, &data, 8);
         canfd1->write((void *)&data,8, true);
         R_BSP_SoftwareDelay(10, BSP_DELAY_UNITS_MILLISECONDS);

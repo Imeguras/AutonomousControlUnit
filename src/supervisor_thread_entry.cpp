@@ -18,8 +18,11 @@ bsp_io_level_t WhatchdogFlip = BSP_IO_LEVEL_LOW;
 
 
 void supervisor_thread_entry(void){
+    while(1){
+        refresh ();
+    }
+    HighSpeed_AbsL<AdcRen> unit0;
 
-    HighSpeed_AbsL<AdcRen> unit0 ;
     //allocate 4 bytes
     uint8_t * mem= NULL;
     mem=(uint8_t *)malloc(4*sizeof(uint8_t));

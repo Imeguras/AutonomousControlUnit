@@ -28,8 +28,8 @@ void kickstart_rainbow_entry(void){
 
     rainbow();
 
-    rtc_time_t time_f;
-    R_RTC_Open(&g_rtc0_ctrl, &g_rtc0_cfg);
+//    rtc_time_t time_f;
+//    R_RTC_Open(&g_rtc0_ctrl, &g_rtc0_cfg);
     #ifdef __LART_RTC_ADJUST_IMEDIATE___
         //        char time_str[10];
         //        strcpy(time_str, __TIME__);
@@ -104,9 +104,9 @@ void kickstart_rainbow_entry(void){
 
 #endif
 
-    R_RTC_CalendarTimeGet(&g_rtc0_ctrl, &time_f);
-    R_BSP_PinAccessEnable();
-    R_BSP_PinWrite(Mosfet0, BSP_IO_LEVEL_HIGH);
-    R_BSP_PinWrite(Mosfet1, BSP_IO_LEVEL_HIGH);
+//    R_RTC_CalendarTimeGet(&g_rtc0_ctrl, &time_f);
+//    R_BSP_PinAccessEnable();
+//    R_BSP_PinWrite(Mosfet0, BSP_IO_LEVEL_HIGH);
+//    R_BSP_PinWrite(Mosfet1, BSP_IO_LEVEL_HIGH);
 
 }
